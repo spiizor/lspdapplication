@@ -12,28 +12,33 @@ function addFactionRow() {
     factionContainer.appendChild(newRow);
 }
 
-function addEmployment() {
+function addEmploymentSection() {
     const employmentSection = document.getElementById("employmentSection");
-    const newEmployment = document.createElement("div");
-    newEmployment.classList.add("employmentEntry");
+    const newRow = document.createElement("div");
+    newRow.classList.add("employmentContainer");
 
-    newEmployment.innerHTML = `
-        <input type="text" name="jobTitle[]" placeholder="Job Title" required />
-        <input type="text" name="company[]" placeholder="Company" required />
-        <label>Term of Employment:</label>
-        <input type="date" name="startDate[]" required /> to 
-        <input type="date" name="endDate[]" required />
-        <button type="button" class="removeEmployment" onclick="removeEmployment(this)">-</button>
+    newRow.innerHTML = `
+        <label>Company Name:</label>
+                    <input type="text" id="companyName" placeholder="Enter company name">
+
+                    <label>Position:</label>
+                    <input type="text" id="position" placeholder="Enter position">
+
+                    <label>Direct Supervisor:</label>
+                    <input type="text" id="directSupervisor" placeholder="Enter direct supervisor">
+
+                    <label>Term of Employment:</label>
+                    <input type="text" id="termOfEmployment" placeholder="DD/MON/YYYY to DD/MON/YYYY">
+
+                    <label>Summary of Duties:</label>
+                    <textarea id="summaryOfDuties" rows="3" placeholder="Describe duties"></textarea>
+
+                    <label>Reason for Leaving:</label>
+                    <textarea id="reasonForLeaving" rows="3" placeholder="Reason for leaving"></textarea>
     `;
 
-    employmentSection.appendChild(newEmployment);
+    employmentSection.appendChild(newRow);
 }
-
-function removeEmployment(button) {
-    const employmentEntry = button.parentElement;
-    employmentEntry.remove();
-}
-
 
 // Function to generate BBCode
 function generateBBCode() {
@@ -344,7 +349,6 @@ I understand and agree that the Los Santos Police Department reserves the right 
 // Function to clear data
 function clearData() {
     document.querySelectorAll("input, textarea").forEach(el => el.value = "");
-    document.getElementById("employmentSection").innerHTML = "";
     document.getElementById("bbcodeContainer").classList.add("hidden");
 }
 

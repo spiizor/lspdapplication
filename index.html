@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LSPD Application</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+
+        /* Light Theme */
+        .light-theme {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .light-theme .container,
+        .light-theme .section {
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        .light-theme input[type="text"],
+        .light-theme input[type="date"],
+        .light-theme select,
+        .light-theme textarea {
+            background-color: #f0f0f0;
+            color: #333;
+            border: 1px solid #ccc;
+        }
+
+        /* General Styling */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #1e1e1e;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #333;
+            background-color: #333;
+            color: #e0e0e0;
+        }
+
+        .checkbox-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .button {
+            padding: 10px 15px 10px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .button-clear {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .theme-toggle-button {
+            background-color: #555;
+            color: white;
+            margin-bottom: 20px;
+            cursor: pointer;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .bbcode-container {
+            background-color: #2c2c2c;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            overflow: auto;
+            color: #e0e0e0;
+            font-family: monospace;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .employmentContainer {
+            gap: 10px;
+            /* Spacing between inputs */
+            margin-bottom: 10px;
+            /* Optional spacing between rows */
+        }
+
+        .faction-row {
+            display: flex;
+            gap: 10px;
+            /* Spacing between inputs */
+            margin-bottom: 10px;
+            /* Optional spacing between rows */
+        }
+
+        .faction-row input {
+            padding: 8px;
+            font-size: 14px;
+            flex: 1;
+        }
+
+        /* Server Logo (Top-Left, Always Visible) */
+        .server-logo {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 1000;
+            width: 200px;
+            height: auto;
+        }
+
+        /* LSPD Logo (Center) */
+        .lspd-logo {
+            display: block;
+            margin: 0 auto 20px;
+            width: 150px;
+            height: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Server Logo -->
+    <a href="https://eclipse-rp.net/#/" target="_blank">
+        <img src="https://i.imgur.com/cyCpa3W.png" alt="Server Logo" class="server-logo" title="Server Logo">
+    </a>
+
+    <div class="container">
+        <!-- Light/Dark Theme Toggle Button -->
+        <button class="theme-toggle-button" onclick="toggleTheme()">Toggle Light/Dark Theme</button>
+
+        <!-- LSPD Logo -->
+        <a href="https://gov.eclipse-rp.net/viewforum.php?f=1" target="_blank">
+            <img src="https://i.imgur.com/UYd15I0.png" alt="LSPD Official Logo" class="lspd-logo" title="LSPD Logo">
+        </a>
+
+        <h2>Los Santos Police Department Application</h2>
+
+        <!-- PERSONAL INFORMATION -->
+        <div class="section">
+            <h3>1. PERSONAL INFORMATION</h3>
+            <label>1.1 - Full Name (Firstname Surname):</label>
+            <input type="text" id="fullName" placeholder="YOUR NAME HERE">
+
+            <label>1.2 - Date of Birth:</label>
+            <input type="date" id="dateOfBirth">
+
+            <label>1.3 - Phone Number:</label>
+            <input type="text" id="phoneNumber" placeholder="NUMBER">
+
+            <label>1.4 - Proof of Identification (Screenshot of /licenses):</label>
+            <input type="text" id="proofOfIdentification" placeholder="ADD IMAGE LINK HERE">
+        </div>
+
+        <!-- EXPERIENCES, PAST EMPLOYMENT, AVAILABILITY -->
+        <div class="section">
+            <h3>2. EXPERIENCES, PAST EMPLOYMENT, AVAILABILITY, AND REFERENCES</h3>
+
+            <h4>2.1 - Prior Employment:</h4>
+            <h5>If you have ever been employed by the LSEMS, SADOC, LSSD or SASG, you must list your previous employment
+                with them below.</h5>
+            <div id="employmentSection">
+                <div class="employmentContainer">
+                    <label>Company Name:</label>
+                    <input type="text" id="companyName" placeholder="Enter company name">
+
+                    <label>Position:</label>
+                    <input type="text" id="position" placeholder="Enter position">
+
+                    <label>Direct Supervisor:</label>
+                    <input type="text" id="directSupervisor" placeholder="Enter direct supervisor">
+
+                    <label>Term of Employment:</label>
+                    <input type="text" id="termOfEmployment" placeholder="DD/MON/YYYY to DD/MON/YYYY">
+
+                    <label>Summary of Duties:</label>
+                    <textarea id="summaryOfDuties" rows="3" placeholder="Describe duties"></textarea>
+
+                    <label>Reason for Leaving:</label>
+                    <textarea id="reasonForLeaving" rows="3" placeholder="Reason for leaving"></textarea>
+                </div>
+            </div>
+            <button type="button" onclick="addEmploymentSection()" class="button">+</button>
+
+            <h4>2.2 - Work Shift Availability:</h4>
+            <h5>(( Select the timezone/s that you will play in. The times below are based on the server time (/time)
+                which is UTC. ))</h5>
+            <div class="checkbox-container">
+                <label><input type="checkbox" id="workShiftMorning"> Morning - 06:00 to 12:00</label>
+                <label><input type="checkbox" id="workShiftAfternoon"> Afternoon - 12:00 to 18:00</label>
+                <label><input type="checkbox" id="workShiftEvening"> Evening - 18:00 to 00:00</label>
+                <label><input type="checkbox" id="workShiftNight"> Night Shift - 00:00 to 06:00</label>
+            </div>
+        </div>
+
+        <!-- LICENSES, CRIMINAL, AND MEDICAL HISTORIES -->
+        <div class="section">
+            <h3>3. LICENSES, CRIMINAL, AND MEDICAL HISTORIES</h3>
+            <h5>Please fill out your licensing, criminal and medical history, by choosing the appropriate box.</h5>
+            <label>Do you currently possess a valid driver's license?</label>
+            <div class="checkbox-container">
+                <label><input type="radio" name="driverLicense" value="Yes"> Yes</label>
+                <label><input type="radio" name="driverLicense" value="No"> No</label>
+            </div>
+
+            <label>Do you possess a valid firearm's license?</label>
+            <div class="checkbox-container">
+                <label><input type="radio" name="firearmLicense" value="Yes"> Yes</label>
+                <label><input type="radio" name="firearmLicense" value="No"> No</label>
+            </div>
+
+            <label>Criminal Record:</label>
+            <div class="checkbox-container">
+                <label><input type="checkbox" id="criminalLessThan20"> Less than 20 Total Citations in 90 days, No
+                    Misdemeanors and No Felonies</label>
+                <label>---</label>
+                <label><input type="checkbox" id="criminalMoreThan20"> More than 20 Total Citations in 90 days</label>
+                <label><input type="checkbox" id="criminalMisdemeanors"> Previous Misdemeanors</label>
+                <label><input type="checkbox" id="criminalFelonies"> Previous Felonies</label>
+            </div>
+            <textarea id="criminalRecordDetails" rows="3"
+                placeholder="Explain any misdemeanors and felonies"></textarea>
+
+            <label>Fingerprints:</label>
+            <div class="checkbox-container">
+                <label><input type="checkbox" id="fingerprints"> Check this if you have had your fingerprints taken by
+                    Law Enforcement or Correctional Officers.</label>
+            </div>
+        </div>
+
+        <!-- GENERAL QUESTIONS -->
+        <div class="section">
+            <h3>4. GENERAL QUESTIONS</h3>
+            <h5>There is no fixed word limit, but the more effort you put into your answer, the stronger your chances of
+                being accepted.
+                <i>You must not use AI for your application, either to generate or correct your answers.</i>
+            </h5>
+            <label>4.1 - Why do you wish to join the Los Santos Police Department?</label>
+            <textarea id="whyJoin" rows="3" placeholder="Enter your response"></textarea>
+
+            <label>4.2 - Why do you think you would be a good fit for the Los Santos Police Department?</label>
+            <textarea id="whyGoodFit" rows="3" placeholder="Enter your response"></textarea>
+
+            <label>4.3 - What are your career goals as a Police Officer? Any divisions or areas of interest in the
+                LSPD?</label>
+            <textarea id="careerGoals" rows="3" placeholder="Enter your response"></textarea>
+
+            <label>4.4 - Do you have any current LSPD employees who you could use as a referral to support your
+                application? (( IC or OOC )):</label>
+            <textarea id="referral" rows="2" placeholder="List any referrals"></textarea>
+        </div>
+
+        <!-- OUT-OF-CHARACTER INFORMATION -->
+        <div class="section">
+            <h3>(( 5. OUT-OF-CHARACTER INFORMATION AND QUESTIONS ))</h3>
+            <h5>Please fill out your out of character information and where appropriate, mark the appropriate box for
+                checkbox answers.</h5>
+
+            <h4>5.1 - About You:</h4>
+            <label>Name or Nickname:</label>
+            <input type="text" id="nickname" placeholder="Enter your name or nickname">
+
+            <label>Age:</label>
+            <input type="text" id="age" placeholder="Enter age">
+
+            <label>Country of Residence and Time Zone:</label>
+            <input type="text" id="countryTimeZone" placeholder="Enter country and timezone">
+
+            <label>Discord Name:</label>
+            <input type="text" id="discordName" placeholder="Enter Discord name">
+
+            <label>Eclipse RP Forum Account Name:</label>
+            <input type="text" id="forumName" placeholder="Enter forum account name">
+
+            <label>Eclipse RP Forum Profile Link:</label>
+            <input type="text" id="forumLink" placeholder="Enter forum account link">
+
+            <label>5.2 - Have you ever been in the LSPD faction before? (<i>applies to any character</i>):</label>
+            <div class="checkbox-container">
+                <label><input type="radio" name="lspdFaction" value="Yes"> Yes</label>
+                <label><input type="radio" name="lspdFaction" value="No"> No</label>
+            </div>
+
+            <div style="margin-left: 20px; margin-top: 10px;">
+                <label>5.2.1 - If yes to 5.2, provide your reinstatement application:</label>
+                <input type="text" id="reinstatementApp" placeholder="Enter reinstatement application link">
+            </div>
+
+            <label>5.3 - Provide a Screenshot of your Admin Panel and Characters (<a
+                    href="https://imgur.com/wK0OQhv">press
+                    here for an example</a>):</label>
+            <input type="text" id="panelScreenshot" placeholder="ADD IMAGE LINK HERE">
+
+            <label>5.4 - List all the factions you are currently a part of (<i>include all your characters in
+                    factions</i>):</label>
+            <div id="factionContainer">
+                <div class="faction-row">
+                    <input type="text" name="characterName[]" placeholder="Character Name">
+                    <input type="text" name="faction[]" placeholder="Faction">
+                </div>
+            </div>
+            <button type="button" onclick="addFactionRow()" class="button">+</button>
+
+            <label>5.5 - Are you currently involved in and/or currently play on any other GTA Roleplay servers or
+                communities?:</label>
+            <div class="checkbox-container">
+                <label><input type="radio" name="factionServer" value="yesBut"
+                        onchange="handleFactionServerChange(event)">
+                    Yes, but not in a faction there.</label>
+                <label><input type="radio" name="factionServer" value="yesAnd"
+                        onchange="handleFactionServerChange(event)">
+                    Yes, and in a faction there.</label>
+                <label><input type="radio" name="factionServer" value="No" onchange="handleFactionServerChange(event)">
+                    No.</label>
+                <div style="margin-left: 20px; margin-top: 10px; margin-bottom: 10px;" class="hidden"
+                    id="factionServerExplanationHidden">
+                    <label id="factionServerExplanationLabel"></label>
+                    <textarea id="factionServerExplanation" placeholder="Enter explanation here" rows="3"></textarea>
+                </div>
+            </div>
+
+
+            <label>5.6 - Do you have any upcoming obligation(s) which may limit your playing time or availability in the
+                next three months?:</label>
+            <div class="checkbox-container">
+                <label><input type="radio" name="obligations" value="Yes"> Yes.</label>
+                <label><input type="radio" name="obligations" value="No"> No.</label>
+            </div>
+
+            <div style="margin-left: 20px; margin-top: 10px;">
+                <label>5.6.1 - If yes to 5.6, please explain how much this might affect your availability or play
+                    time:</label>
+                <input type="text" id="availabilityExplanation" placeholder="Enter explanation here">
+            </div>
+        </div>
+
+        <!-- RELEASE AND WAIVER -->
+        <div class="section">
+            <h3>6. RELEASE AND WAIVER</h3>
+            <div class="declaration-box">
+                <p><strong>I, the undersigned, hereby certify that this application and the answers contained within
+                        this application are true and complete to the best of my knowledge. By agreeing below I hereby
+                        authorize the Recruitment Officers of the Los Santos Police Department Recruitment and
+                        Employment Division to obtain any information pertaining to my current and previous
+                        employment(s), education, current and past residence(s), further personal information, and any
+                        other information that may be relevant to potential employment with the Los Santos Police
+                        Department.</strong></p>
+
+                <p><strong>I understand and agree that the Los Santos Police Department reserves the right to remove
+                        applicants from the recruitment process for any reason, with or without prior notice, and to ban
+                        applicants from (re-applying) to the Los Santos Police Department, temporarily or permanently,
+                        and that these decisions may be appealed either through the Recruitment and Employment Division
+                        Command Staff or the Internal Affairs Division.</strong></p>
+            </div>
+
+            <label>Signature:</label>
+            <input type="text" id="signature" placeholder="Enter your full name">
+
+            <!-- Auto-populate Date Signed with the current UTC date -->
+            <label>Date Signed:</label>
+            <input type="date" id="dateSigned">
+        </div>
+
+        <button class="button" onclick="generateBBCode()">Submit</button>
+        <button class="button button-clear" onclick="clearData()">Clear</button>
+
+        <div id="bbcodeContainer" class="section hidden">
+            <h3>BBCode Format</h3>
+            <div class="bbcode-container">
+                <pre id="bbcodeOutput">asd</pre>
+            </div>
+            <h></h>
+            <p>Submit your application <a href="https://gov.eclipse-rp.net/posting.php?mode=post&f=89"
+                    target="_blank">here</a>.</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

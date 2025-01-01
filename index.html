@@ -7,6 +7,21 @@
     <title>LSPD Application</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <style>
+	    .button-remove {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+
+        .button-remove:disabled {
+            background-color: #888;
+            cursor: not-allowed;
+        }
+	
         body {
             font-family: Arial, sans-serif;
             background-color: #121212;
@@ -214,6 +229,7 @@
                 </div>
             </div>
             <button type="button" onclick="addEmploymentSection()" class="button">+</button>
+            <button type="button" onclick="removeEmploymentSection()" class="button button-remove">-</button>
 
             <h4>2.2 - Work Shift Availability:</h4>
             <h5>(( Select the timezone/s that you will play in. The times below are based on the server time (/time)
@@ -333,6 +349,7 @@
                 </div>
             </div>
             <button type="button" onclick="addFactionRow()" class="button">+</button>
+            <button type="button" onclick="removeFactionRow()" class="button button-remove">-</button>
 
             <label>5.5 - Are you currently involved in and/or currently play on any other GTA Roleplay servers or
                 communities?:</label>

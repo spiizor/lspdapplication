@@ -12,6 +12,18 @@ function addFactionRow() {
     factionContainer.appendChild(newRow);
 }
 
+// Function to remove the last row in the faction section
+function removeFactionRow() {
+    const factionContainer = document.getElementById("factionContainer");
+    const rows = factionContainer.getElementsByClassName("faction-row");
+
+    // Only allow removing if more than one row exists
+    if (rows.length > 1) {
+        factionContainer.removeChild(rows[rows.length - 1]);
+    }
+}
+
+// Function to add a new Employment Section
 function addEmploymentSection() {
     const employmentSection = document.getElementById("employmentSection");
     const newRow = document.createElement("div");
@@ -19,25 +31,36 @@ function addEmploymentSection() {
 
     newRow.innerHTML = `
         <label>Company Name:</label>
-                    <input type="text" id="companyName" placeholder="Enter company name">
+        <input type="text" name="companyName[]" placeholder="Enter company name">
 
-                    <label>Position:</label>
-                    <input type="text" id="position" placeholder="Enter position">
+        <label>Position:</label>
+        <input type="text" name="position[]" placeholder="Enter position">
 
-                    <label>Direct Supervisor:</label>
-                    <input type="text" id="directSupervisor" placeholder="Enter direct supervisor">
+        <label>Direct Supervisor:</label>
+        <input type="text" name="directSupervisor[]" placeholder="Enter direct supervisor">
 
-                    <label>Term of Employment:</label>
-                    <input type="text" id="termOfEmployment" placeholder="DD/MON/YYYY to DD/MON/YYYY">
+        <label>Term of Employment:</label>
+        <input type="text" name="termOfEmployment[]" placeholder="DD/MON/YYYY to DD/MON/YYYY">
 
-                    <label>Summary of Duties:</label>
-                    <textarea id="summaryOfDuties" rows="3" placeholder="Describe duties"></textarea>
+        <label>Summary of Duties:</label>
+        <textarea name="summaryOfDuties[]" rows="3" placeholder="Describe duties"></textarea>
 
-                    <label>Reason for Leaving:</label>
-                    <textarea id="reasonForLeaving" rows="3" placeholder="Reason for leaving"></textarea>
+        <label>Reason for Leaving:</label>
+        <textarea name="reasonForLeaving[]" rows="3" placeholder="Reason for leaving"></textarea>
     `;
 
     employmentSection.appendChild(newRow);
+}
+
+// Function to remove the last Employment Section
+function removeEmploymentSection() {
+    const employmentSection = document.getElementById("employmentSection");
+    const rows = employmentSection.getElementsByClassName("employmentContainer");
+
+    // Only allow removing if more than one row exists
+    if (rows.length > 1) {
+        employmentSection.removeChild(rows[rows.length - 1]);
+    }
 }
 
 // Function to generate BBCode

@@ -14,12 +14,12 @@ function addFactionRow() {
 
 // Function to remove the last row in the faction section
 function removeFactionRow() {
-    const factionContainer = document.getElementById("factionContainer");
-    const rows = factionContainer.getElementsByClassName("faction-row");
-
-    // Only allow removing if more than one row exists
-    if (rows.length > 1) {
+    const factionContainer = document.getElementById('factionContainer');
+    const rows = factionContainer.getElementsByClassName('faction-row');
+    if (rows.length > 1) { // Ensure at least one row remains
         factionContainer.removeChild(rows[rows.length - 1]);
+    } else {
+        alert('You must have at least one faction row.');
     }
 }
 

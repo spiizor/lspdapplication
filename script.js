@@ -19,7 +19,7 @@ function removeFactionRow() {
     if (rows.length > 1) { // Ensure at least one row remains
         factionContainer.removeChild(rows[rows.length - 1]);
     } else {
-        alert('You must have at least one faction row.');
+        alert('You must have at least one extra faction row.');
     }
 }
 
@@ -60,6 +60,8 @@ function removeEmploymentSection() {
     // Only allow removing if more than one row exists
     if (rows.length > 1) {
         employmentSection.removeChild(rows[rows.length - 1]);
+    } else {
+        alert('You must have at least one extra employment row.');
     }
 }
 

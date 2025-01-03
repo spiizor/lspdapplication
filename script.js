@@ -19,7 +19,7 @@ function removeFactionRow() {
     if (rows.length > 1) { // Ensure at least one row remains
         factionContainer.removeChild(rows[rows.length - 1]);
     } else {
-        alert('You must have at least one faction row.');
+        alert('You must have at least one extra faction row.');
     }
 }
 
@@ -60,6 +60,8 @@ function removeEmploymentSection() {
     // Only allow removing if more than one row exists
     if (rows.length > 1) {
         employmentSection.removeChild(rows[rows.length - 1]);
+    } else {
+        alert('You must have at least one extra employment row.');
     }
 }
 
@@ -377,16 +379,22 @@ function clearData() {
     // Clear all checkboxes and radio buttons
     document.querySelectorAll("input[type='checkbox'], input[type='radio']").forEach(el => el.checked = false);
 
-    // Remove dynamically added Faction rows
-    const factionContainer = document.getElementById("factionContainer");
-    if (factionContainer) {
-        factionContainer.innerHTML = ""; // Clear all rows in the faction container
-    }
-
-    // Remove dynamically added Employment sections
+    // Remove all dynamically added Employment rows
     const employmentSection = document.getElementById("employmentSection");
     if (employmentSection) {
-        employmentSection.innerHTML = ""; // Clear all rows in the employment section
+        const rows = employmentSection.getElementsByClassName("employmentContainer");
+        while (rows.length > 0) { // Remove all rows
+            employmentSection.removeChild(rows[0]);
+        }
+    }
+
+    // Remove all dynamically added Faction rows
+    const factionContainer = document.getElementById("factionContainer");
+    if (factionContainer) {
+        const rows = factionContainer.getElementsByClassName("faction-row");
+        while (rows.length > 0) { // Remove all rows
+            factionContainer.removeChild(rows[0]);
+        }
     }
 
     // Hide the BBCode container

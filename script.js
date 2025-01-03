@@ -378,15 +378,22 @@ function clearData() {
     document.querySelectorAll("input[type='checkbox'], input[type='radio']").forEach(el => el.checked = false);
 
     // Remove dynamically added Faction rows
-    const factionRows = document.querySelectorAll(".faction-row");
-    factionRows.forEach(row => row.remove());
+    const factionContainer = document.getElementById("factionContainer");
+    if (factionContainer) {
+        factionContainer.innerHTML = ""; // Clear all rows in the faction container
+    }
 
     // Remove dynamically added Employment sections
-    const employmentRows = document.querySelectorAll(".employmentContainer");
-    employmentRows.forEach(row => row.remove());
+    const employmentSection = document.getElementById("employmentSection");
+    if (employmentSection) {
+        employmentSection.innerHTML = ""; // Clear all rows in the employment section
+    }
 
     // Hide the BBCode container
-    document.getElementById("bbcodeContainer").classList.add("hidden");
+    const bbcodeContainer = document.getElementById("bbcodeContainer");
+    if (bbcodeContainer) {
+        bbcodeContainer.classList.add("hidden");
+    }
 }
 
 // Function to toggle light/dark theme

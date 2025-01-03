@@ -373,33 +373,8 @@ I understand and agree that the Los Santos Police Department reserves the right 
 
 // Function to clear data
 function clearData() {
-    // Clear all text inputs and textareas
-    document.querySelectorAll("input[type='text'], textarea").forEach(el => el.value = "");
-
-    // Clear all checkboxes and radio buttons
-    document.querySelectorAll("input[type='checkbox'], input[type='radio']").forEach(el => el.checked = false);
-
-    // Remove all dynamically added Employment rows but keep one
-    const employmentSection = document.getElementById("employmentSection");
-    if (employmentSection) {
-    const rows = employmentSection.getElementsByClassName("employmentContainer");
-    while (rows.length > 1) { // Remove rows until only one remains
-        employmentSection.removeChild(rows[rows.length - 1]);
-    }
-
-    // Remove all dynamically added Faction rows but keep one
-    const factionContainer = document.getElementById("factionContainer");
-    if (factionContainer) {
-    const rows = factionContainer.getElementsByClassName("faction-row");
-    while (rows.length > 1) { // Remove rows until only one remains
-        factionContainer.removeChild(rows[rows.length - 1]);
-    }
-
-    // Hide the BBCode container
-    const bbcodeContainer = document.getElementById("bbcodeContainer");
-    if (bbcodeContainer) {
-        bbcodeContainer.classList.add("hidden");
-    }
+    document.querySelectorAll("input, textarea").forEach(el => el.value = "");
+    document.getElementById("bbcodeContainer").classList.add("hidden");
 }
 
 // Function to toggle light/dark theme

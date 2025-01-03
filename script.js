@@ -387,49 +387,12 @@ function clearData() {
         employmentSection.removeChild(rows[rows.length - 1]);
     }
 
-    // If no rows remain (unlikely but a safeguard), add one default row
-    if (rows.length === 0) {
-        const defaultEmploymentRow = document.createElement("div");
-        defaultEmploymentRow.classList.add("employmentContainer");
-        defaultEmploymentRow.innerHTML = `
-            <label>Company Name:</label>
-            <input type="text" name="companyName[]" placeholder="Enter company name">
-
-            <label>Position:</label>
-            <input type="text" name="position[]" placeholder="Enter position">
-
-            <label>Direct Supervisor:</label>
-            <input type="text" name="directSupervisor[]" placeholder="Enter direct supervisor">
-
-            <label>Term of Employment:</label>
-            <input type="text" name="termOfEmployment[]" placeholder="DD/MON/YYYY to DD/MON/YYYY">
-
-            <label>Summary of Duties:</label>
-            <textarea name="summaryOfDuties[]" rows="3" placeholder="Describe duties"></textarea>
-
-            <label>Reason for Leaving:</label>
-            <textarea name="reasonForLeaving[]" rows="3" placeholder="Reason for leaving"></textarea>
-        `;
-        employmentSection.appendChild(defaultEmploymentRow);
-    }
-
      // Remove all dynamically added Faction rows but keep one
      const factionContainer = document.getElementById("factionContainer");
      if (factionContainer) {
     const rows = factionContainer.getElementsByClassName("faction-row");
     while (rows.length > 1) { // Remove rows until only one remains
         factionContainer.removeChild(rows[rows.length - 1]);
-    }
-
-    // If no rows remain (unlikely but a safeguard), add one default row
-    if (rows.length === 0) {
-        const defaultFactionRow = document.createElement("div");
-        defaultFactionRow.classList.add("faction-row");
-        defaultFactionRow.innerHTML = `
-            <input type="text" name="characterName[]" placeholder="Character Name">
-            <input type="text" name="faction[]" placeholder="Faction">
-        `;
-        factionContainer.appendChild(defaultFactionRow);
     }
 
     // Hide the BBCode container

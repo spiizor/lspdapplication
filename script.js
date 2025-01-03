@@ -386,6 +386,30 @@ function clearData() {
         while (rows.length > 0) { // Remove all rows
             employmentSection.removeChild(rows[0]);
         }
+
+        // Add default Employment section
+        const defaultEmploymentRow = document.createElement("div");
+        defaultEmploymentRow.classList.add("employmentContainer");
+        defaultEmploymentRow.innerHTML = `
+            <label>Company Name:</label>
+            <input type="text" name="companyName[]" placeholder="Enter company name">
+
+            <label>Position:</label>
+            <input type="text" name="position[]" placeholder="Enter position">
+
+            <label>Direct Supervisor:</label>
+            <input type="text" name="directSupervisor[]" placeholder="Enter direct supervisor">
+
+            <label>Term of Employment:</label>
+            <input type="text" name="termOfEmployment[]" placeholder="DD/MON/YYYY to DD/MON/YYYY">
+
+            <label>Summary of Duties:</label>
+            <textarea name="summaryOfDuties[]" rows="3" placeholder="Describe duties"></textarea>
+
+            <label>Reason for Leaving:</label>
+            <textarea name="reasonForLeaving[]" rows="3" placeholder="Reason for leaving"></textarea>
+        `;
+        employmentSection.appendChild(defaultEmploymentRow);
     }
 
     // Remove all dynamically added Faction rows
@@ -395,35 +419,21 @@ function clearData() {
         while (rows.length > 0) { // Remove all rows
             factionContainer.removeChild(rows[0]);
         }
+
+        // Add default Faction row
+        const defaultFactionRow = document.createElement("div");
+        defaultFactionRow.classList.add("faction-row");
+        defaultFactionRow.innerHTML = `
+            <input type="text" name="characterName[]" placeholder="Character Name">
+            <input type="text" name="faction[]" placeholder="Faction">
+        `;
+        factionContainer.appendChild(defaultFactionRow);
     }
 
     // Hide the BBCode container
     const bbcodeContainer = document.getElementById("bbcodeContainer");
     if (bbcodeContainer) {
         bbcodeContainer.classList.add("hidden");
-    }
-	
-    // Optional: Add default Employment section
-    if (employmentSection) {
-    const defaultEmploymentRow = document.createElement("div");
-    defaultEmploymentRow.classList.add("employmentContainer");
-    defaultEmploymentRow.innerHTML = `
-        <label>Company Name:</label>
-        <input type="text" name="companyName[]" placeholder="Enter company name">
-        <!-- Add other default fields here -->
-    `;
-    employmentSection.appendChild(defaultEmploymentRow);
-    }
-
-    // Optional: Add default Faction row
-    if (factionContainer) {
-    const defaultFactionRow = document.createElement("div");
-    defaultFactionRow.classList.add("faction-row");
-    defaultFactionRow.innerHTML = `
-        <input type="text" name="characterName[]" placeholder="Character Name">
-        <input type="text" name="faction[]" placeholder="Faction">
-    `;
-    factionContainer.appendChild(defaultFactionRow);
     }
 }
 

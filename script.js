@@ -382,52 +382,19 @@ function clearData() {
     // Remove all dynamically added Employment rows
     const employmentSection = document.getElementById("employmentSection");
     if (employmentSection) {
-        let rows = employmentSection.getElementsByClassName("employmentContainer");
-        while (rows.length > 0) {
-            employmentSection.removeChild(rows[0]);
+        const rows = employmentSection.getElementsByClassName("employmentContainer");
+        while (rows.length > 1) { // Remove all rows
+            employmentSection.removeChild(rows[rows.length - 1];
         }
-
-        // Ensure one default Employment row exists
-        const defaultEmploymentRow = document.createElement("div");
-        defaultEmploymentRow.classList.add("employmentContainer");
-        defaultEmploymentRow.innerHTML = `
-            <label>Company Name:</label>
-            <input type="text" name="companyName[]" placeholder="Enter company name">
-
-            <label>Position:</label>
-            <input type="text" name="position[]" placeholder="Enter position">
-
-            <label>Direct Supervisor:</label>
-            <input type="text" name="directSupervisor[]" placeholder="Enter direct supervisor">
-
-            <label>Term of Employment:</label>
-            <input type="text" name="termOfEmployment[]" placeholder="DD/MON/YYYY to DD/MON/YYYY">
-
-            <label>Summary of Duties:</label>
-            <textarea name="summaryOfDuties[]" rows="3" placeholder="Describe duties"></textarea>
-
-            <label>Reason for Leaving:</label>
-            <textarea name="reasonForLeaving[]" rows="3" placeholder="Reason for leaving"></textarea>
-        `;
-        employmentSection.appendChild(defaultEmploymentRow);
     }
 
     // Remove all dynamically added Faction rows
     const factionContainer = document.getElementById("factionContainer");
     if (factionContainer) {
-        let rows = factionContainer.getElementsByClassName("faction-row");
-        while (rows.length > 0) {
-            factionContainer.removeChild(rows[0]);
+        const rows = factionContainer.getElementsByClassName("faction-row");
+        while (rows.length > 1) { // Remove all extra rows
+            factionContainer.removeChild(rows[rows.length - 1];
         }
-
-        // Ensure one default Faction row exists
-        const defaultFactionRow = document.createElement("div");
-        defaultFactionRow.classList.add("faction-row");
-        defaultFactionRow.innerHTML = `
-            <input type="text" name="characterName[]" placeholder="Character Name">
-            <input type="text" name="faction[]" placeholder="Faction">
-        `;
-        factionContainer.appendChild(defaultFactionRow);
     }
 
     // Hide the BBCode container

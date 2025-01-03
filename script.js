@@ -402,6 +402,29 @@ function clearData() {
     if (bbcodeContainer) {
         bbcodeContainer.classList.add("hidden");
     }
+	
+    // Optional: Add default Employment section
+    if (employmentSection) {
+    const defaultEmploymentRow = document.createElement("div");
+    defaultEmploymentRow.classList.add("employmentContainer");
+    defaultEmploymentRow.innerHTML = `
+        <label>Company Name:</label>
+        <input type="text" name="companyName[]" placeholder="Enter company name">
+        <!-- Add other default fields here -->
+    `;
+    employmentSection.appendChild(defaultEmploymentRow);
+    }
+
+    // Optional: Add default Faction row
+    if (factionContainer) {
+    const defaultFactionRow = document.createElement("div");
+    defaultFactionRow.classList.add("faction-row");
+    defaultFactionRow.innerHTML = `
+        <input type="text" name="characterName[]" placeholder="Character Name">
+        <input type="text" name="faction[]" placeholder="Faction">
+    `;
+    factionContainer.appendChild(defaultFactionRow);
+    }
 }
 
 // Function to toggle light/dark theme

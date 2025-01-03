@@ -382,12 +382,12 @@ function clearData() {
     // Remove all dynamically added Employment rows
     const employmentSection = document.getElementById("employmentSection");
     if (employmentSection) {
-        const rows = employmentSection.getElementsByClassName("employmentContainer");
-        while (rows.length > 0) { // Remove all rows
+        let rows = employmentSection.getElementsByClassName("employmentContainer");
+        while (rows.length > 0) {
             employmentSection.removeChild(rows[0]);
         }
 
-        // Add default Employment section
+        // Ensure one default Employment row exists
         const defaultEmploymentRow = document.createElement("div");
         defaultEmploymentRow.classList.add("employmentContainer");
         defaultEmploymentRow.innerHTML = `
@@ -415,12 +415,12 @@ function clearData() {
     // Remove all dynamically added Faction rows
     const factionContainer = document.getElementById("factionContainer");
     if (factionContainer) {
-        const rows = factionContainer.getElementsByClassName("faction-row");
-        while (rows.length > 0) { // Remove all rows
+        let rows = factionContainer.getElementsByClassName("faction-row");
+        while (rows.length > 0) {
             factionContainer.removeChild(rows[0]);
         }
 
-        // Add default Faction row
+        // Ensure one default Faction row exists
         const defaultFactionRow = document.createElement("div");
         defaultFactionRow.classList.add("faction-row");
         defaultFactionRow.innerHTML = `

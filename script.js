@@ -371,7 +371,21 @@ I understand and agree that the Los Santos Police Department reserves the right 
 
 // Function to clear data
 function clearData() {
-    document.querySelectorAll("input, textarea").forEach(el => el.value = "");
+    // Clear all text inputs and textareas
+    document.querySelectorAll("input[type='text'], textarea").forEach(el => el.value = "");
+
+    // Clear all checkboxes and radio buttons
+    document.querySelectorAll("input[type='checkbox'], input[type='radio']").forEach(el => el.checked = false);
+
+    // Remove dynamically added Faction rows
+    const factionRows = document.querySelectorAll(".faction-row");
+    factionRows.forEach(row => row.remove());
+
+    // Remove dynamically added Employment sections
+    const employmentRows = document.querySelectorAll(".employmentContainer");
+    employmentRows.forEach(row => row.remove());
+
+    // Hide the BBCode container
     document.getElementById("bbcodeContainer").classList.add("hidden");
 }
 

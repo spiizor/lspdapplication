@@ -7,17 +7,18 @@
     <title>LSPD Application</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <style>
-	    .button-remove {
-            background-color: #f44336;
-            color: white;
+	    .button-minus {
+            padding: 10px 15px 10px;
+            margin-right: 5px;
+            margin-bottom: 10px;
             border: none;
-            padding: 8px;
             border-radius: 4px;
             cursor: pointer;
-            margin-left: 5px;
+            background-color: #fa3939;
+            color: white;
         }
 
-        .button-remove:disabled {
+        .button-minus:disabled {
             background-color: #888;
             cursor: not-allowed;
         }
@@ -85,9 +86,20 @@
             flex-direction: column;
         }
 
-        .button {
+        .button-plus {
             padding: 10px 15px 10px;
-            margin-right: 10px;
+            margin-right: 5px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+        }
+		
+        .button-submit {
+            padding: 10px 15px 10px;
+            margin-right: 5px;
             margin-bottom: 10px;
             border: none;
             border-radius: 4px;
@@ -97,6 +109,12 @@
         }
 
         .button-clear {
+		    padding: 10px 15px 10px;
+            margin-right: 5px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
             background-color: #f44336;
             color: white;
         }
@@ -163,6 +181,23 @@
             width: 150px;
             height: auto;
         }
+		
+        #autoSaveStatus {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background-color: #4caf50;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            z-index: 1000;
+            display: none; /* Initially hidden */
+        }
+
+        #autoSaveStatus.visible {
+            display: block; /* Show when the status is updated */
+        }
     </style>
 </head>
 
@@ -210,26 +245,26 @@
             <div id="employmentSection">
                 <div class="employmentContainer">
                     <label>Company Name:</label>
-                    <input type="text" id="companyName" placeholder="Enter company name">
+                    <input type="text" name="companyName[]" placeholder="Enter company name">
 
                     <label>Position:</label>
-                    <input type="text" id="position" placeholder="Enter position">
+                    <input type="text" name="position[]" placeholder="Enter position">
 
                     <label>Direct Supervisor:</label>
-                    <input type="text" id="directSupervisor" placeholder="Enter direct supervisor">
+                    <input type="text" name="directSupervisor[]" placeholder="Enter direct supervisor">
 
                     <label>Term of Employment:</label>
-                    <input type="text" id="termOfEmployment" placeholder="DD/MON/YYYY to DD/MON/YYYY">
+                    <input type="text" name="termOfEmployment[]" placeholder="DD/MON/YYYY to DD/MON/YYYY">
 
                     <label>Summary of Duties:</label>
-                    <textarea id="summaryOfDuties" rows="3" placeholder="Describe duties"></textarea>
+                    <textarea name="summaryOfDuties[]" rows="3" placeholder="Describe duties"></textarea>
 
                     <label>Reason for Leaving:</label>
-                    <textarea id="reasonForLeaving" rows="3" placeholder="Reason for leaving"></textarea>
+                    <textarea name="reasonForLeaving[]" rows="3" placeholder="Reason for leaving"></textarea>
                 </div>
             </div>
-            <button type="button" onclick="addEmploymentSection()" class="button">+</button>
-            <button type="button" onclick="removeEmploymentSection()" class="button button-remove">-</button>
+            <button type="button" onclick="addEmploymentSection()" class="button button-plus">+</button>
+            <button type="button" onclick="removeEmploymentSection()" class="button button-minus">-</button>
 
             <h4>2.2 - Work Shift Availability:</h4>
             <h5>(( Select the timezone/s that you will play in. The times below are based on the server time (/time)
@@ -348,8 +383,8 @@
                     <input type="text" name="faction[]" placeholder="Faction">
                 </div>
             </div>
-            <button type="button" onclick="addFactionRow()" class="button">+</button>
-            <button type="button" onclick="removeFactionRow()" class="button button-remove">-</button>
+            <button type="button" onclick="addFactionRow()" class="button button-plus">+</button>
+            <button type="button" onclick="removeFactionRow()" class="button button-minus">-</button>
 
             <label>5.5 - Are you currently involved in and/or currently play on any other GTA Roleplay servers or
                 communities?:</label>
@@ -411,7 +446,7 @@
             <input type="date" id="dateSigned">
         </div>
 
-        <button class="button" onclick="generateBBCode()">Submit</button>
+        <button class="button button-submit" onclick="generateBBCode()">Submit</button>
         <button class="button button-clear" onclick="clearData()">Clear</button>
 
         <div id="bbcodeContainer" class="section hidden">
@@ -423,6 +458,8 @@
             <p>Submit your application <a href="https://gov.eclipse-rp.net/posting.php?mode=post&f=89"
                     target="_blank">here</a>.</p>
         </div>
+		
+		<div id="autoSaveStatus" class="hidden">Draft auto-saved.</div>
     </div>
 
     <script src="script.js"></script>

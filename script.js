@@ -1,3 +1,5 @@
+let debounceTimeout;
+
 function autoSaveDraft() {
     const formData = {};
 
@@ -13,12 +15,33 @@ function autoSaveDraft() {
 
     // Show auto-save status
     const status = document.getElementById("autoSaveStatus");
+
+    // Clear any existing notification to prevent overlap
+    status.textContent = "";
+    status.classList.remove("visible");
+
+    // Set new notification text
     status.textContent = "Draft auto-saved.";
     status.classList.add("visible");
 
     // Hide the status after 2 seconds
     setTimeout(() => status.classList.remove("visible"), 2000);
 }
+
+// Debounce function to limit the auto-save to occur after typing stops for a certain time
+function debounceAutoSave(event) {
+    clearTimeout(debounceTimeout);
+
+    debounceTimeout = setTimeout(() => {
+        autoSaveDraft();
+    }, 1000);  // 1000ms delay after the last input or blur event
+}
+
+// Add event listeners for 'input' (typing) and 'blur' (losing focus) events
+document.querySelectorAll("input, textarea").forEach(element => {
+    element.addEventListener("input", debounceAutoSave);
+    element.addEventListener("blur", debounceAutoSave);  // This will trigger on click out of the textbox
+});
 
 // Load saved form data from localStorage
 function loadDraftOnPageLoad() {

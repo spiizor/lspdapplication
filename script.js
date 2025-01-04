@@ -1,3 +1,62 @@
+function autoSaveDraft() {
+    const formData = {};
+
+    document.querySelectorAll("input, textarea, select").forEach(element => {
+        if (element.type === "checkbox" || element.type === "radio") {
+            formData[element.id || element.name] = element.checked;
+        } else {
+            formData[element.id || element.name] = element.value;
+        }
+    });
+
+    localStorage.setItem("applicationDraft", JSON.stringify(formData));
+
+    // Show auto-save status
+    const status = document.getElementById("autoSaveStatus");
+    status.textContent = "Draft auto-saved.";
+    status.classList.add("visible");
+
+    // Hide the status after 2 seconds
+    setTimeout(() => status.classList.remove("visible"), 2000);
+}
+
+// Load saved form data from localStorage
+function loadDraftOnPageLoad() {
+    const savedData = JSON.parse(localStorage.getItem("applicationDraft"));
+
+    if (savedData) {
+        document.querySelectorAll("input, textarea, select").forEach(element => {
+            const value = savedData[element.id || element.name];
+            if (value !== undefined) {
+                if (element.type === "checkbox" || element.type === "radio") {
+                    element.checked = value; // Restore checked state
+                } else {
+                    element.value = value; // Restore value
+                }
+            }
+        });
+
+        console.log("Draft loaded successfully."); // Optional: Log for debugging
+    }
+}
+
+// Call loadDraftOnPageLoad when the page is loaded
+window.addEventListener("DOMContentLoaded", loadDraftOnPageLoad);
+
+// Add event listeners to all input, textarea, and select elements
+function setupAutoSave() {
+    const formElements = document.querySelectorAll("input, textarea, select");
+
+    formElements.forEach(element => {
+        // Trigger auto-save on input or change
+        element.addEventListener("input", autoSaveDraft);
+        element.addEventListener("change", autoSaveDraft);
+    });
+}
+
+// Call setupAutoSave when the page is loaded
+window.addEventListener("DOMContentLoaded", setupAutoSave);
+
 // Function to add a new row for Character Name and Faction
 function addFactionRow() {
     const factionContainer = document.getElementById("factionContainer");
@@ -73,21 +132,27 @@ function generateBBCode() {
     const proofOfIdentification = document.getElementById("proofOfIdentification").value || "ADD DIRECT IMAGE LINK TO YOUR SCREENSHOT REPLACING THIS TEXT IN CAPS ONLY";
 
 
-    const employmentSections = document.querySelectorAll(".employmentContainer");
-    const results = [];
-    let combinedResults = ""; // Variable to hold all formatted strings
+// Collect all employment-related fields
+const companyNames = document.getElementsByName("companyName[]");
+const positions = document.getElementsByName("position[]");
+const directSupervisors = document.getElementsByName("directSupervisor[]");
+const termsOfEmployment = document.getElementsByName("termOfEmployment[]");
+const summariesOfDuties = document.getElementsByName("summaryOfDuties[]");
+const reasonsForLeaving = document.getElementsByName("reasonForLeaving[]");
 
-    // Loop through each container and collect its data
-    employmentSections.forEach((section) => {
-        const companyName = section.querySelector("#companyName").value;
-        const position = section.querySelector("#position").value;
-        const directSupervisor = section.querySelector("#directSupervisor").value;
-        const termOfEmployment = section.querySelector("#termOfEmployment").value;
-        const summaryOfDuties = section.querySelector("#summaryOfDuties").value;
-        const reasonForLeaving = section.querySelector("#reasonForLeaving").value;
+let combinedResults = ""; // Variable to hold all formatted strings
 
-        // Format the data as a string
-        const formattedString = `[LIST=NONE]
+// Loop through the employment fields by index
+for (let i = 0; i < companyNames.length; i++) {
+    const companyName = companyNames[i].value || "N/A";
+    const position = positions[i].value || "N/A";
+    const directSupervisor = directSupervisors[i].value || "N/A";
+    const termOfEmployment = termsOfEmployment[i].value || "N/A";
+    const summaryOfDuties = summariesOfDuties[i].value || "N/A";
+    const reasonForLeaving = reasonsForLeaving[i].value || "N/A";
+
+    // Format the data as a string
+    const formattedString = `[LIST=NONE]
 [b]Company Name[/b]: ${companyName}
 [b]Position[/b]: ${position}
 [b]Direct Supervisor[/b]: ${directSupervisor}
@@ -96,16 +161,9 @@ function generateBBCode() {
 [b]Reason for Leaving[/b]: ${reasonForLeaving}
 [/LIST]`;
 
-        // Append the formatted string to the combinedResults variable
-        combinedResults += formattedString + "\n\n"; // Add a separator between records
-    });
-
-    const companyName = document.getElementById("companyName").value || "COMPANY";
-    const position = document.getElementById("position").value || "POSITION";
-    const directSupervisor = document.getElementById("directSupervisor").value || "SUPERVISOR";
-    const termOfEmployment = document.getElementById("termOfEmployment").value || "DD/MMM/YYYY to DD/MMM/YYYY";
-    const summaryOfDuties = document.getElementById("summaryOfDuties").value || "DUTIES";
-    const reasonForLeaving = document.getElementById("reasonForLeaving").value || "REASON";
+    // Append the formatted string to the combinedResults variable
+    combinedResults += formattedString; // Add a separator between records
+}
 
     const workShiftMorning = document.getElementById("workShiftMorning").checked ? "[cbc]" : "[cb]";
     const workShiftAfternoon = document.getElementById("workShiftAfternoon").checked ? "[cbc]" : "[cb]";
@@ -321,8 +379,7 @@ ${factionList}
 
 [b]5.5 - Are you currently involved in and/or currently play on any other GTA Roleplay servers or communities?[/b]:
 [LIST=NONE]
-${factionServeryesBut} Yes, but not in a faction there. 
-[i]${factionServeryesButExplanation}[/i]
+${factionServeryesBut} Yes, but not in a faction there. [i]${factionServeryesButExplanation}[/i]
 ${factionServeryesAnd} Yes, and in a faction there. [i]${factionServeryesAndExplanation}[/i]
 ${factionServerNo} No.
 [/LIST][/list]
@@ -373,32 +430,41 @@ I understand and agree that the Los Santos Police Department reserves the right 
 
 // Function to clear data
 function clearData() {
-    // Clear all text inputs and textareas
-    document.querySelectorAll("input[type='text'], textarea").forEach(el => el.value = "");
+    // Show confirmation popup
+    const confirmClear = window.confirm("Are you sure you want to clear all data?");
 
-    // Clear all checkboxes and radio buttons
-    document.querySelectorAll("input[type='checkbox'], input[type='radio']").forEach(el => el.checked = false);
+    // If user clicks "OK", proceed with clearing data
+    if (confirmClear) {
+        // Clear all text inputs and textareas
+        document.querySelectorAll("input[type='text'], textarea").forEach(el => el.value = "");
 
-    // Remove all dynamically added Employment rows
-    const employmentSection = document.getElementById("employmentSection");
-    if (employmentSection) {
-        const rows = employmentSection.getElementsByClassName("employmentContainer");
-        while (rows.length > 1) { // Remove all rows
-            employmentSection.removeChild(rows[rows.length - 1]);
+        // Clear all checkboxes and radio buttons
+        document.querySelectorAll("input[type='checkbox'], input[type='radio']").forEach(el => el.checked = false);
+
+        // Remove all dynamically added Employment rows
+        const employmentSection = document.getElementById("employmentSection");
+        if (employmentSection) {
+            const rows = employmentSection.getElementsByClassName("employmentContainer");
+            while (rows.length > 1) { // Remove all rows
+                employmentSection.removeChild(rows[rows.length - 1]);
+            }
         }
-    }
 
-    // Remove all dynamically added Faction rows
-    const factionContainer = document.getElementById("factionContainer");
-    if (factionContainer) {
-        const rows = factionContainer.getElementsByClassName("faction-row");
-        while (rows.length > 1) { // Remove all rows
-            factionContainer.removeChild(rows[rows.length - 1]);
+        // Remove all dynamically added Faction rows
+        const factionContainer = document.getElementById("factionContainer");
+        if (factionContainer) {
+            const rows = factionContainer.getElementsByClassName("faction-row");
+            while (rows.length > 1) { // Remove all rows
+                factionContainer.removeChild(rows[rows.length - 1]);
+            }
         }
-    }
 
-    // Hide the BBCode container
-    document.getElementById("bbcodeContainer").classList.add("hidden");
+        // Hide the BBCode container
+        document.getElementById("bbcodeContainer").classList.add("hidden");
+    } else {
+        // If user clicks "Cancel", do nothing
+        return;
+    }
 }
 
 // Function to toggle light/dark theme

@@ -198,10 +198,88 @@
         #autoSaveStatus.visible {
             display: block; /* Show when the status is updated */
         }
+		
+/* Modal Styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: #1e1e1e; /* Default to dark mode */
+  color: #ffffff; /* Default dark mode text */
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1); /* Subtle glow for dark mode */
+  width: 400px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Light mode styling for modal */
+body.light-theme .modal-content {
+  background: #ffffff; /* Light mode background */
+  color: #000; /* Light mode text */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for light mode */
+}
+
+.modal-buttons {
+  margin-top: 15px;
+}
+
+.btn-confirm,
+.btn-cancel {
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-confirm {
+  background-color: #4CAF50; /* Default confirm button for dark mode */
+  color: white;
+}
+
+body.light-theme .btn-confirm {
+  background-color: #2e7d32; /* Adjust confirm button for light mode */
+}
+
+.btn-cancel {
+  background-color: #f44336; /* Default cancel button for dark mode */
+  color: white;
+}
+
+body.light-theme .btn-cancel {
+  background-color: #c62828; /* Adjust cancel button for light mode */
+}
     </style>
 </head>
 
 <body>
+
+<div id="customModal" class="modal hidden">
+  <div class="modal-content">
+    <p id="modalMessage"></p>
+    <div class="modal-buttons">
+      <button id="modalConfirm" class="btn-confirm">OK</button>
+      <button id="modalCancel" class="btn-cancel">Cancel</button>
+    </div>
+  </div>
+</div>
 
     <!-- Server Logo -->
     <a href="https://eclipse-rp.net/#/" target="_blank">

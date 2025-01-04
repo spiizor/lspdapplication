@@ -37,11 +37,20 @@ function debounceAutoSave(event) {
     }, 1000);  // 1000ms delay after the last input or blur event
 }
 
-// Add event listeners for 'input' (typing) and 'blur' (losing focus) events
-document.querySelectorAll("input, textarea").forEach(element => {
-    element.addEventListener("input", debounceAutoSave);
-    element.addEventListener("blur", debounceAutoSave);  // This will trigger on click out of the textbox
-});
+// Add event listeners to all input, textarea, and select elements
+function setupAutoSave() {
+    const formElements = document.querySelectorAll("input, textarea, select");
+
+    formElements.forEach(element => {
+        // Remove existing listeners to avoid duplicates
+        element.removeEventListener("input", debounceAutoSave);
+        element.removeEventListener("change", debounceAutoSave);
+
+        // Add event listeners for 'input' (typing) and 'blur' (losing focus) events
+        element.addEventListener("input", debounceAutoSave);
+        element.addEventListener("change", debounceAutoSave);
+    });
+}
 
 // Load saved form data from localStorage
 function loadDraftOnPageLoad() {
@@ -66,19 +75,30 @@ function loadDraftOnPageLoad() {
 // Call loadDraftOnPageLoad when the page is loaded
 window.addEventListener("DOMContentLoaded", loadDraftOnPageLoad);
 
-// Add event listeners to all input, textarea, and select elements
-function setupAutoSave() {
-    const formElements = document.querySelectorAll("input, textarea, select");
+// Call this when the page loads to restore the draft data
+window.addEventListener("DOMContentLoaded", loadDraftOnPageLoad);
 
-    formElements.forEach(element => {
-        // Trigger auto-save on input or change
-        element.addEventListener("input", autoSaveDraft);
-        element.addEventListener("change", autoSaveDraft);
-    });
+// Function to show the custom modal
+function showCustomModal(message, onConfirm, onCancel) {
+    const modal = document.getElementById("customModal");
+    const modalMessage = document.getElementById("modalMessage");
+    const confirmButton = document.getElementById("modalConfirm");
+    const cancelButton = document.getElementById("modalCancel");
+
+    modalMessage.textContent = message;
+
+    modal.classList.remove("hidden");
+
+    confirmButton.onclick = () => {
+        modal.classList.add("hidden");
+        if (onConfirm) onConfirm();
+    };
+
+    cancelButton.onclick = () => {
+        modal.classList.add("hidden");
+        if (onCancel) onCancel();
+    };
 }
-
-// Call setupAutoSave when the page is loaded
-window.addEventListener("DOMContentLoaded", setupAutoSave);
 
 // Function to add a new row for Character Name and Faction
 function addFactionRow() {
@@ -92,6 +112,7 @@ function addFactionRow() {
     `;
 
     factionContainer.appendChild(newRow);
+    onDynamicContentAdded();
 }
 
 // Function to remove the last row in the faction section
@@ -132,6 +153,7 @@ function addEmploymentSection() {
     `;
 
     employmentSection.appendChild(newRow);
+    onDynamicContentAdded();
 }
 
 // Function to remove the last Employment Section
@@ -146,6 +168,9 @@ function removeEmploymentSection() {
         alert('You must have at least one extra employment row.');
     }
 }
+
+// Initial setup
+window.addEventListener("DOMContentLoaded", setupAutoSave);
 
 // Function to generate BBCode
 function generateBBCode() {
@@ -437,16 +462,16 @@ I understand and agree that the Los Santos Police Department reserves the right 
     document.getElementById('bbcodeOutput').textContent = bbcode;
     document.getElementById('bbcodeContainer').classList.remove('hidden');
 
-    if (window.confirm("Do you want to copy the format and open the forums?")) {
-
+    showCustomModal("Do you want to copy the format and open the forums?", () => {
         // Copy the text to the clipboard
         navigator.clipboard.writeText(bbcode).then(() => {
+            console.log("Copied to clipboard!");
         }).catch(err => {
             console.error("Failed to copy text:", err);
         });
 
         window.open("https://gov.eclipse-rp.net/posting.php?mode=post&f=89", "_blank");
-    }
+    });
 
 
 }
@@ -454,10 +479,7 @@ I understand and agree that the Los Santos Police Department reserves the right 
 // Function to clear data
 function clearData() {
     // Show confirmation popup
-    const confirmClear = window.confirm("Are you sure you want to clear all data?");
-
-    // If user clicks "OK", proceed with clearing data
-    if (confirmClear) {
+    showCustomModal("Are you sure you want to clear all data?", () => {
         // Clear all text inputs and textareas
         document.querySelectorAll("input[type='text'], textarea").forEach(el => el.value = "");
 
@@ -484,10 +506,7 @@ function clearData() {
 
         // Hide the BBCode container
         document.getElementById("bbcodeContainer").classList.add("hidden");
-    } else {
-        // If user clicks "Cancel", do nothing
-        return;
-    }
+    });
 }
 
 // Function to toggle light/dark theme

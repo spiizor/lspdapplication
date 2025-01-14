@@ -100,6 +100,56 @@ function showCustomModal(message, onConfirm, onCancel) {
     };
 }
 
+// Imgur Client ID
+const IMGUR_CLIENT_ID = '8e3c4df12bf08b9';
+
+// Handle paste events for 1.4 and 5.3
+function handleImagePaste(event, inputId) {
+    const items = (event.clipboardData || event.originalEvent.clipboardData).items;
+    for (let i = 0; i < items.length; i++) {
+        if (items[i].type.indexOf("image") === 0) {
+            const file = items[i].getAsFile();
+            uploadImageToImgur(file, inputId);
+        }
+    }
+}
+
+// Upload image to Imgur
+function uploadImageToImgur(file, inputId) {
+    const formData = new FormData();
+    formData.append('image', file);
+
+    fetch('https://api.imgur.com/3/image', {
+        method: 'POST',
+        headers: {
+            Authorization: `Client-ID ${8e3c4df12bf08b9}`,
+        },
+        body: formData,
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById(inputId).value = data.data.link;
+                alert('Image uploaded successfully!');
+            } else {
+                alert('Image upload failed. Please try again.');
+            }
+        })
+        .catch(error => {
+            console.error('Error uploading image:', error);
+            alert('An error occurred during the upload.');
+        });
+}
+
+// Set up paste event listeners
+document.addEventListener('DOMContentLoaded', function () {
+    const proofOfIdentification = document.getElementById('proofOfIdentification');
+    const panelScreenshot = document.getElementById('panelScreenshot');
+
+    proofOfIdentification.addEventListener('paste', event => handleImagePaste(event, 'proofOfIdentification'));
+    panelScreenshot.addEventListener('paste', event => handleImagePaste(event, 'panelScreenshot'));
+});
+
 // Function to add a new row for Character Name and Faction
 function addFactionRow() {
     const factionContainer = document.getElementById("factionContainer");

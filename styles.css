@@ -174,7 +174,7 @@ textarea {
 /* Adjust for mobile screens */
 @media (max-width: 768px) {
     .server-logo {
-        position: relative;
+        position: static;
         width: 120px; /* Reduce the size of the server logo */
         top: 10px; /* Ensure it's still positioned correctly */
         right: 10px;

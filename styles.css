@@ -171,6 +171,20 @@ textarea {
     height: auto;
 }
 
+/* Adjust for mobile screens */
+@media (max-width: 768px) {
+    .server-logo {
+        width: 120px; /* Reduce the size of the server logo */
+        top: 10px; /* Ensure it's still positioned correctly */
+        left: 10px;
+    }
+
+    .lspd-logo {
+        width: 100px; /* Optionally, reduce the LSPD logo size on mobile */
+        margin-top: 20px; /* Adjust the margin to create some space */
+    }
+}
+
 /* Auto-Save Status */
 #autoSaveStatus {
     position: fixed;

@@ -176,7 +176,7 @@ textarea {
     .server-logo {
         width: 120px; /* Reduce the size of the server logo */
         top: 10px; /* Ensure it's still positioned correctly */
-        left: 10px;
+        right: 10px;
     }
 
     .lspd-logo {

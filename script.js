@@ -75,9 +75,6 @@ function loadDraftOnPageLoad() {
 // Call loadDraftOnPageLoad when the page is loaded
 window.addEventListener("DOMContentLoaded", loadDraftOnPageLoad);
 
-// Call this when the page loads to restore the draft data
-window.addEventListener("DOMContentLoaded", loadDraftOnPageLoad);
-
 // Function to show the custom modal
 function showCustomModal(message, onConfirm, onCancel) {
     const modal = document.getElementById("customModal");
@@ -230,7 +227,8 @@ for (let i = 0; i < companyNames.length; i++) {
     const criminalMoreThan20 = document.getElementById("criminalMoreThan20").checked ? "[cbc]" : "[cb]";
     const criminalMisdemeanors = document.getElementById("criminalMisdemeanors").checked ? "[cbc]" : "[cb]";
     const criminalFelonies = document.getElementById("criminalFelonies").checked ? "[cbc]" : "[cb]";
-    const criminalRecordDetails = document.getElementById("criminalRecordDetails").value || "Explain any misdemeanors and felonies here.";
+	
+    const criminalRecordDetails = document.getElementById("criminalRecordDetails").value || "Explain here.";
 
     // Fingerprints checkbox
     const fingerprints = document.getElementById("fingerprints").checked ? "[cbc]" : "[cb]";
@@ -268,23 +266,17 @@ for (let i = 0; i < companyNames.length; i++) {
     const factionServeryesAnd = document.querySelector("input[name='factionServer'][value='yesAnd']").checked ? "[cbc]" : "[cb]";
     const factionServerNo = document.querySelector("input[name='factionServer'][value='No']").checked ? "[cbc]" : "[cb]";
 
-
-    const factionServeryesButCheck = document.querySelector("input[name='factionServer'][value='yesBut']").checked ? true : false;
-    const factionServeryesAndCheck = document.querySelector("input[name='factionServer'][value='yesAnd']").checked ? true : false;
-
-    let factionServeryesButExplanation = "";
-    let factionServeryesAndExplanation = "";
-    if (factionServeryesButCheck) {
-        factionServeryesButExplanation = document.getElementById("factionServerExplanation").value || "";
-    }
-    else if (factionServeryesAndCheck) {
-        factionServeryesAndExplanation = document.getElementById("factionServerExplanation").value || "";
-    }
+    const factionServerExplanation = document.getElementById("factionServerExplanation").value || "Explain here.";
 
     const obligationsYes = document.querySelector("input[name='obligations'][value='Yes']").checked ? "[cbc]" : "[cb]";
     const obligationsNo = document.querySelector("input[name='obligations'][value='No']").checked ? "[cbc]" : "[cb]";
 
     const availabilityExplanation = document.getElementById("availabilityExplanation").value || "AVAILABILITY EXPLANATION";
+	
+	const microphoneYes = document.querySelector("input[name='microphone'][value='Yes']").checked ? "[cbc]" : "[cb]";
+    const microphoneNo = document.querySelector("input[name='microphone'][value='No']").checked ? "[cbc]" : "[cb]";
+	
+	const microphoneExplanation = document.getElementById("microphoneExplanation").value || "MICROPHONE EXPLANATION";
 
     const signature = document.getElementById("signature").value || "FIRST LASTNAME";
     const dateSigned = formatDate(document.getElementById("dateSigned").value) || "DD/MMM/YYYY";
@@ -319,7 +311,7 @@ If you have ever been employed by the LSEMS, SADOC, LSSD or SASG, you [b]must[/b
 ${combinedResults}
 
 [b]2.2 - Work Shift Availability[/b]:
-[ooc] Select the timezone/s that you will play in. The times below are based on the server time (/time) which is UTC. [/ooc]
+[ooc] Select the timezone(s) that you will play in. The times below are based on the server time (/time) which is UTC. [/ooc]
 [size=90][c]Mark each box by changing [cb] to [cbc][/c][/size]
 [LIST=NONE]
 ${workShiftMorning} Morning - 06:00 to 12:00
@@ -335,31 +327,35 @@ ${workShiftNight} Night Shift - 00:00 to 06:00
 [list=none][b]Please fill out your licensing, criminal and medical history, by choosing the appropriate box.[/b]
 [size=90][c]Mark each box by changing [cb] to [cbc][/c][/size]
 
-[b]3.1 - Do you currently possess a valid driver's license?[/b]:
+[b]3.1 - Do you currently possess a valid driver's license?[/b]
 [LIST=NONE]
 ${driverLicenseYes} Yes
 ${driverLicenseNo} No
 [/LIST]
 
-[b]3.2 - Do you possess a valid firearm's license?[/b]:
+[b]3.2 - Do you possess a valid firearm's license?[/b]
 [LIST=NONE]
 ${firearmLicenseYes} Yes
 ${firearmLicenseNo} No
 [/LIST]
 
-[b]3.3 - Criminal Record[/b]:
+[b]3.3 - Criminal Record:[/b]
 [LIST=NONE]
 
-${criminalLessThan20} [b]Less than 20 Total Citations in 90 days, No Misdemeanors and No Felonies[/b]
----
-${criminalMoreThan20} [b]More than 20 Total Citations in 90 days[/b]
-${criminalMisdemeanors} [b]Previous Misdemeanors[/b]
-${criminalFelonies} [b]Previous Felonies[/b]
-[list][*] ${criminalRecordDetails} [/list]
+${criminalLessThan20} Less than 20 Total Citations in 90 days, No Misdemeanors and No Felonies
+${criminalMoreThan20} More than 20 Total Citations in 90 days
+${criminalMisdemeanors} Previous Misdemeanors
+${criminalFelonies} Previous Felonies
 [/list]
+
+[list=none][b]3.3.1 - If you have any misdemeanors or felonies, please explain here:[/b]
+[LIST=NONE]
+${criminalRecordDetails}
+[/LIST][/list]
+
 [b]3.4 - Fingerprints[/b]:
 [list=none]
-${fingerprints} Check this if you have had your fingerprints taken by Law Enforcement or Correctional Officers.
+${fingerprints} Check this if you have had your fingerprints taken by Law Enforcement or Correctional Officers
 [/list]
 [/list]
 [/divbox]
@@ -369,22 +365,22 @@ ${fingerprints} Check this if you have had your fingerprints taken by Law Enforc
 There is no fixed word limit, but the more effort you put into your answer, the stronger your chances of being accepted. 
 [i]You must not use AI for your application, either to generate or correct your answers.[/i]
 [list=none]
-[b]4.1 - Why do you wish to join the Los Santos Police Department?[/b]:
+[b]4.1 - Why do you wish to join the Los Santos Police Department?[/b]
 [LIST=NONE]
 ${whyJoin}
 [/LIST]
 
-[b]4.2 - Why do you think you would be a good fit for the Los Santos Police Department?[/b]:
+[b]4.2 - Why do you think you would be a good fit for the Los Santos Police Department?[/b]
 [LIST=NONE]
 ${whyGoodFit}
 [/LIST]
 
-[b]4.3 - What goals do you have for your career as a Police Officer? Any divisions or areas of interest in the LSPD?[/b]:
+[b]4.3 - What goals do you have for your career as a Police Officer? Any divisions or areas of interest in the LSPD?[/b]
 [LIST=NONE]
 ${careerGoals}
 [/LIST]
 
-[b]4.4 - Do you have any current LSPD employees who you could use as a referral to support your application?[/b] [ooc] IC or OOC. [/ooc]:
+[b]4.4 - Do you have any current LSPD employees who you could use as a referral to support your application?[/b] [ooc] IC or OOC. [/ooc]
 [LIST=NONE]
 ${referral}
 [/LIST][/list]
@@ -394,8 +390,7 @@ ${referral}
 [divbox=white][list=none][b]Please fill out your out of character information and where appropriate, mark the appropriate box for checkbox answers.[/b]
 [size=90][c]Mark each box by changing [cb] to [cbc][/c][/size]
 
-[list=none]
-[b]5.1 - About You[/b]: [LIST=NONE]
+[b]5.1 - About You:[/b] [LIST=NONE]
 Name or Nickname: ${nickname}
 Age: ${age}
 Country of Residence and Time Zone: ${countryTimeZone}
@@ -404,10 +399,10 @@ Eclipse RP Forum Account Name: ${forumName}
 Eclipse RP Forum Profile Link: [url=${forumLink}]PRESS HERE[/url]
 [/LIST]
 
-[b]5.2 - Have you ever been in the LSPD faction before?[/b] ([i]applies to any character[/i]): 
+[b]5.2 - Have you ever been in the LSPD faction before?[/b] ([i]applies to any character[/i])
 [LIST=NONE]
-${lspdFactionYes} Yes.
-${lspdFactionNo} No.
+${lspdFactionYes} Yes
+${lspdFactionNo} No
 [/LIST]
 
 [list=none][b]5.2.1 - If yes to 5.2, provide your reinstatement application:[/b] 
@@ -415,33 +410,49 @@ ${lspdFactionNo} No.
 [url=${reinstatementApp}]REINSTATEMENT APPLICATION[/url]
 [/LIST][/list]
 
-[b]5.3 - Provide a Screenshot of your Admin Panel and Characters ([url=https://imgur.com/wK0OQhv]press here for an example[/url])[/b]:
+[b]5.3 - Provide a Screenshot of your Admin Panel and Characters ([url=https://imgur.com/wK0OQhv]press here for an example[/url]):[/b]
 [LIST=NONE]
 [spoil]${panelScreenshot}[/spoil]
 [/LIST]
 
-[b]5.4 - List all the factions you are currently a part of ([i]include all your characters in factions[/i])[/b]: 
+[b]5.4 - List all the factions you are currently a part of ([i]include all your characters in factions[/i]):[/b]
 [LIST=NONE]
 ${factionList}
 [/LIST]
 
-[b]5.5 - Are you currently involved in and/or currently play on any other GTA Roleplay servers or communities?[/b]:
+[b]5.5 - Are you currently involved in and/or currently play on any other GTA Roleplay servers or communities?[/b]
 [LIST=NONE]
-${factionServeryesBut} Yes, but not in a faction there. [i]${factionServeryesButExplanation}[/i]
-${factionServeryesAnd} Yes, and in a faction there. [i]${factionServeryesAndExplanation}[/i]
-${factionServerNo} No.
+${factionServeryesBut} Yes, but not in a faction there
+${factionServeryesAnd} Yes, and in a faction there
+${factionServerNo} No
 [/LIST][/list]
 
-[b]5.6 - Do you have any upcoming obligation(s) which may limit your playing time or availability in the next three months?[/b]:
+[list=none][b]5.5.1 - If yes to 5.5, please explain further about your overall involvement in that server and what factions you are in, if applicable:[/b]
 [LIST=NONE]
-${obligationsYes} Yes. 
-${obligationsNo} No.
+${factionServerExplanation}
+[/LIST][/list]
 
-[b]5.6.1 - If yes to 5.6, please explain how much this might affect your availability or play time:[/b] 
+[b]5.6 - Do you have any upcoming obligation(s) which may limit your playing time or availability in the next three months?[/b]
+[LIST=NONE]
+${obligationsYes} Yes
+${obligationsNo} No
+[/LIST]
+
+[list=none][b]5.6.1 - If yes to 5.6, please explain how much this might affect your availability or play time:[/b] 
 [LIST=NONE]
 ${availabilityExplanation}
+[/LIST][/list]
+
+[b]5.7 - Do you have a functional microphone and are you able to use TeamSpeak?[/b]
+[LIST=NONE]
+${microphoneYes} Yes
+${microphoneNo} No
 [/LIST]
-[/LIST]
+
+[list=none][b]5.7.1 - If no to 5.7, please explain here why you cannot use a microphone/TeamSpeak:[/b]
+[LIST=NONE]
+${microphoneExplanation}
+[/LIST][/list]
 
 [/list][/divbox]
 
@@ -511,7 +522,25 @@ function clearData() {
 
 // Function to toggle light/dark theme
 function toggleTheme() {
-    document.body.classList.toggle("light-theme");
+    const modal = document.getElementById('customModal');
+    const modalMessage = document.getElementById('modalMessage');
+    
+    // Set the message based on the current theme
+    const currentTheme = document.body.classList.contains('light-theme') ? 'Light' : 'Dark';
+    modalMessage.textContent = `Are you sure you want to switch to ${currentTheme === 'Light' ? 'Dark' : 'Light'} theme?`;
+    
+    // Show the modal
+    modal.classList.remove('hidden');
+
+    // Add event listeners for confirm and cancel buttons
+    document.getElementById('modalConfirm').onclick = function() {
+        document.body.classList.toggle('light-theme');
+        modal.classList.add('hidden');
+    };
+
+    document.getElementById('modalCancel').onclick = function() {
+        modal.classList.add('hidden');
+    };
 }
 
 function formatDate(inputDate) {
@@ -534,39 +563,9 @@ function formatDate(inputDate) {
     return formattedDate;
 }
 
-function handleFactionServerChange(event) {
-    const selectedValue = event.target.value;
-
-    // Perform checks based on the selected value
-    if (selectedValue === "yesBut") {
-        document.getElementById("factionServerExplanationHidden").classList.remove("hidden");
-        document.getElementById("factionServerExplanationLabel").innerText = "Please explain further about your involvement in that server, how long, how much etc.."
-        // Add your checks or actions here
-    } else if (selectedValue === "yesAnd") {
-        document.getElementById("factionServerExplanationHidden").classList.remove("hidden");
-        document.getElementById("factionServerExplanationLabel").innerText = "Please explain further about your involvement in that server and what factions you are in.."
-        // Add your checks or actions here
-    } else if (selectedValue === "No") {
-        document.getElementById("factionServerExplanationHidden").classList.add("hidden");
-        // Add your checks or actions here
-    }
-}
-
 // Set current UTC date for "Date Signed" field
 window.onload = function () {
     const dateSigned = document.getElementById("dateSigned");
     const today = new Date().toISOString().split("T")[0];
     dateSigned.value = today;
-
-    const factionServeryesBut = document.querySelector("input[name='factionServer'][value='yesBut']").checked ? true : false;
-    const factionServeryesAnd = document.querySelector("input[name='factionServer'][value='yesAnd']").checked ? true : false;
-
-    if (factionServeryesBut) {
-        document.getElementById("factionServerExplanationHidden").classList.remove("hidden");
-        document.getElementById("factionServerExplanationLabel").innerText = "Please explain further about your involvement in that server, how long, how much etc.."
-    }
-    else if (factionServeryesAnd) {
-        document.getElementById("factionServerExplanationHidden").classList.remove("hidden");
-        document.getElementById("factionServerExplanationLabel").innerText = "Please explain further about your involvement in that server and what factions you are in.."
-    }
 }

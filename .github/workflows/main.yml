@@ -1,0 +1,14 @@
+name: Notify Portainer
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  notify-portainer:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send POST request to Portainer webhook
+        run: |
+          curl -X POST "${{ secrets.PROD_WEBHOOK_URL }}"

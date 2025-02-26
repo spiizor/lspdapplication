@@ -228,7 +228,7 @@ for (let i = 0; i < companyNames.length; i++) {
     const criminalMisdemeanors = document.getElementById("criminalMisdemeanors").checked ? "[cbc]" : "[cb]";
     const criminalFelonies = document.getElementById("criminalFelonies").checked ? "[cbc]" : "[cb]";
 	
-    const criminalRecordDetails = document.getElementById("criminalRecordDetails").value || "Explain here.";
+    const criminalRecordDetails = document.getElementById("criminalRecordDetails").value || "N/A";
 
     // Fingerprints checkbox
     const fingerprints = document.getElementById("fingerprints").checked ? "[cbc]" : "[cb]";
@@ -247,7 +247,7 @@ for (let i = 0; i < companyNames.length; i++) {
 
     const lspdFactionYes = document.querySelector("input[name='lspdFaction'][value='Yes']").checked ? "[cbc]" : "[cb]";
     const lspdFactionNo = document.querySelector("input[name='lspdFaction'][value='No']").checked ? "[cbc]" : "[cb]";
-	const reinstatementApp = document.getElementById("reinstatementApp").value || "POST URL TO REINSTATEMENT HERE";
+	const reinstatementApp = document.getElementById("reinstatementApp").value || "N/A";
 	
 	const panelScreenshot = document.getElementById("panelScreenshot").value || "ADD DIRECT IMAGE LINK TO YOUR SCREENSHOT REPLACING THIS TEXT IN CAPS ONLY";
 
@@ -266,17 +266,17 @@ for (let i = 0; i < companyNames.length; i++) {
     const factionServeryesAnd = document.querySelector("input[name='factionServer'][value='yesAnd']").checked ? "[cbc]" : "[cb]";
     const factionServerNo = document.querySelector("input[name='factionServer'][value='No']").checked ? "[cbc]" : "[cb]";
 
-    const factionServerExplanation = document.getElementById("factionServerExplanation").value || "Explain here.";
+    const factionServerExplanation = document.getElementById("factionServerExplanation").value || "N/A";
 
     const obligationsYes = document.querySelector("input[name='obligations'][value='Yes']").checked ? "[cbc]" : "[cb]";
     const obligationsNo = document.querySelector("input[name='obligations'][value='No']").checked ? "[cbc]" : "[cb]";
 
-    const availabilityExplanation = document.getElementById("availabilityExplanation").value || "AVAILABILITY EXPLANATION";
+    const availabilityExplanation = document.getElementById("availabilityExplanation").value || "N/A";
 	
 	const microphoneYes = document.querySelector("input[name='microphone'][value='Yes']").checked ? "[cbc]" : "[cb]";
     const microphoneNo = document.querySelector("input[name='microphone'][value='No']").checked ? "[cbc]" : "[cb]";
 	
-	const microphoneExplanation = document.getElementById("microphoneExplanation").value || "MICROPHONE EXPLANATION";
+	const microphoneExplanation = document.getElementById("microphoneExplanation").value || "N/A";
 
     const signature = document.getElementById("signature").value || "FIRST LASTNAME";
     const dateSigned = formatDate(document.getElementById("dateSigned").value) || "DD/MMM/YYYY";
@@ -425,7 +425,7 @@ ${factionList}
 ${factionServeryesBut} Yes, but not in a faction there
 ${factionServeryesAnd} Yes, and in a faction there
 ${factionServerNo} No
-[/LIST][/list]
+[/LIST]
 
 [list=none][b]5.5.1 - If yes to 5.5, please explain further about your overall involvement in that server and what factions you are in, if applicable:[/b]
 [LIST=NONE]
@@ -452,7 +452,7 @@ ${microphoneNo} No
 [list=none][b]5.7.1 - If no to 5.7, please explain here why you cannot use a microphone/TeamSpeak:[/b]
 [LIST=NONE]
 ${microphoneExplanation}
-[/LIST][/list]
+[/LIST]
 
 [/list][/divbox]
 

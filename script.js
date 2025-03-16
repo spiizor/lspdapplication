@@ -236,7 +236,7 @@ for (let i = 0; i < companyNames.length; i++) {
     const whyJoin = document.getElementById("whyJoin").value || "ANSWER";
     const whyGoodFit = document.getElementById("whyGoodFit").value || "ANSWER";
     const careerGoals = document.getElementById("careerGoals").value || "ANSWER";
-    const referral = document.getElementById("referral").value || "ANSWER";
+    const referral = document.getElementById("referral").value || "N/A";
 
     const nickname = document.getElementById("nickname").value || "YOUR NAME";
     const age = document.getElementById("age").value || "AGE";
@@ -257,8 +257,8 @@ for (let i = 0; i < companyNames.length; i++) {
     let factionList = "";
 
     for (let i = 0; i < characterNames.length; i++) {
-        const charName = characterNames[i].value || "CHARACTER NAME";
-        const faction = factions[i].value || "FACTION";
+        const charName = characterNames[i].value || "N/A";
+        const faction = factions[i].value || "N/A";
         factionList += `${charName} - ${faction}\n`;
     }
 

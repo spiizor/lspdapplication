@@ -3425,7 +3425,7 @@ ${firearms}
         }).catch(err => {
             console.error("Failed to copy text:", err);
         });
-        window.open("https://gov.eclipse-rp.net/viewforum.php?f=1377", "_blank");
+        window.open("https://gov.eclipse-rp.net/posting.php?mode=post&f=1377", "_blank");
     });
 }
 
@@ -3526,7 +3526,7 @@ By signing and submitting this form you agree that the information provided is a
         }).catch(err => {
             console.error("Failed to copy text:", err);
         });
-        window.open("https://gov.eclipse-rp.net/viewforum.php?f=1378", "_blank");
+        window.open("https://gov.eclipse-rp.net/posting.php?mode=post&f=1378", "_blank");
     });
 }
 
@@ -5251,7 +5251,7 @@ In consideration of the granting of the road closure permit, except for the acti
         }).catch(err => {
             console.error("Failed to copy text:", err);
         });
-        window.open("https://gov.eclipse-rp.net/posting.php?mode=post&f=1532", "_blank");
+        window.open("https://gov.eclipse-rp.net/posting.php?mode=post&f=2076", "_blank");
     });
 }
 
@@ -5316,7 +5316,7 @@ ${why}
         }).catch(err => {
             console.error("Failed to copy text:", err);
         });
-        window.open("https://gov.eclipse-rp.net/posting.php?mode=post&f=2076", "_blank");
+        window.open("https://gov.eclipse-rp.net/posting.php?mode=post&f=210", "_blank");
     });
 }
 

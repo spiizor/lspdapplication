@@ -4,12 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LSPD Application</title>
+    <title>ECRP - LSPD Portal</title>
     <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="stylesheet" href="styles.css?v=2.2">
+    <link rel="stylesheet" href="styles.css?v=3.0">
 </head>
 
 <body>
+
+<button id="scrollToTopBtn" class="scroll-to-top" onclick="scrollToTop()">
+    <span class="scroll-arrow">↑</span>
+    <span class="scroll-text">Top</span>
+</button>
 
 <div id="customModal" class="modal hidden">
   <div class="modal-content">
@@ -21,6 +26,8 @@
   </div>
 </div>
 
+<div id="autoSaveStatus">Draft auto-saved.</div>
+
     <!-- Server Logo -->
     <a href="https://eclipse-rp.net/#/" target="_blank">
         <img src="https://i.imgur.com/cyCpa3W.png" alt="Server Logo" class="server-logo">
@@ -31,249 +38,2251 @@
         <button class="theme-toggle-button" onclick="toggleTheme()">Toggle Light/Dark Theme</button>
 
         <!-- LSPD Logo -->
-        <a href="https://gov.eclipse-rp.net/viewforum.php?f=1" target="_blank">
-            <img src="https://i.imgur.com/UYd15I0.png" alt="LSPD Official Logo" class="lspd-logo">
-        </a>
+		<div class="lspd-logo-center">
+          <a href="https://gov.eclipse-rp.net/viewforum.php?f=1" target="_blank">
+            <img src="https://i.imgur.com/WmEL0N9.png" alt="LSPD Official Logo" class="lspd-logo">
+          </a>
+		</div>
 
-        <h2>Los Santos Police Department Application</h2>
+        <h2>Los Santos Police Department</h2>
 
-        <!-- PERSONAL INFORMATION -->
-        <div class="section">
-            <h3>1. PERSONAL INFORMATION</h3>
-            <label>1.1 - Full Name (Firstname Surname):</label>
-            <input type="text" id="fullName" placeholder="YOUR NAME HERE">
-
-            <label>1.2 - Date of Birth:</label>
-            <input type="date" id="dateOfBirth">
-
-            <label>1.3 - Phone Number:</label>
-            <input type="text" id="phoneNumber" placeholder="NUMBER">
-
-            <label>1.4 - Proof of Identification (( Screenshot of /licenses )) (<a href="https://i.imgur.com/3VOTXMg.png"><i>Example</i></a>):</label>
-            <input type="text" id="proofOfIdentification" placeholder="ADD IMAGE LINK HERE">
+        <!-- Tab Navigation -->
+<div class="tab-navigation">
+    <div class="nav-header">
+        <h2 class="nav-title">LSPD Public Section</h2>
+        <button class="nav-toggle-btn" onclick="toggleNavigation()" title="Toggle Navigation">
+            <span class="nav-toggle-icon">−</span>
+        </button>
+    </div>
+    
+    <div class="nav-content">
+        <div class="tab-group">
+            <h3 class="tab-group-title">Employment</h3>
+            <button class="tab-button active" onclick="switchTab('main-application')">Main Application</button>
+            <button class="tab-button" onclick="switchTab('reinstatement')">Reinstatement</button>
+            <button class="tab-button" onclick="switchTab('transfer')">Transfer</button>
         </div>
+        
+        <!-- Rest of your tab groups remain the same -->
+        <div class="tab-group">
+            <h3 class="tab-group-title">Firearms Licensing</h3>
+            <button class="tab-button" onclick="switchTab('standard-firearm')">Standard Firearm</button>
+            <button class="tab-button" onclick="switchTab('priors-firearm')">Priors Firearm</button>
+            <button class="tab-button" onclick="switchTab('shotgun-license')">Shotgun License</button>
+            <button class="tab-button" onclick="switchTab('firearm-change')">Change Request</button>
+            <button class="tab-button" onclick="switchTab('firearm-submission')">Firearm Submission</button>
+            <button class="tab-button" onclick="switchTab('missing-firearm')">Missing Firearm</button>
+            <button class="tab-button" onclick="switchTab('guard-card')">Guard Card</button>
+        </div>
+        
+        <div class="tab-group">
+            <h3 class="tab-group-title">Feedback</h3>
+            <button class="tab-button" onclick="switchTab('complaint')">Submit a Complaint</button>
+            <button class="tab-button" onclick="switchTab('commendation')">Submit a Commendation</button>
+            <button class="tab-button" onclick="switchTab('roleplay-feedback')">(( Roleplay Feedback ))</button>
+        </div>
+        
+        <div class="tab-group">
+            <h3 class="tab-group-title">Public Affairs</h3>
+            <button class="tab-button" onclick="switchTab('press-inquiries')">Press Inquiries</button>
+            <button class="tab-button" onclick="switchTab('public-inquiries')">Public Inquiries</button>
+            <button class="tab-button" onclick="switchTab('press-passes')">Press Passes</button>
+            <button class="tab-button" onclick="switchTab('self-background-check')">Self Background Check</button>
+            <button class="tab-button" onclick="switchTab('company-background-check')">Company/Department Background Check</button>
+        </div>
+        
+        <div class="tab-group">
+            <h3 class="tab-group-title">Front Desk</h3>
+            <button class="tab-button" onclick="switchTab('report-crime')">Report a Crime</button>
+            <button class="tab-button" onclick="switchTab('bounty-report')">Bounty Report</button>
+            <button class="tab-button" onclick="switchTab('road-closure-permit')">Road Closure Permit</button>
+            <button class="tab-button" onclick="switchTab('ride-along-program')">Ride-Along Program</button>
+        </div>
+    </div>
+</div>
 
-        <!-- EXPERIENCES, PAST EMPLOYMENT, AVAILABILITY -->
-        <div class="section">
-            <h3>2. EXPERIENCES, PAST EMPLOYMENT, AVAILABILITY, AND REFERENCES</h3>
+        <!-- Tab Content Container -->
+        <div class="tab-content">
+            <!-- Main Application Tab -->
+            <div id="main-application" class="tab-pane active">
+                <!-- PERSONAL INFORMATION -->
+                <div class="section">
+                    <h3>1. PERSONAL INFORMATION</h3>
+                    <div class="form-group">
+                        <label>1.1 - Full Name (Firstname Surname): <span class="required">*</span></label>
+                        <input type="text" id="fullName" placeholder="YOUR NAME HERE" required>
+                    </div>
 
-            <h4>2.1 - Prior Employment:</h4>
-            <h5>If you have ever been employed by the LSEMS, SADOC, LSSD or SASG, you must list your previous employment with them below.</h5>
-            <div id="employmentSection">
-                <div class="employmentContainer">
-                    <label>Company Name:</label>
-                    <input type="text" name="companyName[]" placeholder="Enter company name">
+                    <div class="form-group">
+                        <label>1.2 - Date of Birth: <span class="required">*</span></label>
+                        <input type="date" id="dateOfBirth" required>
+                    </div>
 
-                    <label>Position:</label>
-                    <input type="text" name="position[]" placeholder="Enter position">
+                    <div class="form-group">
+                        <label>1.3 - Phone Number: <span class="required">*</span></label>
+                        <input type="text" id="phoneNumber" placeholder="NUMBER" required>
+                    </div>
 
-                    <label>Direct Supervisor:</label>
-                    <input type="text" name="directSupervisor[]" placeholder="Enter direct supervisor">
+                    <div class="form-group">
+                        <label>1.4 - Proof of Identification (( Screenshot of /licenses )) (<a href="https://i.imgur.com/3VOTXMg.png" target="_blank"><i>Example</i></a>): <span class="required">*</span></label>
+                        <input type="text" id="proofOfIdentification" placeholder="ADD IMAGE LINK HERE" required>
+                    </div>
+                </div>
 
-                    <label>Term of Employment:</label>
-                    <input type="text" name="termOfEmployment[]" placeholder="DD/MON/YYYY to DD/MON/YYYY">
+                <!-- EXPERIENCES, PAST EMPLOYMENT, AVAILABILITY -->
+                <div class="section">
+                    <h3>2. EXPERIENCES, PAST EMPLOYMENT, AVAILABILITY, AND REFERENCES</h3>
 
-                    <label>Summary of Duties:</label>
-                    <textarea name="summaryOfDuties[]" rows="3" placeholder="Describe duties"></textarea>
+                    <div class="form-group">
+                        <h4>2.1 - Prior Employment: <span class="optional">(Optional)</span></h4>
+                        <h5>If you have ever been employed by the LSEMS, SADOC, LSSD or SASG, you must list your previous employment with them below.</h5>
+                        <div id="employmentSection">
+                            <div class="employmentContainer">
+                                <label>Company Name:</label>
+                                <input type="text" name="companyName[]" placeholder="Enter company name">
 
-                    <label>Reason for Leaving:</label>
-                    <textarea name="reasonForLeaving[]" rows="3" placeholder="Reason for leaving"></textarea>
+                                <label>Position:</label>
+                                <input type="text" name="position[]" placeholder="Enter position">
+
+                                <label>Direct Supervisor:</label>
+                                <input type="text" name="directSupervisor[]" placeholder="Enter direct supervisor">
+
+                                <label>Term of Employment:</label>
+                                <input type="text" name="termOfEmployment[]" placeholder="DD/MON/YYYY to DD/MON/YYYY">
+
+                                <label>Summary of Duties:</label>
+                                <textarea name="summaryOfDuties[]" rows="3" placeholder="Describe duties"></textarea>
+
+                                <label>Reason for Leaving:</label>
+                                <textarea name="reasonForLeaving[]" rows="3" placeholder="Reason for leaving"></textarea>
+                            </div>
+                        </div>
+                        <button type="button" onclick="addEmploymentSection()" class="button button-plus">+</button>
+                        <button type="button" onclick="removeEmploymentSection()" class="button button-minus">-</button>
+                    </div>
+
+                    <div class="form-group">
+                        <h4>2.2 - Work Shift Availability: <span class="required">*</span></h4>
+                        <h5>(( Select the timezone/s that you will play in. The times below are based on the server time (/time) which is UTC. ))</h5>
+                        <div class="checkbox-container">
+                            <label class="checkbox-row"><input type="checkbox" id="workShiftMorning"> Morning - 06:00 to 12:00</label>
+                            <label class="checkbox-row"><input type="checkbox" id="workShiftAfternoon"> Afternoon - 12:00 to 18:00</label>
+                            <label class="checkbox-row"><input type="checkbox" id="workShiftEvening"> Evening - 18:00 to 00:00</label>
+                            <label class="checkbox-row"><input type="checkbox" id="workShiftNight"> Night Shift - 00:00 to 06:00</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LICENSES, CRIMINAL, AND MEDICAL HISTORIES -->
+                <div class="section">
+                    <h3>3. LICENSES, CRIMINAL, AND MEDICAL HISTORIES</h3>
+                    <h5>Please fill out your licensing, criminal and medical history, by choosing the appropriate box.</h5>
+                    
+                    <div class="form-group">
+                        <label>3.1 - Do you currently possess a valid driver's license? <span class="required">*</span></label>
+                        <div class="checkbox-container">
+                            <label class="checkbox-row"><input type="radio" name="driverLicense" value="Yes" required> Yes</label>
+                            <label class="checkbox-row"><input type="radio" name="driverLicense" value="No" required> No</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>3.2 - Do you possess a valid firearm's license? <span class="required">*</span></label>
+                        <div class="checkbox-container">
+                            <label class="checkbox-row"><input type="radio" name="firearmLicense" value="Yes" required> Yes</label>
+                            <label class="checkbox-row"><input type="radio" name="firearmLicense" value="No" required> No</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>3.3 - Criminal Record: <span class="required">*</span></label>
+                        <div class="checkbox-container">
+                            <label class="checkbox-row"><input type="checkbox" id="criminalLessThan20"> Less than 20 Total Citations in 90 days, No Misdemeanors and No Felonies</label>
+                            <label class="checkbox-row"><input type="checkbox" id="criminalMoreThan20"> More than 20 Total Citations in 90 days</label>
+                            <label class="checkbox-row"><input type="checkbox" id="criminalMisdemeanors"> Previous Misdemeanors</label>
+                            <label class="checkbox-row"><input type="checkbox" id="criminalFelonies"> Previous Felonies</label>
+                        </div>
+                
+                        <div style="margin-left: 20px; margin-top: -10px; margin-bottom: 15px;">
+                            <label>3.3.1 - If you have any misdemeanors or felonies, please explain here: <span id="criminalDetailsRequired" class="optional">(Optional)</span></label>
+                            <input type="text" id="criminalRecordDetails" placeholder="Enter explanation here">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>3.4 - Fingerprints: <span class="optional">(Optional)</span></label>
+                        <div class="checkbox-container">
+                            <label class="checkbox-row"><input type="checkbox" id="fingerprints"> Check this if you have had your fingerprints taken by Law Enforcement or Correctional Officers</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GENERAL QUESTIONS -->
+                <div class="section">
+                    <h3>4. GENERAL QUESTIONS</h3>
+                    <h5>There is no fixed word limit, but the more effort you put into your answer, the stronger your chances of being accepted.
+                        <i>You must not use AI for your application, either to generate or correct your answers.</i>
+                    </h5>
+                    
+                    <div class="form-group">
+                        <label>4.1 - Why do you wish to join the Los Santos Police Department? <span class="required">*</span></label>
+                        <textarea id="whyJoin" rows="3" placeholder="Enter your response" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>4.2 - Why do you think you would be a good fit for the Los Santos Police Department? <span class="required">*</span></label>
+                        <textarea id="whyGoodFit" rows="3" placeholder="Enter your response" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>4.3 - What are your career goals as a Police Officer? Any divisions or areas of interest in the LSPD? <span class="required">*</span></label>
+                        <textarea id="careerGoals" rows="3" placeholder="Enter your response" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>4.4 - Do you have any current LSPD employees who you could use as a referral to support your application? (( IC or OOC )) <span class="optional">(Optional)</span></label>
+                        <textarea id="referral" rows="2" placeholder="List any referrals"></textarea>
+                    </div>
+                </div>
+
+                <!-- OUT-OF-CHARACTER INFORMATION -->
+                <div class="section">
+                    <h3>(( 5. OUT-OF-CHARACTER INFORMATION AND QUESTIONS ))</h3>
+                    <h5>Please fill out your out of character information and where appropriate, mark the appropriate box for checkbox answers.</h5>
+
+                    <h4>5.1 - About You:</h4>
+                    <div class="form-group">
+                        <label>Name or Nickname: <span class="required">*</span></label>
+                        <input type="text" id="nickname" placeholder="Enter your name or nickname" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Age: <span class="required">*</span></label>
+                        <input type="text" id="age" placeholder="Enter age" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Country of Residence and Time Zone: <span class="required">*</span></label>
+                        <input type="text" id="countryTimeZone" placeholder="Enter country and timezone" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Discord Name: <span class="required">*</span></label>
+                        <input type="text" id="discordName" placeholder="Enter Discord name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Eclipse RP Forum Account Name: <span class="required">*</span></label>
+                        <input type="text" id="forumName" placeholder="Enter forum account name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Eclipse RP Forum Profile Link: <span class="required">*</span></label>
+                        <input type="text" id="forumLink" placeholder="Enter forum account link" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>5.2 - Have you ever been in the LSPD faction before? (<i>applies to any character</i>) <span class="required">*</span></label>
+                        <div class="checkbox-container">
+                            <label class="checkbox-row"><input type="radio" name="lspdFaction" value="Yes" required> Yes</label>
+                            <label class="checkbox-row"><input type="radio" name="lspdFaction" value="No" required> No</label>
+                        </div>
+
+                        <div style="margin-left: 20px; margin-top: -10px; margin-bottom: 15px;">
+                            <label>5.2.1 - If yes to 5.2, provide your reinstatement application: <span id="reinstatementRequired" class="optional">(Optional)</span></label>
+                            <input type="text" id="reinstatementApp" placeholder="Enter reinstatement application link">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>5.3 - Provide a Screenshot of your Admin Panel and Characters (<a href="https://imgur.com/wK0OQhv" target="_blank">press here for an example</a>): <span class="required">*</span></label>
+                        <input type="text" id="panelScreenshot" placeholder="ADD IMAGE LINK HERE" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>5.4 - List all the factions you are currently a part of (<i>include all your characters in factions</i>): <span class="optional">(Optional)</span></label>
+                        <div id="factionContainer">
+                            <div class="faction-row">
+                                <input type="text" name="characterName[]" placeholder="Character Name">
+                                <input type="text" name="faction[]" placeholder="Faction">
+                            </div>
+                        </div>
+                        <button type="button" onclick="addFactionRow()" class="button button-plus">+</button>
+                        <button type="button" onclick="removeFactionRow()" class="button button-minus">-</button>
+                    </div>
+
+                    <div class="form-group">
+                        <label>5.5 - Are you currently involved in and/or currently play on any other GTA Roleplay servers or communities? <span class="required">*</span></label>
+                        <div class="checkbox-container">
+                            <label class="checkbox-row"><input type="radio" name="factionServer" value="yesBut" required> Yes, but not in a faction there</label>
+                            <label class="checkbox-row"><input type="radio" name="factionServer" value="yesAnd" required> Yes, and in a faction there</label>
+                            <label class="checkbox-row"><input type="radio" name="factionServer" value="No" required> No</label>
+                        </div>
+                
+                        <div style="margin-left: 20px; margin-top: -10px; margin-bottom: 15px;">
+                            <label>5.5.1 - If yes to 5.5, please explain further about your overall involvement in that server and what factions you are in, if applicable <span id="factionServerRequired" class="optional">(Optional)</span></label>
+                            <input type="text" id="factionServerExplanation" placeholder="Enter explanation here">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>5.6 - Do you have any upcoming obligation(s) which may limit your playing time or availability in the next three months? <span class="required">*</span></label>
+                        <div class="checkbox-container">
+                            <label class="checkbox-row"><input type="radio" name="obligations" value="Yes" required> Yes</label>
+                            <label class="checkbox-row"><input type="radio" name="obligations" value="No" required> No</label>
+                        </div>
+
+                        <div style="margin-left: 20px; margin-top: -10px; margin-bottom: 15px;">
+                            <label>5.6.1 - If yes to 5.6, please explain how much this might affect your availability or play time: <span id="obligationsRequired" class="optional">(Optional)</span></label>
+                            <input type="text" id="availabilityExplanation" placeholder="Enter explanation here">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>5.7 - Do you have a functional microphone and are you able to use TeamSpeak? <span class="required">*</span></label>
+                        <div class="checkbox-container">
+                            <label class="checkbox-row"><input type="radio" name="microphone" value="Yes" required> Yes</label>
+                            <label class="checkbox-row"><input type="radio" name="microphone" value="No" required> No</label>
+                        </div>
+                    
+                        <div style="margin-left: 20px; margin-top: -10px; margin-bottom: 15px;">
+                            <label>5.7.1 - If no to 5.7, please explain here why you cannot use a microphone/TeamSpeak: <span id="microphoneRequired" class="optional">(Optional)</span></label>
+                            <input type="text" id="microphoneExplanation" placeholder="Enter explanation here">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RELEASE AND WAIVER -->
+                <div class="section">
+                    <h3>6. RELEASE AND WAIVER</h3>
+                    <div class="declaration-box">
+                        <p><strong>I, the undersigned, hereby certify that this application and the answers contained within
+                                this application are true and complete to the best of my knowledge. By agreeing below I hereby
+                                authorize the Recruitment Officers of the Los Santos Police Department Recruitment and
+                                Employment Division to obtain any information pertaining to my current and previous
+                                employment(s), education, current and past residence(s), further personal information, and any
+                                other information that may be relevant to potential employment with the Los Santos Police
+                                Department.</strong></p>
+
+                        <p><strong>I understand and agree that the Los Santos Police Department reserves the right to remove
+                                applicants from the recruitment process for any reason, with or without prior notice, and to ban
+                                applicants from (re-applying) to the Los Santos Police Department, temporarily or permanently,
+                                and that these decisions may be appealed either through the Recruitment and Employment Division
+                                Command Staff or the Internal Affairs Division.</strong></p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Signature: <span class="required">*</span></label>
+                        <input type="text" id="signature" placeholder="Enter your full name" required>
+                    </div>
+
+                    <!-- Auto-populate Date Signed with the current UTC date -->
+                    <div class="form-group">
+                        <label>Date Signed: <span class="required">*</span></label>
+                        <input type="date" id="dateSigned" required>
+                    </div>
+                </div>
+
+                <button class="button button-submit" onclick="generateBBCode()">Submit</button>
+                <button class="button button-clear" onclick="clearData()">Clear</button>
+
+                <div id="bbcodeContainer" class="section hidden">
+                    <h3>BBCode Format</h3>
+                    <div class="bbcode-container">
+                        <pre id="bbcodeOutput">asd</pre>
+                    </div>
+                    <h></h>
+                    <p>Submit your application <a href="https://gov.eclipse-rp.net/posting.php?mode=post&f=89"
+                            target="_blank">here</a>.</p>
                 </div>
             </div>
-            <button type="button" onclick="addEmploymentSection()" class="button button-plus">+</button>
-            <button type="button" onclick="removeEmploymentSection()" class="button button-minus">-</button>
 
-            <h4>2.2 - Work Shift Availability:</h4>
-            <h5>(( Select the timezone/s that you will play in. The times below are based on the server time (/time) which is UTC. ))</h5>
-            <div class="checkbox-container">
-                <label><input type="checkbox" id="workShiftMorning"> Morning - 06:00 to 12:00</label>
-                <label><input type="checkbox" id="workShiftAfternoon"> Afternoon - 12:00 to 18:00</label>
-                <label><input type="checkbox" id="workShiftEvening"> Evening - 18:00 to 00:00</label>
-                <label><input type="checkbox" id="workShiftNight"> Night Shift - 00:00 to 06:00</label>
-            </div>
-        </div>
+            <!-- Standard Firearm License Tab -->
+            <div id="standard-firearm" class="tab-pane">
+                <div class="section">
+                    <h3>A. PERSONAL INFORMATION</h3>
+                    <div class="form-group">
+                        <label>A1. Full Name: <span class="required">*</span></label>
+                        <input type="text" id="sf_fullName" placeholder="Answer here" required>
+                    </div>
 
-        <!-- LICENSES, CRIMINAL, AND MEDICAL HISTORIES -->
-        <div class="section">
-            <h3>3. LICENSES, CRIMINAL, AND MEDICAL HISTORIES</h3>
-            <h5>Please fill out your licensing, criminal and medical history, by choosing the appropriate box.</h5>
-            <label>3.1 - Do you currently possess a valid driver's license?</label>
-            <div class="checkbox-container">
-                <label><input type="radio" name="driverLicense" value="Yes"> Yes</label>
-                <label><input type="radio" name="driverLicense" value="No"> No</label>
-            </div>
+                    <div class="form-group">
+                        <label>A2. Date of Birth: <span class="required">*</span></label>
+                        <input type="date" id="sf_dateOfBirth" required>
+                    </div>
 
-            <label>3.2 - Do you possess a valid firearm's license?</label>
-            <div class="checkbox-container">
-                <label><input type="radio" name="firearmLicense" value="Yes"> Yes</label>
-                <label><input type="radio" name="firearmLicense" value="No"> No</label>
-            </div>
+                    <div class="form-group">
+                        <label>A3. Phone Number: <span class="required">*</span></label>
+                        <input type="text" id="sf_phoneNumber" placeholder="3334444" required>
+                    </div>
 
-            <label>3.3 - Criminal Record:</label>
-            <div class="checkbox-container">
-                <label><input type="checkbox" id="criminalLessThan20"> Less than 20 Total Citations in 90 days, No Misdemeanors and No Felonies</label>
-                <label><input type="checkbox" id="criminalMoreThan20"> More than 20 Total Citations in 90 days</label>
-                <label><input type="checkbox" id="criminalMisdemeanors"> Previous Misdemeanors</label>
-                <label><input type="checkbox" id="criminalFelonies"> Previous Felonies</label>
-            </div>
-			
-            <div style="margin-left: 20px; margin-top: -10px; margin-bottom: 15px;">
-                <label>3.3.1 - If you have any misdemeanors or felonies, please explain here:</label>
-                <input type="text" id="criminalRecordDetails" placeholder="Enter explanation here">
-            </div>
+                    <div class="form-group">
+                        <label>A4. Residence Address: <span class="required">*</span></label>
+                        <input type="text" id="sf_residenceAddress" placeholder="Answer here" required>
+                    </div>
 
-            <label>3.4 - Fingerprints:</label>
-            <div class="checkbox-container">
-                <label><input type="checkbox" id="fingerprints"> Check this if you have had your fingerprints taken by Law Enforcement or Correctional Officers</label>
-            </div>
-        </div>
+                    <div class="form-group">
+                        <label>A5. Please attach a photocopy of your driver's licenses (<a href="https://i.imgur.com/ZxCDICM.png" target="_blank"><i>Example</i></a>): <span class="required">*</span></label>
+                        <input type="text" id="sf_driversLicense" placeholder="ADD DIRECT IMAGE LINK HERE" required>
+                    </div>
+                </div>
 
-        <!-- GENERAL QUESTIONS -->
-        <div class="section">
-            <h3>4. GENERAL QUESTIONS</h3>
-            <h5>There is no fixed word limit, but the more effort you put into your answer, the stronger your chances of being accepted.
-                <i>You must not use AI for your application, either to generate or correct your answers.</i>
-            </h5>
-            <label>4.1 - Why do you wish to join the Los Santos Police Department?</label>
-            <textarea id="whyJoin" rows="3" placeholder="Enter your response"></textarea>
+                <div class="section">
+                    <h3>B. DESCRIPTION OF WEAPONS</h3>
+                    <div class="form-group">
+                        <label>B1. Why do you wish to own a personal firearm license? (If selecting a Flare Gun please additionally explain the reasoning for this) <span class="required">*</span></label>
+                        <textarea id="sf_whyFirearm" rows="3" placeholder="Answer here" required></textarea>
+                    </div>
 
-            <label>4.2 - Why do you think you would be a good fit for the Los Santos Police Department?</label>
-            <textarea id="whyGoodFit" rows="3" placeholder="Enter your response"></textarea>
+                    <div class="form-group">
+                        <label>B2. Which firearms do you wish to be licensed for? (You may select up to 2) <span class="required">*</span></label>
+                        <div class="checkbox-container">
+                            <label class="checkbox-row"><input type="checkbox" id="sf_doubleAction"> Double-Action Revolver</label>
+                            <label class="checkbox-row"><input type="checkbox" id="sf_heavyRevolver"> Heavy Revolver</label>
+                            <label class="checkbox-row"><input type="checkbox" id="sf_heavyRevolverMk2"> Heavy Revolver Mk II</label>
+                            <label class="checkbox-row"><input type="checkbox" id="sf_navyRevolver"> Navy Revolver</label>
+                            <label class="checkbox-row"><input type="checkbox" id="sf_pistol"> Pistol</label>
+                            <label class="checkbox-row"><input type="checkbox" id="sf_pistolMk2"> Pistol Mk II</label>
+                            <label class="checkbox-row"><input type="checkbox" id="sf_pistol50"> Pistol .50</label>
+                            <label class="checkbox-row"><input type="checkbox" id="sf_heavyPistol"> Heavy Pistol</label>
+                            <label class="checkbox-row"><input type="checkbox" id="sf_combatPistol"> Combat Pistol</label>
+                            <label class="checkbox-row"><input type="checkbox" id="sf_snsPistol"> SNS Pistol</label>
+                            <label class="checkbox-row"><input type="checkbox" id="sf_snsPistolMk2"> SNS Pistol Mk II</label>
+                            <label class="checkbox-row"><input type="checkbox" id="sf_vintagePistol"> Vintage Pistol</label>
+                            <label class="checkbox-row"><input type="checkbox" id="sf_wm29Pistol"> WM 29 Pistol</label>
+                            <label class="checkbox-row"><input type="checkbox" id="sf_flareGun"> Flare Gun</label>
+                        </div>
+                    </div>
 
-            <label>4.3 - What are your career goals as a Police Officer? Any divisions or areas of interest in the LSPD?</label>
-            <textarea id="careerGoals" rows="3" placeholder="Enter your response"></textarea>
+                    <div class="form-group">
+                        <label>B3. How do you plan on storing your personal firearm(s) when they are not on your person? <span class="required">*</span></label>
+                        <textarea id="sf_storage" rows="3" placeholder="Answer here" required></textarea>
+                    </div>
+                </div>
 
-            <label>4.4 - Do you have any current LSPD employees who you could use as a referral to support your application? (( IC or OOC ))</label>
-            <textarea id="referral" rows="2" placeholder="List any referrals"></textarea>
-        </div>
+                <div class="section">
+                    <h3>C. RULES AND RESTRICTIONS</h3>
+                    <div class="declaration-box">
+                        <p><strong>The licensee is responsible for all liability for, injury to, or death of any person, or damage to any property which may result through any act or omission of either the licensee or the agency that issued the license. In the event any claim, suit, or action is brought against the agency that issued the license, its chief officer, or any of its employees, by reason of, or in connection with any such act or omission, the licensee shall defend, indemnify, and hold harmless the agency that issued the license, its chief officer or any of its employees from such claim, suit, or action.</strong></p>
+                        
+                        <p><strong>The licensee authorizes the licensing agency to investigate, as they deem necessary, the licensee's record and character to ascertain any and all information which may concern his/her qualifications and justification to be issued a license to carry a personal firearm and release said agency of any and all liability arising out of such investigation.</strong></p>
+                        
+                        <p><strong>I hereby certify under penalties of providing a false statement that the answers I have given are true and correct to the best of my knowledge and belief and that I understand and agree to the provisions, conditions, and restrictions herein or otherwise imposed. I hereby declare that I have read and understood the <a href="https://gov.eclipse-rp.net/viewtopic.php?t=143396" target="_blank">Requirements & Regulations</a> and understand the consequences that follow should I violate them.</strong></p>
+                    </div>
 
-        <!-- OUT-OF-CHARACTER INFORMATION -->
-        <div class="section">
-            <h3>(( 5. OUT-OF-CHARACTER INFORMATION AND QUESTIONS ))</h3>
-            <h5>Please fill out your out of character information and where appropriate, mark the appropriate box for checkbox answers.</h5>
+                    <div class="form-group">
+                        <label>C1. Signature: <span class="required">*</span></label>
+                        <input type="text" id="sf_signature" placeholder="Full Name" required>
+                    </div>
 
-            <h4>5.1 - About You:</h4>
-            <label>Name or Nickname:</label>
-            <input type="text" id="nickname" placeholder="Enter your name or nickname">
+                    <!-- Auto-populate Date Signed with the current UTC date -->
+                    <div class="form-group">
+                        <label>C2. Date Signed: <span class="required">*</span></label>
+                        <input type="date" id="sf_dateSigned" required>
+                    </div>
+                </div>
 
-            <label>Age:</label>
-            <input type="text" id="age" placeholder="Enter age">
+                <div class="section">
+                    <h3>D. (( OUT-OF-CHARACTER INFORMATION ))</h3>
+                    <div class="form-group">
+                        <label>D1. Please upload a screenshot of your admin logs and character names (<a href="https://i.imgur.com/YnGWz1D.png"><i>Example</i></a>): <span class="required">*</span></label>
+                        <input type="text" id="sf_panelScreenshot" placeholder="ADD DIRECT IMAGE LINK HERE" required>
+                    </div>
 
-            <label>Country of Residence and Time Zone:</label>
-            <input type="text" id="countryTimeZone" placeholder="Enter country and timezone">
+                    <div class="form-group">
+                        <label>D2. Do you understand that applying for a firearms license for the sole purpose of delivering weapons to any of your other characters or friends of your other characters constitutes as metagaming & is also a violation of Eclipse RP's OOC trading/RMT rule? <span class="required">*</span></label>
+                        <input type="text" id="sf_understand" placeholder="Answer here" required>
+                    </div>
+                </div>
 
-            <label>Discord Name:</label>
-            <input type="text" id="discordName" placeholder="Enter Discord name">
+                <button class="button button-submit" onclick="generateStandardFirearmBBCode()">Submit</button>
+                <button class="button button-clear" onclick="clearStandardFirearmData()">Clear</button>
 
-            <label>Eclipse RP Forum Account Name:</label>
-            <input type="text" id="forumName" placeholder="Enter forum account name">
-
-            <label>Eclipse RP Forum Profile Link:</label>
-            <input type="text" id="forumLink" placeholder="Enter forum account link">
-
-            <label>5.2 - Have you ever been in the LSPD faction before? (<i>applies to any character</i>)</label>
-            <div class="checkbox-container">
-                <label><input type="radio" name="lspdFaction" value="Yes"> Yes</label>
-                <label><input type="radio" name="lspdFaction" value="No"> No</label>
-            </div>
-
-            <div style="margin-left: 20px; margin-top: -10px; margin-bottom: 15px;">
-                <label>5.2.1 - If yes to 5.2, provide your reinstatement application:</label>
-                <input type="text" id="reinstatementApp" placeholder="Enter reinstatement application link">
-            </div>
-
-			<label>5.3 - Provide a Screenshot of your Admin Panel and Characters (<a href="https://imgur.com/wK0OQhv">press here for an example</a>):</label>
-            <input type="text" id="panelScreenshot" placeholder="ADD IMAGE LINK HERE">
-
-            <label>5.4 - List all the factions you are currently a part of (<i>include all your characters in factions</i>):</label>
-            <div id="factionContainer">
-                <div class="faction-row">
-                    <input type="text" name="characterName[]" placeholder="Character Name">
-                    <input type="text" name="faction[]" placeholder="Faction">
+                <div id="sf_bbcodeContainer" class="section hidden">
+                    <h3>BBCode Format</h3>
+                    <div class="bbcode-container">
+                        <pre id="sf_bbcodeOutput"></pre>
+                    </div>
+                    <p>Submit your application <a href="https://gov.eclipse-rp.net/posting.php?mode=post&f=557" target="_blank">here</a>.</p>
                 </div>
             </div>
-            <button type="button" onclick="addFactionRow()" class="button button-plus">+</button>
-            <button type="button" onclick="removeFactionRow()" class="button button-minus">-</button>
 
-            <label>5.5 - Are you currently involved in and/or currently play on any other GTA Roleplay servers or communities?</label>
-            <div class="checkbox-container">
-                <label><input type="radio" name="factionServer" value="yesBut"> Yes, but not in a faction there</label>
-                <label><input type="radio" name="factionServer" value="yesAnd"> Yes, and in a faction there</label>
-                <label><input type="radio" name="factionServer" value="No"> No</label>
-			</div>
+            <!-- Priors Firearm License Tab -->
+            <div id="priors-firearm" class="tab-pane">
+                <div class="section">
+                    <h3>A. PERSONAL INFORMATION</h3>
+                    <div class="form-group">
+                        <label>A1. Full Name: <span class="required">*</span></label>
+                        <input type="text" id="pf_fullName" placeholder="Answer here" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>A2. Date of Birth: <span class="required">*</span></label>
+                        <input type="date" id="pf_dateOfBirth" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>A3. Phone Number: <span class="required">*</span></label>
+                        <input type="text" id="pf_phoneNumber" placeholder="3334444" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>A4. Residence Address: <span class="required">*</span></label>
+                        <input type="text" id="pf_residenceAddress" placeholder="Answer here" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>A5. Please attach a photocopy of your driver's licenses (<a href="https://i.imgur.com/ZxCDICM.png" target="_blank"><i>Example</i></a>): <span class="required">*</span></label>
+                        <input type="text" id="pf_driversLicense" placeholder="ADD DIRECT IMAGE LINK HERE" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>A6. Is your record clear of Level Four charges? <span class="required">*</span></label>
+                        <input type="text" id="pf_levelFour" placeholder="Answer here" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>A7. Is your record 6 months clear of Level Three charges? <span class="required">*</span></label>
+                        <input type="text" id="pf_levelThree" placeholder="Answer here" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>A8. Is your record 3 months clear of Level Two charges? <span class="required">*</span></label>
+                        <input type="text" id="pf_levelTwo" placeholder="Answer here" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>A9. Is your record 1 month clear of Level One charges? <span class="required">*</span></label>
+                        <input type="text" id="pf_levelOne" placeholder="Answer here" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>A10. Was your firearms license revoked within the past month? <span class="required">*</span></label>
+                        <input type="text" id="pf_revoked" placeholder="Answer here" required>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>B. DESCRIPTION OF WEAPONS</h3>
+                    <div class="form-group">
+                        <label>B1. Why do you wish to own a personal firearm license? (If selecting a Flare Gun please additionally explain the reasoning for this) <span class="required">*</span></label>
+                        <textarea id="pf_whyFirearm" rows="3" placeholder="Answer here" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>B2. Which firearms do you wish to be licensed for? (You may select up to 2) <span class="required">*</span></label>
+                        <div class="checkbox-container">
+                            <label class="checkbox-row"><input type="checkbox" id="pf_doubleAction"> Double-Action Revolver</label>
+                            <label class="checkbox-row"><input type="checkbox" id="pf_heavyRevolver"> Heavy Revolver</label>
+                            <label class="checkbox-row"><input type="checkbox" id="pf_heavyRevolverMk2"> Heavy Revolver Mk II</label>
+                            <label class="checkbox-row"><input type="checkbox" id="pf_navyRevolver"> Navy Revolver</label>
+                            <label class="checkbox-row"><input type="checkbox" id="pf_pistol"> Pistol</label>
+                            <label class="checkbox-row"><input type="checkbox" id="pf_pistolMk2"> Pistol Mk II</label>
+                            <label class="checkbox-row"><input type="checkbox" id="pf_pistol50"> Pistol .50</label>
+                            <label class="checkbox-row"><input type="checkbox" id="pf_heavyPistol"> Heavy Pistol</label>
+                            <label class="checkbox-row"><input type="checkbox" id="pf_combatPistol"> Combat Pistol</label>
+                            <label class="checkbox-row"><input type="checkbox" id="pf_snsPistol"> SNS Pistol</label>
+                            <label class="checkbox-row"><input type="checkbox" id="pf_snsPistolMk2"> SNS Pistol Mk II</label>
+                            <label class="checkbox-row"><input type="checkbox" id="pf_vintagePistol"> Vintage Pistol</label>
+                            <label class="checkbox-row"><input type="checkbox" id="pf_wm29Pistol"> WM 29 Pistol</label>
+                            <label class="checkbox-row"><input type="checkbox" id="pf_flareGun"> Flare Gun</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>B3. How do you plan on storing your personal firearm(s) when they are not on your person? <span class="required">*</span></label>
+                        <textarea id="pf_storage" rows="3" placeholder="Answer here" required></textarea>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>C. RULES AND RESTRICTIONS</h3>
+                    <div class="declaration-box">
+                        <p><strong>The licensee is responsible for all liability for, injury to, or death of any person, or damage to any property which may result through any act or omission of either the licensee or the agency that issued the license. In the event any claim, suit, or action is brought against the agency that issued the license, its chief officer, or any of its employees, by reason of, or in connection with any such act or omission, the licensee shall defend, indemnify, and hold harmless the agency that issued the license, its chief officer or any of its employees from such claim, suit, or action.</strong></p>
+                        
+                        <p><strong>The licensee authorizes the licensing agency to investigate, as they deem necessary, the licensee's record and character to ascertain any and all information which may concern his/her qualifications and justification to be issued a license to carry a personal firearm and release said agency of any and all liability arising out of such investigation.</strong></p>
+                        
+                        <p><strong>I hereby certify under penalties of providing a false statement that the answers I have given are true and correct to the best of my knowledge and belief and that I understand and agree to the provisions, conditions, and restrictions herein or otherwise imposed. I hereby declare that I have read and understood the <a href="https://gov.eclipse-rp.net/viewtopic.php?t=143396" target="_blank">Requirements & Regulations</a> and understand the consequences that follow should I violate them.</strong></p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>C1. Signature: <span class="required">*</span></label>
+                        <input type="text" id="pf_signature" placeholder="Full Name" required>
+                    </div>
+
+                    <!-- Auto-populate Date Signed with the current UTC date -->
+                    <div class="form-group">
+                        <label>C2. Date Signed: <span class="required">*</span></label>
+                        <input type="date" id="pf_dateSigned" required>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>D. (( OUT-OF-CHARACTER INFORMATION ))</h3>
+                    <div class="form-group">
+                        <label>D1. Please upload a screenshot of your admin logs and character names (<a href="https://i.imgur.com/YnGWz1D.png" target="_blank"><i>Example</i></a>): <span class="required">*</span></label>
+                        <input type="text" id="pf_panelScreenshot" placeholder="ADD DIRECT IMAGE LINK HERE" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>D2. Do you understand that applying for a firearms license for the sole purpose of delivering weapons to any of your other characters or friends of your other characters constitutes as metagaming & is also a violation of Eclipse RP's OOC trading/RMT rule? <span class="required">*</span></label>
+                        <input type="text" id="pf_understand" placeholder="Answer here" required>
+                    </div>
+                </div>
+
+                <button class="button button-submit" onclick="generatePriorsFirearmBBCode()">Submit</button>
+                <button class="button button-clear" onclick="clearPriorsFirearmData()">Clear</button>
+
+                <div id="pf_bbcodeContainer" class="section hidden">
+                    <h3>BBCode Format</h3>
+                    <div class="bbcode-container">
+                        <pre id="pf_bbcodeOutput"></pre>
+                    </div>
+                    <p>Submit your application <a href="https://gov.eclipse-rp.net/posting.php?mode=post&f=557" target="_blank">here</a>.</p>
+                </div>
+            </div>
+
+            <!-- Shotgun License Tab -->
+            <div id="shotgun-license" class="tab-pane">
+                <div class="section">
+                    <h3>A. PERSONAL INFORMATION</h3>
+                    <div class="form-group">
+                        <label>A1. Full Name: <span class="required">*</span></label>
+                        <input type="text" id="sl_fullName" placeholder="Answer here" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>A2. Date of Birth: <span class="required">*</span></label>
+                        <input type="date" id="sl_dateOfBirth" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>A3. Phone Number: <span class="required">*</span></label>
+                        <input type="text" id="sl_phoneNumber" placeholder="3334444" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>A4. Residence Address: <span class="required">*</span></label>
+                        <input type="text" id="sl_residenceAddress" placeholder="Answer here" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>A5. Please attach a photocopy of your driver's license (<a href="https://i.imgur.com/ZxCDICM.png" target="_blank"><i>Example</i></a>): <span class="required">*</span></label>
+                        <input type="text" id="sl_driversLicense" placeholder="ADD DIRECT IMAGE LINK HERE" required>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>B. DESCRIPTION OF SHOTGUN</h3>
+                    <div class="form-group">
+                        <label>B1. Why do you wish to own a shotgun license? <span class="required">*</span></label>
+                        <textarea id="sl_whyShotgun" rows="3" placeholder="Answer here" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>B2. Which shotgun do you wish to be licensed for? (You may select only one) <span class="required">*</span></label>
+                        <div class="checkbox-container">
+                            <label class="checkbox-row"><input type="radio" name="sl_shotgunType" value="pump"> Pump Shotgun</label>
+                            <label class="checkbox-row"><input type="radio" name="sl_shotgunType" value="pumpMk2"> Pump Shotgun Mk II</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>B3. How do you plan on storing your shotgun? <span class="required">*</span></label>
+                        <textarea id="sl_storage" rows="3" placeholder="Answer here" required></textarea>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>C. RULES AND RESTRICTIONS</h3>
+                    <div class="declaration-box">
+                        <p><strong>The licensee is responsible for all liability for, injury to, or death of any person, or damage to any property which may result through any act or omission of either the licensee or the agency that issued the license. In the event any claim, suit, or action is brought against the agency that issued the license, its chief officer, or any of its employees, by reason of, or in connection with any such act or omission, the licensee shall defend, indemnify, and hold harmless the agency that issued the license, its chief officer or any of its employees from such claim, suit, or action.</strong></p>
+                        
+                        <p><strong>The licensee authorizes the licensing agency to investigate, as they deem necessary, the licensee's record and character to ascertain any and all information which may concern his/her qualifications and justification to be issued a license to carry a personal firearm and release said agency of any and all liability arising out of such investigation.</strong></p>
+                        
+                        <p><strong>I hereby certify under penalties of providing a false statement that the answers I have given are true and correct to the best of my knowledge and belief and that I understand and agree to the provisions, conditions, and restrictions herein or otherwise imposed. I hereby declare that I have read and understood the <a href="https://gov.eclipse-rp.net/viewtopic.php?t=143396" target="_blank">Requirements & Regulations</a> and understand the consequences that follow should I violate them.</strong></p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>C1. Signature: <span class="required">*</span></label>
+                        <input type="text" id="sl_signature" placeholder="Full Name" required>
+                    </div>
+
+                    <!-- Auto-populate Date Signed with the current UTC date -->
+                    <div class="form-group">
+                        <label>C2. Date Signed: <span class="required">*</span></label>
+                        <input type="date" id="sl_dateSigned" required>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>D. SHOTGUN LICENSE PAYMENT</h3>
+                    <p>This section is to submit your payment receipt for the $10,000 shotgun license application fee.</p>
+                    <p><i>(( The screenshot image must the chat box message of paying the government using /donategov <a href="https://i.imgur.com/8VqMAC8.png" target="_blank"><strong>Example</strong></a> ))</i></p>
+                    <div class="form-group">
+                        <label>Payment receipt: <span class="required">*</span></label>
+                        <input type="text" id="sl_paymentReceipt" placeholder="ADD DIRECT IMAGE LINK HERE" required>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>E. (( OUT-OF-CHARACTER INFORMATION ))</h3>
+                    <div class="form-group">
+                        <label>E1. Please upload a screenshot of your admin logs and character names (<a href="https://i.imgur.com/YnGWz1D.png" target="_blank"><i>Example</i></a>): <span class="required">*</span></label>
+                        <input type="text" id="sl_panelScreenshot" placeholder="ADD DIRECT IMAGE LINK HERE" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>E2. Do you understand that applying for a firearms license for the sole purpose of delivering weapons to any of your other characters or friends of your other characters constitutes as metagaming & is also a violation of Eclipse RP's OOC trading/RMT rule? <span class="required">*</span></label>
+                        <input type="text" id="sl_understand" placeholder="Answer here" required>
+                    </div>
+                </div>
+
+                <button class="button button-submit" onclick="generateShotgunLicenseBBCode()">Submit</button>
+                <button class="button button-clear" onclick="clearShotgunLicenseData()">Clear</button>
+
+                <div id="sl_bbcodeContainer" class="section hidden">
+                    <h3>BBCode Format</h3>
+                    <div class="bbcode-container">
+                        <pre id="sl_bbcodeOutput"></pre>
+                    </div>
+                    <p>Submit your application <a href="https://gov.eclipse-rp.net/posting.php?mode=post&f=557" target="_blank">here</a>.</p>
+                </div>
+            </div>
+
+            <!-- Firearm Change Request Tab -->
+            <div id="firearm-change" class="tab-pane">
+                <div class="section">
+                    <h3>1. REQUESTEE DETAILS</h3>
+                    <div class="form-group">
+                        <label>FULL NAME: <span class="required">*</span></label>
+                        <input type="text" id="fc_fullName" placeholder="Insert Answer Here." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>PHONE NUMBER: <span class="required">*</span></label>
+                        <input type="text" id="fc_phoneNumber" placeholder="3334444" required>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>2. FIREARM DETAILS</h3>
+                    <div class="form-group">
+                        <label>Which firearm(s) are you currently licensed for?: <span class="required">*</span></label>
+                        <div class="checkbox-container">
+                            <label class="checkbox-row"><input type="checkbox" id="fc_current_doubleAction"> Double-Action Revolver</label>
+                            <label class="checkbox-row"><input type="checkbox" id="fc_current_heavyRevolver"> Heavy Revolver</label>
+                            <label class="checkbox-row"><input type="checkbox" id="fc_current_heavyRevolverMk2"> Heavy Revolver Mk II</label>
+                            <label class="checkbox-row"><input type="checkbox" id="fc_current_navyRevolver"> Navy Revolver</label>
+                            <label class="checkbox-row"><input type="checkbox" id="fc_current_pistol"> Pistol</label>
+                            <label class="checkbox-row"><input type="checkbox" id="fc_current_pistolMk2"> Pistol Mk II</label>
+                            <label class="checkbox-row"><input type="checkbox" id="fc_current_pistol50"> Pistol .50</label>
+                            <label class="checkbox-row"><input type="checkbox" id="fc_current_heavyPistol"> Heavy Pistol</label>
+                            <label class="checkbox-row"><input type="checkbox" id="fc_current_combatPistol"> Combat Pistol</label>
+                            <label class="checkbox-row"><input type="checkbox" id="fc_current_snsPistol"> SNS Pistol</label>
+                            <label class="checkbox-row"><input type="checkbox" id="fc_current_snsPistolMk2"> SNS Pistol Mk II</label>
+                            <label class="checkbox-row"><input type="checkbox" id="fc_current_vintagePistol"> Vintage Pistol</label>
+                            <label class="checkbox-row"><input type="checkbox" id="fc_current_wm29Pistol"> WM 29 Pistol</label>
+                            <label class="checkbox-row"><input type="checkbox" id="fc_current_flareGun"> Flare Gun</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Which firearm(s) do you wish to be licensed for?: <span class="required">*</span></label>
+                        <div class="checkbox-container">
+                            <label class="checkbox-row"><input type="checkbox" id="fc_wish_doubleAction"> Double-Action Revolver</label>
+                            <label class="checkbox-row"><input type="checkbox" id="fc_wish_heavyRevolver"> Heavy Revolver</label>
+                            <label class="checkbox-row"><input type="checkbox" id="fc_wish_heavyRevolverMk2"> Heavy Revolver Mk II</label>
+                            <label class="checkbox-row"><input type="checkbox" id="fc_wish_navyRevolver"> Navy Revolver</label>
+                            <label class="checkbox-row"><input type="checkbox" id="fc_wish_pistol"> Pistol</label>
+                            <label class="checkbox-row"><input type="checkbox" id="fc_wish_pistolMk2"> Pistol Mk II</label>
+                            <label class="checkbox-row"><input type="checkbox" id="fc_wish_pistol50"> Pistol .50</label>
+                            <label class="checkbox-row"><input type="checkbox" id="fc_wish_heavyPistol"> Heavy Pistol</label>
+                            <label class="checkbox-row"><input type="checkbox" id="fc_wish_combatPistol"> Combat Pistol</label>
+                            <label class="checkbox-row"><input type="checkbox" id="fc_wish_snsPistol"> SNS Pistol</label>
+                            <label class="checkbox-row"><input type="checkbox" id="fc_wish_snsPistolMk2"> SNS Pistol Mk II</label>
+                            <label class="checkbox-row"><input type="checkbox" id="fc_wish_vintagePistol"> Vintage Pistol</label>
+                            <label class="checkbox-row"><input type="checkbox" id="fc_wish_wm29Pistol"> WM 29 Pistol</label>
+                            <label class="checkbox-row"><input type="checkbox" id="fc_wish_flareGun"> Flare Gun</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>If selecting a Flare Gun please additionally explain the reasoning for this: <span class="optional">(Optional)</span></label>
+                        <textarea id="fc_flareReason" rows="3" placeholder="ANSWER"></textarea>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>3. AMENDMENT PAYMENT</h3>
+                    <p>Use this section to post the receipt of you paying the Amendment Fee of $2,500 to change your firearms license.</p>
+                    <p><i>(( Attach a screenshot of the /DonateGovernment message. <a href="https://i.imgur.com/Cm46lBJ.png" target="_blank"><strong>Example image</strong></a>. ))</i></p>
+                    <div class="form-group">
+                        <label>Proof of Payment: <span class="required">*</span></label>
+                        <input type="text" id="fc_paymentProof" placeholder="ADD YOUR IMAGE LINK HERE" required>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>4. DECLARATION</h3>
+                    <div class="declaration-box">
+                        <p><strong>By signing and submitting this form you agree that the information provided is accurate and truthful. If the information provided is deemed to be false or inaccurate, you will be subject to receiving the criminal charges of <em>GF07 - Fraud</em> and <em>GM12 - Giving False Information to a Police Officer</em>. Your firearms license may also be revoked.</strong></p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>SIGNATURE: <span class="required">*</span></label>
+                        <input type="text" id="fc_signature" placeholder="Full Name" required>
+                    </div>
+
+                    <!-- Auto-populate Date Signed with the current UTC date -->
+                    <div class="form-group">
+                        <label>DATE: <span class="required">*</span></label>
+                        <input type="date" id="fc_dateSigned" required>
+                    </div>
+                </div>
+
+                <button class="button button-submit" onclick="generateFirearmChangeBBCode()">Submit</button>
+                <button class="button button-clear" onclick="clearFirearmChangeData()">Clear</button>
+
+                <div id="fc_bbcodeContainer" class="section hidden">
+                    <h3>BBCode Format</h3>
+                    <div class="bbcode-container">
+                        <pre id="fc_bbcodeOutput"></pre>
+                    </div>
+                    <p>Submit your application <a href="https://gov.eclipse-rp.net/posting.php?mode=post&f=1377" target="_blank">here</a>.</p>
+                </div>
+            </div>
+
+            <!-- Firearm Submission Tab -->
+            <div id="firearm-submission" class="tab-pane">
+                <div class="section">
+                    <h3>1. REQUESTEE DETAILS</h3>
+                    <div class="form-group">
+                        <label>FULL NAME: <span class="required">*</span></label>
+                        <input type="text" id="fs_fullName" placeholder="Insert Answer Here." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>PHONE NUMBER: <span class="required">*</span></label>
+                        <input type="text" id="fs_phoneNumber" placeholder="Insert Answer Here." required>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>2. FIREARM DETAILS</h3>
+                    <div class="form-group">
+                        <label>Which firearm(s) are you wishing to turn-in?: <span class="required">*</span></label>
+                        <textarea id="fs_firearms" rows="3" placeholder="Add Firearm Name(s) Here, with the Serial Numbers of your currently owned firearms." required></textarea>
+                    </div>
+                </div>
+
+                <button class="button button-submit" onclick="generateFirearmSubmissionBBCode()">Submit</button>
+                <button class="button button-clear" onclick="clearFirearmSubmissionData()">Clear</button>
+
+                <div id="fs_bbcodeContainer" class="section hidden">
+                    <h3>BBCode Format</h3>
+                    <div class="bbcode-container">
+                        <pre id="fs_bbcodeOutput"></pre>
+                    </div>
+                    <p>Submit your application <a href="https://gov.eclipse-rp.net/viewforum.php?f=1377" target="_blank">here</a>.</p>
+                </div>
+            </div>
+
+            <!-- Missing Firearm Tab -->
+            <div id="missing-firearm" class="tab-pane">
+                <div class="section">
+                    <h3>1. REQUESTEE DETAILS</h3>
+                    <div class="form-group">
+                        <label>FULL NAME: <span class="required">*</span></label>
+                        <input type="text" id="mf_fullName" placeholder="Insert Answer Here." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>PHONE NUMBER: <span class="required">*</span></label>
+                        <input type="text" id="mf_phoneNumber" placeholder="3334444" required>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>2. MISSING FIREARM DETAILS</h3>
+                    <div class="form-group">
+                        <label>Which firearm(s) are you currently reporting as missing?: <span class="required">*</span></label>
+                        <textarea id="mf_missingFirearms" rows="3" placeholder="Insert Answer Here." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>What is the status of the firearm(s) that are missing? (Lost or Stolen): <span class="required">*</span></label>
+                        <input type="text" id="mf_status" placeholder="Add Status Here." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Do you know the serial numbers of the firearm(s) you reported as missing?: <span class="required">*</span></label>
+                        <h5>If <strong>Yes</strong> - Serial Number(s): Add Serial Number Here.</h5>
+                        <h5>If <strong>No</strong> - Details of Purchase: Add Estimate Dates of Purchase or Location of Purchase Here.</h5>
+                        <textarea id="mf_serialDetails" rows="3" placeholder="Enter details here" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Please share any relevant details to explain the loss of your firearm: <span class="required">*</span></label>
+                        <textarea id="mf_lossDetails" rows="3" placeholder="Insert Answer Here." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>(( Was the firearm lost due to your character dying? )): <span class="required">*</span></label>
+                        <input type="text" id="mf_deathLoss" placeholder="Insert Answer Here." required>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>3. EXCESS REPORT PAYMENT</h3>
+                    <p>Firearms license holders are subject to a <strong>$2,000</strong> fee when submitting a missing firearm report. The fee increases to <strong>$5,000</strong> when submitting a missing shotgun report.</p>
+                    <p><i>(( The screenshot image must the chat box message of paying the government using /donategov <a href="https://i.imgur.com/8VqMAC8.png" target="_blank"><strong>Example</strong></a> ))</i></p>
+                    <div class="form-group">
+                        <label>Proof of Payment: <span class="required">*</span></label>
+                        <input type="text" id="mf_paymentProof" placeholder="ADD_YOUR_IMAGE_LINK_HERE" required>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>4. DECLARATION</h3>
+                    <div class="declaration-box">
+                        <p><strong>By signing and submitting this form you agree that the information provided is accurate and truthful. If the information provided is deemed to be false or inaccurate, you will be subject to receiving the criminal charges of <em>GF07 - Fraud</em> and <em>GM12 - Giving False Information to a Police Officer</em>. Your firearms license may also be revoked.</strong></p>
+                    </div>
+
+                    <!-- Auto-populate Date Signed with the current UTC date -->
+                    <div class="form-group">
+                        <label>DATE: <span class="required">*</span></label>
+                        <input type="date" id="mf_dateSigned" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>SIGNATURE: <span class="required">*</span></label>
+                        <input type="text" id="mf_signature" placeholder="Full Name" required>
+                    </div>
+                </div>
+
+                <button class="button button-submit" onclick="generateMissingFirearmBBCode()">Submit</button>
+                <button class="button button-clear" onclick="clearMissingFirearmData()">Clear</button>
+
+                <div id="mf_bbcodeContainer" class="section hidden">
+                    <h3>BBCode Format</h3>
+                    <div class="bbcode-container">
+                        <pre id="mf_bbcodeOutput"></pre>
+                    </div>
+                    <p>Submit your application <a href="https://gov.eclipse-rp.net/viewforum.php?f=1378" target="_blank">here</a>.</p>
+                </div>
+            </div>
+
+            <!-- Guard Card Tab -->
+            <div id="guard-card" class="tab-pane">
+                <div class="section">
+                    <h3>A. PERSONAL & BUSINESS INFORMATION</h3>
+                    <div class="form-group">
+                        <label>A1. Full Name: <span class="required">*</span></label>
+                        <input type="text" id="gc_fullName" placeholder="Answer here" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>A2. Date of Birth: <span class="required">*</span></label>
+                        <input type="date" id="gc_dateOfBirth" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>A3. Phone Number: <span class="required">*</span></label>
+                        <input type="text" id="gc_phoneNumber" placeholder="3334444" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>A4. Residence Address: <span class="required">*</span></label>
+                        <input type="text" id="gc_residenceAddress" placeholder="Answer here" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>A5. Business Name: <span class="required">*</span></label>
+                        <input type="text" id="gc_businessName" placeholder="Answer here" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>A7. Please attach a link to the active business license: <span class="required">*</span></label>
+                        <input type="text" id="gc_businessLicense" placeholder="INSERT_LINK_HERE" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>A8. Please attach a photocopy of your firearms license (<a href="https://i.imgur.com/B5dbvGa.png" target="_blank"><i>Example</i></a>): <span class="required">*</span></label>
+                        <input type="text" id="gc_firearmsLicense" placeholder="INSERT_LINK_HERE" required>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>B. WEAPONS & USAGE INFORMATION</h3>
+                    <div class="form-group">
+                        <label>B1. Why do you wish to own a Guard Card? <span class="required">*</span></label>
+                        <textarea id="gc_whyGuardCard" rows="3" placeholder="Answer here" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>B2. Which of your already authorized pistols do you wish to utilise? (You may select only one) <span class="required">*</span></label>
+                        <div class="checkbox-container">
+                            <label class="checkbox-row"><input type="radio" name="gc_pistolType" value="doubleAction"> Double-Action Revolver</label>
+                            <label class="checkbox-row"><input type="radio" name="gc_pistolType" value="heavyRevolver"> Heavy Revolver</label>
+                            <label class="checkbox-row"><input type="radio" name="gc_pistolType" value="heavyRevolverMk2"> Heavy Revolver Mk II</label>
+                            <label class="checkbox-row"><input type="radio" name="gc_pistolType" value="navyRevolver"> Navy Revolver</label>
+                            <label class="checkbox-row"><input type="radio" name="gc_pistolType" value="pistol"> Pistol</label>
+                            <label class="checkbox-row"><input type="radio" name="gc_pistolType" value="pistolMk2"> Pistol Mk II</label>
+                            <label class="checkbox-row"><input type="radio" name="gc_pistolType" value="pistol50"> Pistol .50</label>
+                            <label class="checkbox-row"><input type="radio" name="gc_pistolType" value="heavyPistol"> Heavy Pistol</label>
+                            <label class="checkbox-row"><input type="radio" name="gc_pistolType" value="combatPistol"> Combat Pistol</label>
+                            <label class="checkbox-row"><input type="radio" name="gc_pistolType" value="snsPistol"> SNS Pistol</label>
+                            <label class="checkbox-row"><input type="radio" name="gc_pistolType" value="snsPistolMk2"> SNS Pistol Mk II</label>
+                            <label class="checkbox-row"><input type="radio" name="gc_pistolType" value="vintagePistol"> Vintage Pistol</label>
+                            <label class="checkbox-row"><input type="radio" name="gc_pistolType" value="wm29Pistol"> WM 29 Pistol</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>C. RULES AND RESTRICTIONS</h3>
+                    <div class="declaration-box">
+                        <p><strong>The licensee is responsible for all liability for, injury to, or death of any person, or damage to any property which may result through any act or omission of either the licensee or the agency that issued the license. In the event any claim, suit, or action is brought against the agency that issued the license, its chief officer, or any of its employees, by reason of, or in connection with any such act or omission, the licensee shall defend, indemnify, and hold harmless the agency that issued the license, its chief officer or any of its employees from such claim, suit, or action.</strong></p>
+                        
+                        <p><strong>The licensee authorizes the licensing agency to investigate, as they deem necessary, the licensee's record and character to ascertain any and all information which may concern his/her qualifications and justification to be issued a license to carry a personal firearm and release said agency of any and all liability arising out of such investigation.</strong></p>
+                        
+                        <p><strong>I hereby certify under penalties of providing a false statement that the answers I have given are true and correct to the best of my knowledge and belief and that I understand and agree to the provisions, conditions, and restrictions herein or otherwise imposed. I hereby declare that I have read and understood the <a href="https://gov.eclipse-rp.net/viewtopic.php?t=172255" target="_blank">Requirements & Regulations</a> and understand the consequences that follow should I violate them.</strong></p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>C1. Signature: <span class="required">*</span></label>
+                        <input type="text" id="gc_signature" placeholder="Full Name" required>
+                    </div>
+
+                    <!-- Auto-populate Date Signed with the current UTC date -->
+                    <div class="form-group">
+                        <label>C2. Date Signed: <span class="required">*</span></label>
+                        <input type="date" id="gc_dateSigned" required>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>D. GUARD CARD PAYMENT</h3>
+                    <p>This section is to submit your payment receipt for the non-refundable $25,000 Guard Card application fee.</p>
+                    <p><i>(( The screenshot image must show the chat box message of paying the government using /donategov <a href="https://i.imgur.com/8VqMAC8.png" target="_blank"><strong>Example</strong></a> ))</i></p>
+                    <div class="form-group">
+                        <label>Payment receipt: <span class="required">*</span></label>
+                        <input type="text" id="gc_paymentReceipt" placeholder="INSERT_LINK_HERE" required>
+                    </div>
+                </div>
+
+                <button class="button button-submit" onclick="generateGuardCardBBCode()">Submit</button>
+                <button class="button button-clear" onclick="clearGuardCardData()">Clear</button>
+
+                <div id="gc_bbcodeContainer" class="section hidden">
+                    <h3>BBCode Format</h3>
+                    <div class="bbcode-container">
+                        <pre id="gc_bbcodeOutput"></pre>
+                    </div>
+                    <p>Submit your application <a href="https://gov.eclipse-rp.net/posting.php?mode=post&f=3729" target="_blank">here</a>.</p>
+                </div>
+            </div>
+
+            <!-- Reinstatement Tab -->
+            <div id="reinstatement" class="tab-pane">
+                <div class="section">
+                    <h3>1. PERSONAL INFORMATION</h3>
+                    <h4>1.1 FULL NAME</h4>
+                    <div class="form-group">
+                        <label>FIRST NAME: <span class="required">*</span></label>
+                        <input type="text" id="re_firstName" placeholder="Answer." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>MIDDLE NAME: <span class="optional">(Optional)</span></label>
+                        <input type="text" id="re_middleName" placeholder="Answer.">
+                    </div>
+
+                    <div class="form-group">
+                        <label>LAST NAME: <span class="required">*</span></label>
+                        <input type="text" id="re_lastName" placeholder="Answer." required>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>2. DEPARTMENT EMPLOYMENT HISTORY</h3>
+                    <h4>2.1 PAST DEPARTMENT EMPLOYMENT INFORMATION</h4>
+                    <div class="form-group">
+                        <label>FORMER RANK: <span class="required">*</span></label>
+                        <input type="text" id="re_formerRank" placeholder="Answer." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>EMPLOYMENT END DATE: <span class="required">*</span></label>
+                        <input type="date" id="re_endDate" placeholder="DD/MMM/YYYY" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>REASON: <span class="required">*</span></label>
+                        <input type="text" id="re_reason" placeholder="Answer." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>DESIRED RANK: <span class="required">*</span></label>
+                        <input type="text" id="re_desiredRank" placeholder="Answer." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>DESIRED ASSIGNMENT: <span class="required">*</span></label>
+                        <input type="text" id="re_desiredAssignment" placeholder="Answer." required>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>3. GENERAL INFORMATION</h3>
+                    <h4>3.1 OPEN QUESTIONS</h4>
+                    <div class="form-group">
+                        <label>What have you done since your resignation or termination from the Los Santos Police Department? <span class="required">*</span></label>
+                        <textarea id="re_whatDone" rows="3" placeholder="Answer." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>If you filed for resignation with the Los Santos Police Department, what was the reason behind doing so? If your employment was terminated, you may fill in N/A. <span class="required">*</span></label>
+                        <textarea id="re_resignationReason" rows="3" placeholder="Answer." required></textarea>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>4. EMPLOYMENT DURING ABSENCE</h3>
+                    <h4>4.1 EMPLOYMENT AFTER RESIGNATION/TERMINATION</h4>
+                    <div class="form-group">
+                        <label>COMPANY: <span class="required">*</span></label>
+                        <input type="text" id="re_company" placeholder="Answer." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>POSITION: <span class="required">*</span></label>
+                        <input type="text" id="re_position" placeholder="Answer." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>EMPLOYMENT END DATE: <span class="required">*</span></label>
+                        <input type="date" id="re_employmentEndDate" placeholder="DD/MMM/YYYY" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>REASON: <span class="required">*</span></label>
+                        <input type="text" id="re_employmentReason" placeholder="Answer." required>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>(( 5. OUT-OF-CHARACTER INFORMATION ))</h3>
+                    <h4>5.1 OUT-OF-CHARACTER INFORMATION</h4>
+                    <div class="form-group">
+                        <label>What have you done on Eclipse Roleplay following your departure from the Los Santos Police Department faction? <span class="required">*</span></label>
+                        <textarea id="re_oocDone" rows="3" placeholder="Answer." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Please provide a screenshot of your updated admin logs on the panel. <span class="required">*</span></label>
+                        <input type="text" id="re_panelScreenshot" placeholder="SCREENSHOT LINK HERE" required>
+                    </div>
+                </div>
+
+                <button class="button button-submit" onclick="generateReinstatementBBCode()">Submit</button>
+                <button class="button button-clear" onclick="clearReinstatementData()">Clear</button>
+
+                <div id="re_bbcodeContainer" class="section hidden">
+                    <h3>BBCode Format</h3>
+                    <div class="bbcode-container">
+                        <pre id="re_bbcodeOutput"></pre>
+                    </div>
+                    <p>Submit your application <a href="https://gov.eclipse-rp.net/posting.php?mode=post&f=125" target="_blank">here</a>.</p>
+                </div>
+            </div>
+
+            <!-- Transfer Tab -->
+            <div id="transfer" class="tab-pane">
+                <div class="section">
+                    <h3>1. PERSONAL INFORMATION</h3>
+                    <h4>1.1 FULL NAME</h4>
+                    <div class="form-group">
+                        <label>FIRST NAME: <span class="required">*</span></label>
+                        <input type="text" id="tr_firstName" placeholder="Answer." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>MIDDLE NAME: <span class="optional">(Optional)</span></label>
+                        <input type="text" id="tr_middleName" placeholder="Answer.">
+                    </div>
+
+                    <div class="form-group">
+                        <label>LAST NAME: <span class="required">*</span></label>
+                        <input type="text" id="tr_lastName" placeholder="Answer." required>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>2. DEPARTMENT EMPLOYMENT HISTORY</h3>
+                    <h4>2.1 SHERIFF'S DEPARTMENT EMPLOYMENT INFORMATION</h4>
+                    <div class="form-group">
+                        <label>CURRENT RANK: <span class="required">*</span></label>
+                        <input type="text" id="tr_currentRank" placeholder="Answer." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>CURRENT ASSIGNMENT: <span class="required">*</span></label>
+                        <input type="text" id="tr_currentAssignment" placeholder="Answer." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>LIST ALL QUALIFICATIONS AND CERTIFICATIONS: <span class="optional">(Optional)</span></label>
+                        <textarea id="tr_qualifications" rows="3" placeholder="• Answer.&#10;• Answer."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>LIST ALL DIVISIONS: <span class="required">*</span></label>
+                        <textarea id="tr_divisions" rows="3" placeholder="• Position, Division&#10;• Position, Division" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>LIST ALL AWARDS AND COMMENDATIONS: <span class="optional">(Optional)</span></label>
+                        <textarea id="tr_awards" rows="3" placeholder="• Answer.&#10;• Answer."></textarea>
+                    </div>
+
+                    <h4>2.2 POLICE DEPARTMENT EMPLOYMENT INFORMATION</h4>
+                    <div class="form-group">
+                        <label>DESIRED RANK: <span class="required">*</span></label>
+                        <input type="text" id="tr_desiredRank" placeholder="Answer." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>DESIRED ASSIGNMENT: <span class="required">*</span></label>
+                        <input type="text" id="tr_desiredAssignment" placeholder="Answer." required>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>3. GENERAL INFORMATION</h3>
+                    <h4>3.1 OPEN QUESTIONS</h4>
+                    <div class="form-group">
+                        <label>Why do you wish to transfer to the Los Santos Police Department? <span class="required">*</span></label>
+                        <textarea id="tr_whyTransfer" rows="3" placeholder="Answer." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>What do you wish to achieve while employed with the Los Santos Police Department? <span class="required">*</span></label>
+                        <textarea id="tr_whatAchieve" rows="3" placeholder="Answer." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Have you undergone any form of supervisory training with the Los Santos County Sheriff's Department? If so, how do you believe it would help your employment with the Los Santos Police Department? <span class="required">*</span></label>
+                        <textarea id="tr_supervisoryTraining" rows="3" placeholder="Answer." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Have you received disciplinary action while employed with the Los Santos County Sheriff's Department? If so, please list and explain all disciplinary actions received. <span class="required">*</span></label>
+                        <textarea id="tr_disciplinaryAction" rows="3" placeholder="Answer." required></textarea>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>(( 4. OUT-OF-CHARACTER INFORMATION ))</h3>
+                    <h4>4.1 OUT-OF-CHARACTER INFORMATION</h4>
+                    <div class="form-group">
+                        <label>Please provide a screenshot of your updated admin logs on the panel. <span class="required">*</span></label>
+                        <input type="text" id="tr_panelScreenshot" placeholder="SCREENSHOT LINK HERE" required>
+                    </div>
+                </div>
+
+                <button class="button button-submit" onclick="generateTransferBBCode()">Submit</button>
+                <button class="button button-clear" onclick="clearTransferData()">Clear</button>
+
+                <div id="tr_bbcodeContainer" class="section hidden">
+                    <h3>BBCode Format</h3>
+                    <div class="bbcode-container">
+                        <pre id="tr_bbcodeOutput"></pre>
+                    </div>
+                    <p>Submit your application <a href="https://gov.eclipse-rp.net/posting.php?mode=post&f=125" target="_blank">here</a>.</p>
+                </div>
+            </div>
+
+            <!-- Complaint Tab -->
+            <div id="complaint" class="tab-pane">
+                <div class="section">
+                    <h3>1. YOUR INFORMATION</h3>
+                    <div class="form-group">
+                        <label>FULL NAME: <span class="required">*</span></label>
+                        <input type="text" id="co_fullName" placeholder="Answer" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>PHONE: <span class="required">*</span></label>
+                        <input type="text" id="co_phone" placeholder="Answer" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>ADDRESS: <span class="required">*</span></label>
+                        <input type="text" id="co_address" placeholder="Answer" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>OTHER: <span class="optional">(Optional)</span></label>
+                        <input type="text" id="co_other" placeholder="Answer">
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>2. EMPLOYEE(S) DETAILS</h3>
+                    <div id="complaintEmployeeSection">
+                        <div class="employee-group">
+                            <h4>Employee 1</h4>
+                            <div class="form-group">
+                                <label>FULL NAME: <span class="optional">(Optional)</span></label>
+                                <input type="text" name="co_empName[]" placeholder="Answer">
+                            </div>
+
+                            <div class="form-group">
+                                <label>RANK: <span class="optional">(Optional)</span></label>
+                                <input type="text" name="co_empRank[]" placeholder="Answer">
+                            </div>
+
+                            <div class="form-group">
+                                <label>BADGE NUMBER: <span class="optional">(Optional)</span></label>
+                                <input type="text" name="co_empBadge[]" placeholder="Answer">
+                            </div>
+
+                            <div class="form-group">
+                                <label>OTHER: <span class="optional">(Optional)</span></label>
+                                <input type="text" name="co_empOther[]" placeholder="Answer">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" onclick="addComplaintEmployee()" class="button button-plus">Add Employee</button>
+                    <button type="button" onclick="removeComplaintEmployee()" class="button button-minus">Remove Employee</button>
+                </div>
+
+                <div class="section">
+                    <h3>3. INCIDENT DETAILS</h3>
+                    <div class="form-group">
+                        <label>DATE OF THE INCIDENT: <span class="required">*</span></label>
+                        <input type="date" id="co_incidentDate" placeholder="DD/MMM/YYYY" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>TIME OF THE INCIDENT: <span class="required">*</span></label>
+                        <input type="time" id="co_incidentTime" placeholder="Answer" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>LOCATION OF THE INCIDENT: <span class="required">*</span></label>
+                        <input type="text" id="co_incidentLocation" placeholder="Answer" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>DESCRIPTION OF THE INCIDENT: <span class="required">*</span></label>
+                        <h5>Please state your complaint, including names, times, locations, witnesses, and any other information that would help in investigating your complaint. If employee names are unknown, explain what each employee looked like.</h5>
+                        <textarea id="co_incidentDescription" rows="5" placeholder="Answer" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Evidence (Not mandatory, but encouraged): <span class="optional">(Optional)</span></label>
+                        <textarea id="co_evidence" rows="3" placeholder="Add any evidence links or descriptions here"></textarea>
+                    </div>
+                </div>
+
+                <button class="button button-submit" onclick="generateComplaintBBCode()">Submit</button>
+                <button class="button button-clear" onclick="clearComplaintData()">Clear</button>
+
+                <div id="co_bbcodeContainer" class="section hidden">
+                    <h3>BBCode Format</h3>
+                    <div class="bbcode-container">
+                        <pre id="co_bbcodeOutput"></pre>
+                    </div>
+                    <p>Submit your complaint <a href="https://gov.eclipse-rp.net/posting.php?mode=post&f=1532" target="_blank">here</a>.</p>
+                </div>
+            </div>
+
+            <!-- Commendation Tab -->
+            <div id="commendation" class="tab-pane">
+                <div class="section">
+                    <h3>1. YOUR INFORMATION</h3>
+                    <div class="form-group">
+                        <label>FULL NAME: <span class="required">*</span></label>
+                        <input type="text" id="cm_fullName" placeholder="Answer" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>PHONE: <span class="required">*</span></label>
+                        <input type="text" id="cm_phone" placeholder="Answer" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>ADDRESS: <span class="required">*</span></label>
+                        <input type="text" id="cm_address" placeholder="Answer" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>OTHER: <span class="optional">(Optional)</span></label>
+                        <input type="text" id="cm_other" placeholder="Answer">
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>2. EMPLOYEE(S) DETAILS</h3>
+                    <div id="commendationEmployeeSection">
+                        <div class="employee-group">
+                            <h4>Employee 1</h4>
+                            <div class="form-group">
+                                <label>FULL NAME: <span class="optional">(Optional)</span></label>
+                                <input type="text" name="cm_empName[]" placeholder="Answer">
+                            </div>
+
+                            <div class="form-group">
+                                <label>RANK: <span class="optional">(Optional)</span></label>
+                                <input type="text" name="cm_empRank[]" placeholder="Answer">
+                            </div>
+
+                            <div class="form-group">
+                                <label>BADGE NUMBER: <span class="optional">(Optional)</span></label>
+                                <input type="text" name="cm_empBadge[]" placeholder="Answer">
+                            </div>
+
+                            <div class="form-group">
+                                <label>OTHER: <span class="optional">(Optional)</span></label>
+                                <input type="text" name="cm_empOther[]" placeholder="Answer">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" onclick="addCommendationEmployee()" class="button button-plus">Add Employee</button>
+                    <button type="button" onclick="removeCommendationEmployee()" class="button button-minus">Remove Employee</button>
+                </div>
+
+                <div class="section">
+                    <h3>3. INCIDENT DETAILS</h3>
+                    <div class="form-group">
+                        <label>DATE OF THE INCIDENT: <span class="required">*</span></label>
+                        <input type="date" id="cm_incidentDate" placeholder="DD/MMM/YYYY" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>TIME OF THE INCIDENT: <span class="required">*</span></label>
+                        <input type="time" id="cm_incidentTime" placeholder="Answer" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>LOCATION OF THE INCIDENT: <span class="required">*</span></label>
+                        <input type="text" id="cm_incidentLocation" placeholder="Answer" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>DESCRIPTION OF THE COMMENDATION: <span class="required">*</span></label>
+                        <h5>What would you like to commend about the employee's performance?</h5>
+                        <textarea id="cm_description" rows="5" placeholder="Answer" required></textarea>
+                    </div>
+                </div>
+
+                <button class="button button-submit" onclick="generateCommendationBBCode()">Submit</button>
+                <button class="button button-clear" onclick="clearCommendationData()">Clear</button>
+
+                <div id="cm_bbcodeContainer" class="section hidden">
+                    <h3>BBCode Format</h3>
+                    <div class="bbcode-container">
+                        <pre id="cm_bbcodeOutput"></pre>
+                    </div>
+                    <p>Submit your commendation <a href="https://gov.eclipse-rp.net/posting.php?mode=post&f=1532" target="_blank">here</a>.</p>
+                </div>
+            </div>
 			
-            <div style="margin-left: 20px; margin-top: -10px; margin-bottom: 15px;">
-                <label>5.5.1 - If yes to 5.5, please explain further about your overall involvement in that server and what factions you are in, if applicable</label>
-                <input type="text" id="factionServerExplanation" placeholder="Enter explanation here">
+			<!-- Roleplay Feedback Tab -->
+            <div id="roleplay-feedback" class="tab-pane">
+                <div class="section">
+                    <h3>ROLEPLAY FEEDBACK</h3>
+                    <div class="form-group">
+                        <label>1. What's your player name? <span class="required">*</span></label>
+                        <input type="text" id="rf_playerName" placeholder="Answer here" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>2. Do you know any names of LSPD members involved in your situation? <span class="required">*</span></label>
+                        <input type="text" id="rf_lspdMembers" placeholder="Answer here" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>3. When did this situation occur? <span class="required">*</span></label>
+                        <input type="datetime-local" id="rf_dateTime" placeholder="DD/MMM/YYYY - TIME" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>4. Can you list down at least three good or bad things from our side in this situation? <span class="required">*</span></label>
+                        <div id="rf_lspdPointsContainer">
+                            <input type="text" name="rf_lspdPoints[]" placeholder="Item 1" style="margin-bottom: 8px;" required>
+                            <input type="text" name="rf_lspdPoints[]" placeholder="Item 2" style="margin-bottom: 8px;" required>
+                            <input type="text" name="rf_lspdPoints[]" placeholder="Item 3" style="margin-bottom: 8px;" required>
+                        </div>
+                            <button type="button" onclick="addRfLspdPoint()" class="button button-plus" style="margin-top: 8px;">Add Item</button>
+                            <button type="button" onclick="removeRfLspdPoint()" class="button button-minus" style="margin-top: 8px;">Remove Item</button>
+                    </div>
+
+                    <div class="form-group">
+                        <label>5. Can you list down at least three good or bad things from your side in this situation? <span class="required">*</span></label>
+                        <div id="rf_playerPointsContainer">
+                            <input type="text" name="rf_playerPoints[]" placeholder="Item 1" style="margin-bottom: 8px;" required>
+                            <input type="text" name="rf_playerPoints[]" placeholder="Item 2" style="margin-bottom: 8px;" required>
+                            <input type="text" name="rf_playerPoints[]" placeholder="Item 3" style="margin-bottom: 8px;" required>
+                        </div>
+                            <button type="button" onclick="addRfPlayerPoint()" class="button button-plus" style="margin-top: 8px;">Add Item</button>
+                            <button type="button" onclick="removeRfPlayerPoint()" class="button button-minus" style="margin-top: 8px;">Remove Item</button>
+                    </div>
+
+                    <div class="form-group">
+                        <label>6. Can you provide an accurate description of the events that unfolded? (add any footage you may have to back any claims up) <span class="required">*</span></label>
+                        <textarea id="rf_description" rows="5" placeholder="Answer here" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>7. What would you have done differently from both the perspective of PD and your own? <span class="required">*</span></label>
+                        <textarea id="rf_differently" rows="3" placeholder="Answer here" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>8. What are you hoping to accomplish by sending this feedback to us? <span class="required">*</span></label>
+                        <textarea id="rf_accomplish" rows="3" placeholder="Answer here" required></textarea>
+                    </div>
+                </div>
+
+                <button class="button button-submit" onclick="generateRoleplayFeedbackBBCode()">Submit</button>
+                <button class="button button-clear" onclick="clearRoleplayFeedbackData()">Clear</button>
+
+                <div id="rf_bbcodeContainer" class="section hidden">
+                    <h3>BBCode Format</h3>
+                    <div class="bbcode-container">
+                        <pre id="rf_bbcodeOutput"></pre>
+                    </div>
+                    <p>Submit your feedback <a href="https://gov.eclipse-rp.net/posting.php?mode=post&f=4018" target="_blank">here</a>.</p>
+                 </div>
+             </div>
+			 
+			<!-- Press Inquiries Tab -->
+            <div id="press-inquiries" class="tab-pane">
+                <div class="section">
+                    <h3>1. CONTACT INFORMATION</h3>
+                    <div class="form-group">
+                        <label>Full Name: <span class="required">*</span></label>
+                        <input type="text" id="pi_fullName" placeholder="Answer." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Phone Number: <span class="required">*</span></label>
+                        <input type="text" id="pi_phoneNumber" placeholder="Answer." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>E-Mail Address: <span class="required">*</span></label>
+                        <input type="text" id="pi_email" placeholder="Answer." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Position in Agency: <span class="required">*</span></label>
+                        <input type="text" id="pi_position" placeholder="Answer." required>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>2. REQUEST INFORMATION</h3>
+                    <div class="form-group">
+                        <label>Detailed information of your request: <span class="required">*</span></label>
+                        <textarea id="pi_requestDetails" rows="5" placeholder="Answer here. Include as much information as you can." required></textarea>
+                    </div>
+                </div>
+
+                <button class="button button-submit" onclick="generatePressInquiriesBBCode()">Submit</button>
+                <button class="button button-clear" onclick="clearPressInquiriesData()">Clear</button>
+
+                <div id="pi_bbcodeContainer" class="section hidden">
+                    <h3>BBCode Format</h3>
+                    <div class="bbcode-container">
+                        <pre id="pi_bbcodeOutput"></pre>
+                    </div>
+                    <p>Submit your inquiry <a href="https://gov.eclipse-rp.net/posting.php?mode=post&f=1532" target="_blank">here</a>.</p>
+                 </div>
+             </div>
+
+            <!-- Public Inquiries Tab -->
+            <div id="public-inquiries" class="tab-pane">
+                <div class="section">
+                    <h3>1. CONTACT INFORMATION</h3>
+                    <div class="form-group">
+                        <label>Full Name: <span class="required">*</span></label>
+                        <input type="text" id="pui_fullName" placeholder="Answer." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Phone Number: <span class="required">*</span></label>
+                        <input type="text" id="pui_phoneNumber" placeholder="Answer." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>E-Mail Address: <span class="required">*</span></label>
+                        <input type="text" id="pui_email" placeholder="Answer." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Position in Institution (If Applicable): <span class="optional">(Optional)</span></label>
+                        <input type="text" id="pui_position" placeholder="Answer.">
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>2. REQUEST INFORMATION</h3>
+                    <div class="form-group">
+                        <label>Detailed information of your request: <span class="required">*</span></label>
+                        <textarea id="pui_requestDetails" rows="5" placeholder="Answer here. Include as much information as you can." required></textarea>
+                    </div>
+                </div>
+
+                <button class="button button-submit" onclick="generatePublicInquiriesBBCode()">Submit</button>
+                <button class="button button-clear" onclick="clearPublicInquiriesData()">Clear</button>
+
+                <div id="pui_bbcodeContainer" class="section hidden">
+                    <h3>BBCode Format</h3>
+                    <div class="bbcode-container">
+                        <pre id="pui_bbcodeOutput"></pre>
+                    </div>
+                    <p>Submit your inquiry <a href="https://gov.eclipse-rp.net/posting.php?mode=post&f=1532" target="_blank">here</a>.</p>
+                 </div>
+             </div>
+			 
+			<!-- Press Passes Tab -->
+            <div id="press-passes" class="tab-pane">
+                <div class="section">
+                    <h3>1. PERSONAL DETAILS</h3>
+                    <div class="form-group">
+                        <label>1.1 Full Name: <span class="required">*</span></label>
+                        <input type="text" id="pp_fullName" placeholder="Firstname Lastname" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>1.2 Date of Birth: <span class="required">*</span></label>
+                        <input type="date" id="pp_dateOfBirth" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>1.3 Phone Number: <span class="required">*</span></label>
+                        <input type="text" id="pp_phoneNumber" placeholder="####" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>1.4 Residential Address: <span class="required">*</span></label>
+                        <input type="text" id="pp_residentialAddress" placeholder="Answer" required>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>2. EMPLOYMENT DETAILS</h3>
+                    <div class="form-group">
+                        <label>2.1 Employer: <span class="required">*</span></label>
+                        <input type="text" id="pp_employer" placeholder="Answer" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>2.2 Position/Job Title: <span class="required">*</span></label>
+                        <input type="text" id="pp_position" placeholder="Answer" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>2.3 Business Address: <span class="required">*</span></label>
+                        <input type="text" id="pp_businessAddress" placeholder="Answer" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>2.4 Provide a description of your job duties as it applies to the need for an LSPD media card: <span class="required">*</span></label>
+                        <textarea id="pp_jobDuties" rows="4" placeholder="Answer Here" required></textarea>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>3. FORM ATTACHMENTS</h3>
+                    <div class="form-group">
+                        <label>3.1 Provide a passport photograph (<a href="https://i.imgur.com/aXycPgQ.png" target="_blank">press here for an example</a>): <span class="required">*</span></label>
+                        <h5>Your photo should have the front of your face and your shoulders visible. The photograph <u>SHOULD NOT</u> include hats, glasses, or any facial obstruction.</h5>
+                        <input type="text" id="pp_passportPhoto" placeholder="PASTE LINK HERE" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>3.2 Proof of Identification (<a href="https://i.imgur.com/ooTEaT8.png" target="_blank">press here for an example</a>): <span class="required">*</span></label>
+                        <input type="text" id="pp_proofOfId" placeholder="PASTE LINK HERE" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>3.3 Proof of Employment (<a href="https://i.imgur.com/NMxHJpt.png" target="_blank">press here for an example</a>): <span class="required">*</span></label>
+                        <input type="text" id="pp_proofOfEmployment" placeholder="PASTE LINK HERE" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>3.4 Provide a letter on original business letterhead, signed by the news director, editor, or person in charge, stating that the applicant is an employee of the news organization and an employee who regularly covers news events involving police operations in the City of Los Santos (<a href="https://i.imgur.com/yd69iz0.png" target="_blank">press here for an example</a>): <span class="required">*</span></label>
+                        <input type="text" id="pp_letterhead" placeholder="PASTE LINK HERE" required>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>4. AGREEMENT</h3>
+                    <div class="declaration-box">
+                        <p><strong>I, the undersigned, hereby certify that I have carefully read the information submitted on this application and that it is true and complete. I understand any false information or withholding of information is grounds for the denial or revocation of my LSPD News Media Identification Card. I understand and agree to abide by all guidelines and information established in the Press Pass Policy informational topic. I hereby release and agree to hold harmless the State of San Andreas, the Los Santos Police Department, their employees, from any and all liability for any loss of life, bodily injury, property damage, or any claim whatsoever, which I may sustain while riding in or upon said motor vehicles and which I may receive while accompanying an officer of the Los Santos Police Department, regardless of the cause of such damage or injury, whether through negligence or otherwise. I agree to assume all risks in riding in Los Santos Police Department's motor vehicles and in accompanying its officers and I am fully aware that personal danger may be involved. I further promise that I have read and fully understand all ride-along regulations.</strong></p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>4.1 Signature: <span class="required">*</span></label>
+                        <input type="text" id="pp_signature" placeholder="Firstname Lastname" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>4.2 Date Signed: <span class="required">*</span></label>
+                        <input type="date" id="pp_dateSigned" required>
+                    </div>
+                </div>
+
+                <button class="button button-submit" onclick="generatePressPassesBBCode()">Submit</button>
+                <button class="button button-clear" onclick="clearPressPassesData()">Clear</button>
+
+                <div id="pp_bbcodeContainer" class="section hidden">
+                    <h3>BBCode Format</h3>
+                    <div class="bbcode-container">
+                        <pre id="pp_bbcodeOutput"></pre>
+                    </div>
+                    <p>Submit your application <a href="https://gov.eclipse-rp.net/posting.php?mode=post&f=2403" target="_blank">here</a>.</p>
+                 </div>
+             </div>
+			 
+			<!-- Self Background Check Tab -->
+            <div id="self-background-check" class="tab-pane">
+                <div class="section">
+                    <h3>A. PERSONAL INFORMATION</h3>
+                    <div class="form-group">
+                        <label>A.1 - Full Name: <span class="required">*</span></label>
+                        <input type="text" id="sbc_fullName" placeholder="Fname Lname" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>A.2 - Phone Number: <span class="required">*</span></label>
+                        <input type="text" id="sbc_phoneNumber" placeholder="0000000" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>A.3 - Gov. License (<a href="https://imgur.com/3VOTXMg" target="_blank">Example</a>): <span class="required">*</span></label>
+                        <input type="text" id="sbc_govLicense" placeholder="YOUR-LINK-HERE" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>A.4 - Passport Photo (<a href="https://imgur.com/aXycPgQ" target="_blank">Example</a>): <span class="required">*</span></label>
+                        <h5>Photo should be of the front of your face, with your shoulders visible. No hats, glasses or any facial obstruction are permitted.</h5>
+                        <input type="text" id="sbc_passportPhoto" placeholder="YOUR-LINK-HERE" required>
+                    </div>
+                </div>
+
+                    <div class="section">
+                        <h3>B. REQUEST OPTIONS</h3>
+                        <div class="form-group">
+                            <label>B.1 - Timeframe: <span class="required">*</span></label>
+                            <h5>Mark only one box</h5>
+                            <div class="checkbox-container">
+                            <label class="checkbox-row"><input type="radio" name="sbc_timeframe" value="oneWeek" required> One week</label>
+                            <label class="checkbox-row"><input type="radio" name="sbc_timeframe" value="twoWeeks" required> Two weeks</label>
+                            <label class="checkbox-row"><input type="radio" name="sbc_timeframe" value="threeWeeks" required> Three weeks</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>B.2 - Relevant Offenses: <span class="required">*</span></label>
+                        <h5>Mark up to three boxes</h5>
+                        <div class="checkbox-container">
+                        <label class="checkbox-row"><input type="checkbox" id="sbc_citations"> Citations</label>
+                        <label class="checkbox-row"><input type="checkbox" id="sbc_misdemeanors"> Misdemeanors</label>
+                        <label class="checkbox-row"><input type="checkbox" id="sbc_felonies"> Felonies</label>
+                    </div>
+                </div>
             </div>
 
-            <label>5.6 - Do you have any upcoming obligation(s) which may limit your playing time or availability in the next three months?</label>
-            <div class="checkbox-container">
-                <label><input type="radio" name="obligations" value="Yes"> Yes</label>
-                <label><input type="radio" name="obligations" value="No"> No</label>
+                    <div class="section">
+                        <h3>C. ACKNOWLEDGEMENT</h3>
+                        <div class="declaration-box">
+                            <p><strong>I, the undersigned, affirm under penalty of forgery, that all information provided above is accurate, to the best of my knowledge, and has not been on filed on behalf of another person, entity or organization.</strong></p>
+                        </div>
+
+                    <div class="form-group">
+                        <label>C1. Signature: <span class="required">*</span></label>
+                        <input type="text" id="sbc_signature" placeholder="Fname Lname" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>C2. Date Signed: <span class="required">*</span></label>
+                        <input type="date" id="sbc_dateSigned" required>
+                    </div>
+                </div>
+
+                <button class="button button-submit" onclick="generateSelfBackgroundCheckBBCode()">Submit</button>
+                <button class="button button-clear" onclick="clearSelfBackgroundCheckData()">Clear</button>
+
+                <div id="sbc_bbcodeContainer" class="section hidden">
+                    <h3>BBCode Format</h3>
+                    <div class="bbcode-container">
+                        <pre id="sbc_bbcodeOutput"></pre>
+                    </div>
+                    <p>Submit your request <a href="https://gov.eclipse-rp.net/posting.php?mode=post&f=4094" target="_blank">here</a>.</p>
+                 </div>
+             </div>
+
+            <!-- Company/Department Background Check Tab -->
+            <div id="company-background-check" class="tab-pane">
+                <div class="section">
+                    <h3>A. PERSONAL INFORMATION</h3>
+                    <div class="form-group">
+                        <label>A.1 - Full Name: <span class="required">*</span></label>
+                        <input type="text" id="cbc_fullName" placeholder="Fname Lname" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>A.2 - Phone Number: <span class="required">*</span></label>
+                        <input type="text" id="cbc_phoneNumber" placeholder="0000000" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>A.3 - Gov. License (<a href="https://imgur.com/3VOTXMg" target="_blank">Example</a>): <span class="required">*</span></label>
+                        <input type="text" id="cbc_govLicense" placeholder="YOUR-LINK-HERE" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>A.4 - HR Badge (<a href="PENDING" target="_blank">Example</a>): <span class="required">*</span></label>
+                        <input type="text" id="cbc_hrBadge" placeholder="YOUR-LINK-HERE" required>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>B. PERSONS FOR CHECK</h3>
+                    <h5>You may add additional entries for persons as required.</h5>
+        
+                <div class="form-group">
+                    <label><strong>Employees</strong> - individual(s) currently employed by your company: <span class="optional">(Optional)</span></label>
+                    <div id="cbc_employeesContainer">
+                    <input type="text" name="cbc_employees[]" placeholder="Fname Lname" style="margin-bottom: 8px;">
+                    <input type="text" name="cbc_employees[]" placeholder="Fname Lname" style="margin-bottom: 8px;">
+                    <input type="text" name="cbc_employees[]" placeholder="Fname Lname" style="margin-bottom: 8px;">
+                </div>
+                    <button type="button" onclick="addCbcEmployee()" class="button button-plus" style="margin-top: 8px;">Add Employee</button>
+                    <button type="button" onclick="removeCbcEmployee()" class="button button-minus" style="margin-top: 8px;">Remove Employee</button>
             </div>
 
-            <div style="margin-left: 20px; margin-top: -10px; margin-bottom: 15px;">
-                <label>5.6.1 - If yes to 5.6, please explain how much this might affect your availability or play time:</label>
-                <input type="text" id="availabilityExplanation" placeholder="Enter explanation here">
+                <div class="form-group">
+                    <label><strong>Prospective Employees</strong> - individual(s) seeking employment with your company: <span class="optional">(Optional)</span></label>
+                    <div id="cbc_prospectiveContainer">
+                        <input type="text" name="cbc_prospective[]" placeholder="Fname Lname" style="margin-bottom: 8px;">
+                        <input type="text" name="cbc_prospective[]" placeholder="Fname Lname" style="margin-bottom: 8px;">
+                        <input type="text" name="cbc_prospective[]" placeholder="Fname Lname" style="margin-bottom: 8px;">
+                    </div>
+                        <button type="button" onclick="addCbcProspective()" class="button button-plus" style="margin-top: 8px;">Add Prospective</button>
+                        <button type="button" onclick="removeCbcProspective()" class="button button-minus" style="margin-top: 8px;">Remove Prospective</button>
+                    </div>
+                </div>
+
+                <div class="section">
+                   <h3>C. REQUEST OPTIONS</h3>
+                   <h5>Please be mindful of our staff's time and only mark the required checkboxes for the performance of your duties; for example, if no amount of citations can affect employment, do not mark the citation box.</h5>
+        
+                <div class="form-group">
+                    <label>B.1 - Timeframe: <span class="required">*</span></label>
+                    <h5>Mark only one box</h5>
+                    <div class="checkbox-container">
+                        <label class="checkbox-row"><input type="radio" name="cbc_timeframe" value="oneWeek" required> One week</label>
+                        <label class="checkbox-row"><input type="radio" name="cbc_timeframe" value="twoWeeks" required> Two weeks</label>
+                        <label class="checkbox-row"><input type="radio" name="cbc_timeframe" value="threeWeeks" required> Three weeks</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>B.2 - Relevant Offenses: <span class="required">*</span></label>
+                    <h5>Mark up to three boxes</h5>
+                    <div class="checkbox-container">
+                        <label class="checkbox-row"><input type="checkbox" id="cbc_citations"> Citations</label>
+                        <label class="checkbox-row"><input type="checkbox" id="cbc_misdemeanors"> Misdemeanors</label>
+                        <label class="checkbox-row"><input type="checkbox" id="cbc_felonies"> Felonies</label>
+                    </div>
+                </div>
             </div>
-			
-			<label>5.7 - Do you have a functional microphone and are you able to use TeamSpeak?</label>
-            <div class="checkbox-container">
-                <label><input type="radio" name="microphone" value="Yes"> Yes</label>
-                <label><input type="radio" name="microphone" value="No"> No</label>
-            </div>
-			
-			<div style="margin-left: 20px; margin-top: -10px; margin-bottom: 15px;">
-                <label>5.7.1 - If no to 5.7, please explain here why you cannot use a microphone/TeamSpeak:</label>
-                <input type="text" id="microphoneExplanation" placeholder="Enter explanation here">
-            </div>
-        </div>
 
-        <!-- RELEASE AND WAIVER -->
-        <div class="section">
-            <h3>6. RELEASE AND WAIVER</h3>
-            <div class="declaration-box">
-                <p><strong>I, the undersigned, hereby certify that this application and the answers contained within
-                        this application are true and complete to the best of my knowledge. By agreeing below I hereby
-                        authorize the Recruitment Officers of the Los Santos Police Department Recruitment and
-                        Employment Division to obtain any information pertaining to my current and previous
-                        employment(s), education, current and past residence(s), further personal information, and any
-                        other information that may be relevant to potential employment with the Los Santos Police
-                        Department.</strong></p>
+                <div class="section">
+                    <h3>D. ACKNOWLEDGEMENT</h3>
+                    <div class="declaration-box">
+                        <p><strong>I, the undersigned, affirm under penalty of forgery, that all information provided above is accurate, to the best of my knowledge. I affirm that my employer is aware of me submitting this request, and allows it as per internal guidelines or direct order. I affirm that all of the individuals listed in section B are aware that a background check is being performed on them, and that they have consented to this.</strong></p>
+                    </div>
 
-                <p><strong>I understand and agree that the Los Santos Police Department reserves the right to remove
-                        applicants from the recruitment process for any reason, with or without prior notice, and to ban
-                        applicants from (re-applying) to the Los Santos Police Department, temporarily or permanently,
-                        and that these decisions may be appealed either through the Recruitment and Employment Division
-                        Command Staff or the Internal Affairs Division.</strong></p>
+                <div class="form-group">
+                    <label>C1. Signature: <span class="required">*</span></label>
+                    <input type="text" id="cbc_signature" placeholder="Fname Lname" required>
+                </div>
+
+                <div class="form-group">
+                    <label>C2. Date Signed: <span class="required">*</span></label>
+                    <input type="date" id="cbc_dateSigned" required>
+                </div>
             </div>
 
-            <label>Signature:</label>
-            <input type="text" id="signature" placeholder="Enter your full name">
+            <button class="button button-submit" onclick="generateCompanyBackgroundCheckBBCode()">Submit</button>
+            <button class="button button-clear" onclick="clearCompanyBackgroundCheckData()">Clear</button>
 
-            <!-- Auto-populate Date Signed with the current UTC date -->
-            <label>Date Signed:</label>
-            <input type="date" id="dateSigned">
-        </div>
-
-        <button class="button button-submit" onclick="generateBBCode()">Submit</button>
-        <button class="button button-clear" onclick="clearData()">Clear</button>
-
-        <div id="bbcodeContainer" class="section hidden">
-            <h3>BBCode Format</h3>
-            <div class="bbcode-container">
-                <pre id="bbcodeOutput">asd</pre>
+            <div id="cbc_bbcodeContainer" class="section hidden">
+                <h3>BBCode Format</h3>
+                <div class="bbcode-container">
+                    <pre id="cbc_bbcodeOutput"></pre>
+                </div>
+                <p>Submit your request <a href="https://gov.eclipse-rp.net/posting.php?mode=post&f=4094" target="_blank">here</a>.</p>
             </div>
-            <h></h>
-            <p>Submit your application <a href="https://gov.eclipse-rp.net/posting.php?mode=post&f=89"
-                    target="_blank">here</a>.</p>
         </div>
 		
-		<div id="autoSaveStatus" class="hidden">Draft auto-saved.</div>
+	       	<!-- Report a Crime Tab -->
+            <div id="report-crime" class="tab-pane">
+    <div class="section">
+        <h3>INCIDENT INFORMATION</h3>
+        <div class="form-group">
+            <label>YOUR NAME: <span class="required">*</span></label>
+            <input type="text" id="rc_yourName" placeholder="First Last" required>
+        </div>
+
+        <div class="form-group">
+            <label>YOUR PHONE: <span class="required">*</span></label>
+            <input type="text" id="rc_yourPhone" placeholder="0000000" required>
+        </div>
+
+        <div class="form-group">
+            <label>DATE OF THE INCIDENT: <span class="required">*</span></label>
+            <input type="date" id="rc_dateOfIncident" placeholder="DD/MMM/YYYY" required>
+        </div>
+
+        <div class="form-group">
+            <label>LOCATION OF THE INCIDENT: <span class="required">*</span></label>
+            <input type="text" id="rc_locationOfIncident" placeholder="Answer" required>
+        </div>
+
+        <div class="form-group">
+            <label>DESCRIPTION OF THE INCIDENT: <span class="required">*</span></label>
+            <h5>Please describe the situation with AS MUCH detail as you remember, including the names, witnesses, license plates, vehicles and anything else that you remember. If you have a recording that would be of great help.</h5>
+            <h5 style="color: var(--warning-600);">(( If you add video/pictures to use as evidence we require <u>as per the server rules</u> to see evidence of you roleplaying it in-character. Example: <a href="https://i.imgur.com/6fNzARM.png" target="_blank">like this</a>; without that, we can not use your evidence. ))</h5>
+            <textarea id="rc_description" rows="6" placeholder="ANSWER HERE" required></textarea>
+        </div>
     </div>
 
-    <script src="script.js?v=2.2"></script>
+    <button class="button button-submit" onclick="generateReportCrimeBBCode()">Submit</button>
+    <button class="button button-clear" onclick="clearReportCrimeData()">Clear</button>
+
+    <div id="rc_bbcodeContainer" class="section hidden">
+        <h3>BBCode Format</h3>
+        <div class="bbcode-container">
+            <pre id="rc_bbcodeOutput"></pre>
+        </div>
+        <p>Submit your report <a href="https://gov.eclipse-rp.net/posting.php?mode=post&f=23" target="_blank">here</a>.</p>
+    </div>
+</div>
+
+<!-- Bounty Report Tab -->
+<div id="bounty-report" class="tab-pane">
+    <div class="section">
+        <h3>1. YOUR INFORMATION</h3>
+        <div class="form-group">
+            <label>FULL NAME: <span class="required">*</span></label>
+            <input type="text" id="br_fullName" placeholder="Answer" required>
+        </div>
+
+        <div class="form-group">
+            <label>PHONE: <span class="required">*</span></label>
+            <input type="text" id="br_phone" placeholder="Answer" required>
+        </div>
+
+        <div class="form-group">
+            <label>ADDRESS: <span class="required">*</span></label>
+            <input type="text" id="br_address" placeholder="Answer" required>
+        </div>
+
+        <div class="form-group">
+            <label>OTHER: <span class="optional">(Optional)</span></label>
+            <input type="text" id="br_other" placeholder="Answer">
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>2. STASH HOUSE INFORMATION</h3>
+        <div class="form-group">
+            <label>PROPERTY: <span class="required">*</span></label>
+            <h5>(( Please provide in the /setgps format. ))</h5>
+            <div id="br_propertyContainer">
+                <input type="text" name="br_property[]" placeholder="# StreetName" style="margin-bottom: 8px;" required>
+                <input type="text" name="br_property[]" placeholder="# StreetName" style="margin-bottom: 8px;">
+            </div>
+            <button type="button" onclick="addBrProperty()" class="button button-plus" style="margin-top: 8px;">Add Property</button>
+            <button type="button" onclick="removeBrProperty()" class="button button-minus" style="margin-top: 8px;">Remove Property</button>
+        </div>
+
+        <div class="form-group">
+            <label>DESCRIPTION OF THE STASH HOUSE: <span class="required">*</span></label>
+            <h5>Please describe how you came across this information, including names, times, locations, witnesses, and any other information that would help. Make sure to include all evidence you have relating to the stash house.</h5>
+            <textarea id="br_stashDescription" rows="4" placeholder="Answer" required></textarea>
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>3. EVIDENCE AND DESCRIPTIONS</h3>
+        <div class="form-group">
+            <label>AFFILIATIONS: <span class="optional">(Optional)</span></label>
+            <div id="br_affiliationsContainer">
+                <input type="text" name="br_affiliations[]" placeholder="CRIMINAL ORGANIZATION OR GANG NAME" style="margin-bottom: 8px;">
+                <input type="text" name="br_affiliations[]" placeholder="CRIMINAL ORGANIZATION OR GANG NAME" style="margin-bottom: 8px;">
+            </div>
+            <button type="button" onclick="addBrAffiliation()" class="button button-plus" style="margin-top: 8px;">Add Affiliation</button>
+            <button type="button" onclick="removeBrAffiliation()" class="button button-minus" style="margin-top: 8px;">Remove Affiliation</button>
+        </div>
+
+        <div class="form-group">
+            <label>SUSPECT(S): <span class="optional">(Optional)</span></label>
+            <div id="br_suspectsContainer">
+                <input type="text" name="br_suspects[]" placeholder="Firstname Lastname - Description" style="margin-bottom: 8px;">
+                <input type="text" name="br_suspects[]" placeholder="Firstname Lastname - Description" style="margin-bottom: 8px;">
+            </div>
+            <button type="button" onclick="addBrSuspect()" class="button button-plus" style="margin-top: 8px;">Add Suspect</button>
+            <button type="button" onclick="removeBrSuspect()" class="button button-minus" style="margin-top: 8px;">Remove Suspect</button>
+        </div>
+
+        <div class="form-group">
+            <label>VEHICLE(S): <span class="optional">(Optional)</span></label>
+            <div id="br_vehiclesContainer">
+                <input type="text" name="br_vehicles[]" placeholder="Model, Color, Plate, Other Details" style="margin-bottom: 8px;">
+                <input type="text" name="br_vehicles[]" placeholder="Model, Color, Plate, Other Details" style="margin-bottom: 8px;">
+            </div>
+            <button type="button" onclick="addBrVehicle()" class="button button-plus" style="margin-top: 8px;">Add Vehicle</button>
+            <button type="button" onclick="removeBrVehicle()" class="button button-minus" style="margin-top: 8px;">Remove Vehicle</button>
+        </div>
+
+        <div class="form-group">
+            <label>MEDIA: <span class="optional">(Optional)</span></label>
+            <div id="br_mediaContainer">
+                <div class="media-row" style="display: flex; gap: 8px; margin-bottom: 8px;">
+                    <input type="text" name="br_mediaLink[]" placeholder="LINK HERE" style="flex: 1;">
+                    <input type="text" name="br_mediaDesc[]" placeholder="Description of Provided Media" style="flex: 2;">
+                </div>
+                <div class="media-row" style="display: flex; gap: 8px; margin-bottom: 8px;">
+                    <input type="text" name="br_mediaLink[]" placeholder="LINK HERE" style="flex: 1;">
+                    <input type="text" name="br_mediaDesc[]" placeholder="Description of Provided Media" style="flex: 2;">
+                </div>
+            </div>
+            <button type="button" onclick="addBrMedia()" class="button button-plus" style="margin-top: 8px;">Add Media</button>
+            <button type="button" onclick="removeBrMedia()" class="button button-minus" style="margin-top: 8px;">Remove Media</button>
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>4. DISCLAIMER</h3>
+        <div class="declaration-box">
+            <p><strong>I, the undersigned, hereby affirm that the above statement is true to the best of my knowledge and belief, affirm that this statement has been made voluntarily, not under distress, threat, force, or coercion, and without promise or guarantee of reward. I hereby release and agree to hold harmless the State of San Andreas, the City of Los Santos, the Los Santos Police Department, and their employees, from any and all liability for any loss of life, bodily injury, property damage, or any claim whatsoever, which I may sustain in the context of this information report.</strong></p>
+            <p><strong>(( I hereby affirm that all information submitted through this form has been obtained through in-character means and channels. ))</strong></p>
+        </div>
+
+        <div class="form-group">
+            <label>SIGNATURE: <span class="required">*</span></label>
+            <input type="text" id="br_signature" placeholder="Firstname Lastname" required>
+        </div>
+
+        <div class="form-group">
+            <label>DATE SIGNED: <span class="required">*</span></label>
+            <input type="date" id="br_dateSigned" required>
+        </div>
+    </div>
+
+    <button class="button button-submit" onclick="generateBountyReportBBCode()">Submit</button>
+    <button class="button button-clear" onclick="clearBountyReportData()">Clear</button>
+
+    <div id="br_bbcodeContainer" class="section hidden">
+        <h3>BBCode Format</h3>
+        <div class="bbcode-container">
+            <pre id="br_bbcodeOutput"></pre>
+        </div>
+        <p>Submit your report <a href="https://gov.eclipse-rp.net/posting.php?mode=post&f=23" target="_blank">here</a>.</p>
+    </div>
+</div>
+
+<!-- Road Closure Permit Tab -->
+<div id="road-closure-permit" class="tab-pane">
+    <div class="section">
+        <h3>1. REQUESTEE DETAILS</h3>
+        <div class="form-group">
+            <label>1.1 Full Name: <span class="required">*</span></label>
+            <input type="text" id="rcp_fullName" placeholder="ANSWER HERE" required>
+        </div>
+
+        <div class="form-group">
+            <label>1.2 Date of Birth: <span class="required">*</span></label>
+            <input type="date" id="rcp_dateOfBirth" required>
+        </div>
+
+        <div class="form-group">
+            <label>1.3 Phone Number: <span class="required">*</span></label>
+            <input type="text" id="rcp_phoneNumber" placeholder="ANSWER HERE" required>
+        </div>
+
+        <div class="form-group">
+            <label>1.4 Agency/Organization (If applicable): <span class="optional">(Optional)</span></label>
+            <input type="text" id="rcp_agency" placeholder="ANSWER HERE">
+        </div>
+
+        <div class="form-group">
+            <label>1.5 Please attach a photocopy of your driver's license: <span class="required">*</span></label>
+            <h5>(( /licenses ))</h5>
+            <input type="text" id="rcp_driversLicense" placeholder="PASTE URL HERE" required>
+        </div>
+
+        <div class="form-group">
+            <label>1.6 If requesting on behalf of a government agency/organization, please attach a copy of your employee credentials (( /badge )): <span class="optional">(Optional)</span></label>
+            <input type="text" id="rcp_employeeCredentials" placeholder="PASTE URL HERE">
+        </div>
+
+        <div class="form-group">
+            <label>1.7 Please attach a copy of your event planning license, obtained via City Hall (If applicable): <span class="optional">(Optional)</span></label>
+            <input type="text" id="rcp_eventLicense" placeholder="PASTE URL HERE">
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>2. EVENT DETAILS</h3>
+        <div class="form-group">
+            <label>2.1 Event location: <span class="required">*</span></label>
+            <input type="text" id="rcp_eventLocation" placeholder="ANSWER HERE" required>
+        </div>
+
+        <div class="form-group">
+            <label>2.2 Event date: <span class="required">*</span></label>
+            <input type="date" id="rcp_eventDate" required>
+        </div>
+
+        <div class="form-group">
+            <label>2.3 Start time (( UTC )): <span class="required">*</span></label>
+            <input type="time" id="rcp_startTime" placeholder="ANSWER HERE" required>
+        </div>
+
+        <div class="form-group">
+            <label>2.4 Estimated finish time (( UTC )): <span class="required">*</span></label>
+            <input type="time" id="rcp_finishTime" placeholder="ANSWER HERE" required>
+        </div>
+
+        <div class="form-group">
+            <label>2.5 Estimated number of participants: <span class="required">*</span></label>
+            <input type="number" id="rcp_participants" placeholder="ANSWER HERE" required>
+        </div>
+
+        <div class="form-group">
+            <label>2.6 Details of planned event (Please provide a map with planned road closures, if they are required, an example can be seen <a href="https://i.imgur.com/gsAaG8Q.png" target="_blank">here</a>): <span class="required">*</span></label>
+            <textarea id="rcp_eventDetails" rows="4" placeholder="ANSWER HERE" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>2.7 Is someone BLS certified required for this event? If so, please inform us of the names of the individuals who will be in attendance: <span class="required">*</span></label>
+            <div class="checkbox-container">
+                <label class="checkbox-row"><input type="radio" name="rcp_blsCertified" value="yes" required> Yes, we have one or more individuals that are BLS certified.</label>
+                <label class="checkbox-row"><input type="radio" name="rcp_blsCertified" value="no" required> No, we do not have any individuals that are BLS certified.</label>
+            </div>
+            <div style="margin-top: 10px;">
+                <label for="rcp_blsIndividuals">If yes, please list the individual(s): <span id="blsIndividualsRequired" class="optional">(Optional)</span></label>
+                <input type="text" id="rcp_blsIndividuals" placeholder="List names here">
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>3. INDEMNIFICATION AND HOLD HARMLESS AGREEMENT</h3>
+        <div class="declaration-box">
+            <p><strong>In consideration of the granting of the road closure permit, except for the active negligence or willful misconduct of City or any of its Boards, Officers, Agents, Employees, Assigns, and Successors in Interest, the permittee undertakes and agrees to defend, indemnify, and hold harmless City and any and all of City's Boards, Officers, Agents, Employees, Assigns, and Successors in Interest, from and against all suits and causes of actions, claims, losses, demands, and expenses, including, but not limited to, attorney's fees and costs of litigation, damage or liability of any nature whatsoever, for death or injury to any person, including permittee's employees and agents, or damage or destruction of any property of either party hereto or of third parties, arising in any manner by reason of the negligent acts, errors, omissions or willful misconduct incident to the performance of this Agreement on the part of the permittee.</strong></p>
+        </div>
+
+        <div class="form-group">
+            <label>3.1 Signature: <span class="required">*</span></label>
+            <input type="text" id="rcp_signature" placeholder="ANSWER HERE" required>
+        </div>
+
+        <div class="form-group">
+            <label>3.2 Date Signed: <span class="required">*</span></label>
+            <input type="date" id="rcp_dateSigned" required>
+        </div>
+    </div>
+
+    <button class="button button-submit" onclick="generateRoadClosurePermitBBCode()">Submit</button>
+    <button class="button button-clear" onclick="clearRoadClosurePermitData()">Clear</button>
+
+    <div id="rcp_bbcodeContainer" class="section hidden">
+        <h3>BBCode Format</h3>
+        <div class="bbcode-container">
+            <pre id="rcp_bbcodeOutput"></pre>
+        </div>
+        <p>Submit your request <a href="https://gov.eclipse-rp.net/posting.php?mode=post&f=2076" target="_blank">here</a>.</p>
+    </div>
+</div>
+
+<!-- Ride-Along Program Tab -->
+<div id="ride-along-program" class="tab-pane">
+    <div class="section">
+        <h3>1. REQUESTEE DETAILS</h3>
+        <div class="form-group">
+            <label>1.1 Full Name: <span class="required">*</span></label>
+            <input type="text" id="ra_fullName" placeholder="First Lastname" required>
+        </div>
+
+        <div class="form-group">
+            <label>1.2 Date of Birth: <span class="required">*</span></label>
+            <input type="date" id="ra_dateOfBirth" required>
+        </div>
+
+        <div class="form-group">
+            <label>1.3 Phone Number: <span class="required">*</span></label>
+            <input type="text" id="ra_phoneNumber" placeholder="####" required>
+        </div>
+
+        <div class="form-group">
+            <label>1.4 Have you ever been convicted of a crime?: <span class="required">*</span></label>
+            <input type="text" id="ra_convicted" placeholder="Yes/No" required>
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>2. REQUEST DETAILS</h3>
+        <div class="form-group">
+            <label>2.1 Why do you wish to go on a ride-along with the Los Santos Police Department? <span class="required">*</span></label>
+            <textarea id="ra_why" rows="4" placeholder="Insert Answer Here" required></textarea>
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>3. RELEASE & WAIVER</h3>
+        <div class="declaration-box">
+            <p><strong>I, the undersigned, hereby release and agree to hold harmless the State of San Andreas, the Los Santos Police Department, their employees, from any and all liability for any loss of life, bodily injury, property damage, or any claim whatsoever, which I may sustain while riding in or upon said motor vehicles and which I may receive while accompanying an officer of the Los Santos Police Department, regardless of the cause of such damage or injury, whether through negligence or otherwise. I agree to assume all risks in riding in Los Santos Police Department's motor vehicles and in accompanying its officers and I am fully aware that personal danger may be involved. I further promise that I have read and fully understand all ride-along regulations.</strong></p>
+        </div>
+
+        <div class="form-group">
+            <label>3.1 Signature: <span class="required">*</span></label>
+            <input type="text" id="ra_signature" placeholder="FIRST LASTNAME" required>
+        </div>
+
+        <div class="form-group">
+            <label>3.2 Date Signed: <span class="required">*</span></label>
+            <input type="date" id="ra_dateSigned" required>
+        </div>
+    </div>
+
+    <button class="button button-submit" onclick="generateRideAlongBBCode()">Submit</button>
+    <button class="button button-clear" onclick="clearRideAlongData()">Clear</button>
+
+    <div id="ra_bbcodeContainer" class="section hidden">
+        <h3>BBCode Format</h3>
+        <div class="bbcode-container">
+            <pre id="ra_bbcodeOutput"></pre>
+        </div>
+        <p>Submit your request <a href="https://gov.eclipse-rp.net/posting.php?mode=post&f=210" target="_blank">here</a>.</p>
+    </div>
+</div>
+    </div> 
+</div>
+
+    <script src="script.js?v=3.0"></script>
 </body>
 
 </html>

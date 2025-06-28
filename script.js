@@ -11,11 +11,33 @@ function switchTab(tabId) {
     const allButtons = document.querySelectorAll('.tab-button');
     allButtons.forEach(button => button.classList.remove('active'));
     
+    // Handle welcome section
+    const welcomeSection = document.getElementById('welcome-section');
+    
+    if (tabId === 'welcome-pane') {
+        // Show welcome section
+        welcomeSection.classList.add('active');
+        document.body.classList.add('showing-welcome');
+        document.body.classList.add('on-welcome-page');
+        currentTab = 'welcome-pane';
+        // Clear the hash
+        history.pushState(null, '', window.location.pathname);
+        return;
+    } else {
+        // Hide welcome section
+        welcomeSection.classList.remove('active');
+        document.body.classList.remove('showing-welcome');
+        document.body.classList.remove('on-welcome-page');
+    }
+    
     // Show selected tab
     const selectedPane = document.getElementById(tabId);
     if (selectedPane) {
         selectedPane.classList.add('active');
         currentTab = tabId;
+        
+        // Update URL
+        history.pushState(null, '', `#${tabId}`);
     }
     
     // Add active class to clicked button
@@ -25,8 +47,48 @@ function switchTab(tabId) {
     }
 }
 
+// Function to switch to tab based on URL hash
+function handleHashChange() {
+    const hash = window.location.hash.slice(1); // Remove the # symbol
+    
+    if (hash) {
+        // Check if the tab exists
+        const tabPane = document.getElementById(hash);
+        if (tabPane) {
+            switchTab(hash);
+            
+            // Expand navigation if it's collapsed when accessing via direct link
+            const navigation = document.querySelector('.tab-navigation');
+            const toggleIcon = document.querySelector('.nav-toggle-icon');
+            if (navigation && navigation.classList.contains('collapsed')) {
+                navigation.classList.remove('collapsed');
+                toggleIcon.textContent = '−';
+                localStorage.setItem('navCollapsed', 'false');
+            }
+        }
+    } else {
+        // No hash - show welcome
+        switchTab('welcome-pane');
+    }
+}
+
+// Function to go back to home/welcome page
+function goHome() {
+    switchTab('welcome-pane');
+    // Scroll to top when going home
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
+
 // Enhanced auto-save function to handle all form elements including dynamic rows
 function autoSaveDraft() {
+	// Don't save if on welcome pane
+    if (currentTab === 'welcome-pane') {
+        return;
+    }
+	
     const formData = {
         currentTab: currentTab,
         tabs: {}
@@ -5350,6 +5412,9 @@ function clearRideAlongData() {
 
 // Initialize application on page load
 window.addEventListener("DOMContentLoaded", () => {
+	// Restore theme preference
+    restoreTheme();
+	
     // Set current UTC date for "Date Signed" fields
     const dateSigned = document.getElementById("dateSigned");
     const today = new Date().toISOString().split("T")[0];
@@ -5378,8 +5443,15 @@ window.addEventListener("DOMContentLoaded", () => {
     // Restore navigation visibility state
     restoreNavigationState();
 	
-	// Restore Theme state
-	restoreTheme();
+    // Check if there's a hash in the URL and switch to that tab
+    if (window.location.hash) {
+        handleHashChange();
+    } else {
+    // Start on welcome page if no hash
+    document.body.classList.add('on-welcome-page');
+    document.body.classList.add('showing-welcome');
+    document.getElementById('welcome-section').classList.add('active');
+    }
     
     // Load saved draft
     loadDraftOnPageLoad();
@@ -5400,3 +5472,6 @@ window.addEventListener("DOMContentLoaded", () => {
     // Check initial scroll position
     handleScrollToTopVisibility();
 });
+
+// Listen for hash changes (when user uses back/forward buttons)
+window.addEventListener('hashchange', handleHashChange);

@@ -863,12 +863,31 @@ function toggleTheme() {
     // Add event listeners for confirm and cancel buttons
     document.getElementById('modalConfirm').onclick = function() {
         document.body.classList.toggle('light-theme');
+        
+        // Save theme preference to localStorage
+        const isLightTheme = document.body.classList.contains('light-theme');
+        localStorage.setItem('theme', isLightTheme ? 'light' : 'dark');
+        
         modal.classList.add('hidden');
     };
 
     document.getElementById('modalCancel').onclick = function() {
         modal.classList.add('hidden');
     };
+}
+
+// Function to restore theme preference on page load
+function restoreTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    
+    // Remove preload class
+    document.documentElement.classList.remove('light-theme-preload');
+    
+    if (savedTheme === 'light') {
+        document.body.classList.add('light-theme');
+    } else if (savedTheme === 'dark') {
+        document.body.classList.remove('light-theme');
+    }
 }
 
 // Function to toggle navigation visibility
@@ -5358,6 +5377,9 @@ window.addEventListener("DOMContentLoaded", () => {
     
     // Restore navigation visibility state
     restoreNavigationState();
+	
+	// Restore Theme state
+	restoreTheme();
     
     // Load saved draft
     loadDraftOnPageLoad();

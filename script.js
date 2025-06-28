@@ -5316,7 +5316,7 @@ ${why}
         }).catch(err => {
             console.error("Failed to copy text:", err);
         });
-        window.open("https://gov.eclipse-rp.net/posting.php?mode=post&f=210", "_blank");
+        window.open("https://gov.eclipse-rp.net/posting.php?mode=post&f=2076", "_blank");
     });
 }
 

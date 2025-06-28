@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ECRP - LSPD Portal</title>
     <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="stylesheet" href="styles.css?v=2.4">
+    <link rel="stylesheet" href="styles.css?v=2.5">
 </head>
 
 <body>
@@ -14,6 +14,11 @@
 <button id="scrollToTopBtn" class="scroll-to-top" onclick="scrollToTop()">
     <span class="scroll-arrow">↑</span>
     <span class="scroll-text">Top</span>
+</button>
+
+<button id="homeBtn" class="home-button-fixed" onclick="goHome()">
+    <span class="home-icon">🏠</span>
+    <span class="home-text">Home</span>
 </button>
 
 <div id="customModal" class="modal hidden">
@@ -45,6 +50,18 @@
 		</div>
 
         <h2>Los Santos Police Department</h2>
+		
+		<!-- Welcome Section (shown when no tab is selected) -->
+        <div id="welcome-section" class="welcome-section">
+            <div class="welcome-content">
+			    <a href="https://gov.eclipse-rp.net/viewforum.php?f=1" target="_blank">
+                    <img src="https://i.imgur.com/WmEL0N9.png" alt="LSPD Logo" class="welcome-logo">
+				</a>
+                <h2>Welcome to the LSPD Public Section Portal</h2>
+                <p class="welcome-subtitle">Please select a form from the navigation below to begin.</p>
+                <p class="welcome-description">Use the navigation menu to access employment applications, firearms licensing, feedback forms, and other public services.</p>
+            </div>
+        </div>
 
         <!-- Tab Navigation -->
 <div class="tab-navigation">
@@ -58,12 +75,11 @@
     <div class="nav-content">
         <div class="tab-group">
             <h3 class="tab-group-title">Employment</h3>
-            <button class="tab-button active" onclick="switchTab('main-application')">Main Application</button>
+            <button class="tab-button" onclick="switchTab('main-application')">Main Application</button>
             <button class="tab-button" onclick="switchTab('reinstatement')">Reinstatement</button>
             <button class="tab-button" onclick="switchTab('transfer')">Transfer</button>
         </div>
         
-        <!-- Rest of your tab groups remain the same -->
         <div class="tab-group">
             <h3 class="tab-group-title">Firearms Licensing</h3>
             <button class="tab-button" onclick="switchTab('standard-firearm')">Standard Firearm</button>
@@ -102,9 +118,8 @@
 </div>
 
         <!-- Tab Content Container -->
-        <div class="tab-content">
             <!-- Main Application Tab -->
-            <div id="main-application" class="tab-pane active">
+            <div id="main-application" class="tab-pane">
                 <!-- PERSONAL INFORMATION -->
                 <div class="section">
                     <h3>1. PERSONAL INFORMATION</h3>
@@ -2282,7 +2297,7 @@
     </div> 
 </div>
 
-    <script src="script.js?v=2.4"></script>
+    <script src="script.js?v=2.5"></script>
 </body>
 
 </html>

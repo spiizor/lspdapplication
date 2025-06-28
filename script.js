@@ -892,12 +892,20 @@ function toggleNavigation() {
 // Function to restore navigation state on page load
 function restoreNavigationState() {
     const navCollapsed = localStorage.getItem('navCollapsed') === 'true';
-    if (navCollapsed) {
-        const navigation = document.querySelector('.tab-navigation');
-        const toggleIcon = document.querySelector('.nav-toggle-icon');
+    const navigation = document.querySelector('.tab-navigation');
+    const toggleIcon = document.querySelector('.nav-toggle-icon');
+    
+    if (navigation && toggleIcon) {
+        navigation.classList.add('no-transition');
         
-        navigation.classList.add('collapsed');
-        toggleIcon.textContent = '+';
+        if (navCollapsed) {
+            navigation.classList.add('collapsed');
+            toggleIcon.textContent = '+';
+        }
+        
+        setTimeout(() => {
+            navigation.classList.remove('no-transition');
+        }, 100);
     }
 }
 
@@ -937,21 +945,6 @@ function throttle(func, limit) {
 
 // Throttled scroll handler
 const throttledScrollHandler = throttle(handleScrollToTopVisibility, 100);
-
-// Function to restore navigation state on page load
-function restoreNavigationState() {
-    const navHidden = localStorage.getItem('navHidden') === 'true';
-    if (navHidden) {
-        const navigation = document.querySelector('.tab-navigation');
-        const button = document.querySelector('.nav-toggle-button');
-        const buttonText = button.querySelector('.nav-toggle-text');
-        const container = document.querySelector('.container');
-        
-        navigation.classList.add('hidden');
-        container.classList.add('nav-hidden');
-        buttonText.textContent = 'Show Navigation';
-    }
-}
 
 // Function to format date
 function formatDate(inputDate) {
@@ -5338,7 +5331,7 @@ function clearRideAlongData() {
 
 // Initialize application on page load
 window.addEventListener("DOMContentLoaded", () => {
-    // Set current UTC date for "Date Signed" field
+    // Set current UTC date for "Date Signed" fields
     const dateSigned = document.getElementById("dateSigned");
     const today = new Date().toISOString().split("T")[0];
     dateSigned.value = today;
@@ -5350,18 +5343,24 @@ window.addEventListener("DOMContentLoaded", () => {
     document.getElementById("fc_dateSigned").value = today;
     document.getElementById("mf_dateSigned").value = today;
     document.getElementById("gc_dateSigned").value = today;
-	document.getElementById("pp_dateSigned").value = today;
-	document.getElementById("sbc_dateSigned").value = today;
+    document.getElementById("pp_dateSigned").value = today;
+    document.getElementById("sbc_dateSigned").value = today;
     document.getElementById("cbc_dateSigned").value = today;
-	document.getElementById("br_dateSigned").value = today;
-	document.getElementById("rcp_dateSigned").value = today;
+    document.getElementById("br_dateSigned").value = today;
+    document.getElementById("rcp_dateSigned").value = today;
     document.getElementById("ra_dateSigned").value = today;
+    
+    // Migrate old navigation state if exists
+    if (localStorage.getItem('navHidden') !== null) {
+        localStorage.setItem('navCollapsed', localStorage.getItem('navHidden'));
+        localStorage.removeItem('navHidden');
+    }
+    
+    // Restore navigation visibility state
+    restoreNavigationState();
     
     // Load saved draft
     loadDraftOnPageLoad();
-	
-	// Restore navigation visibility state
-    restoreNavigationState();
     
     // Setup auto-save
     setupAutoSave();
@@ -5371,12 +5370,11 @@ window.addEventListener("DOMContentLoaded", () => {
     
     // Initial update of conditional requirements
     updateConditionalRequirements();
-	
-	updateBLSRequirement();
-	
-	// Set up scroll to top button
+    updateBLSRequirement();
+    
+    // Set up scroll to top button
     window.addEventListener('scroll', throttledScrollHandler);
-
+    
     // Check initial scroll position
     handleScrollToTopVisibility();
 });

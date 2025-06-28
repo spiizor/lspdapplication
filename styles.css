@@ -1,3 +1,9 @@
+/* Early theme application to prevent flash */
+.light-theme-preload body {
+    background-color: var(--light-bg);
+    color: var(--light-on-surface);
+}
+
 :root {
   /* Color System - Refined Palette */
   /* Primary Colors */

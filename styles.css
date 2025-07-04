@@ -775,8 +775,8 @@ select:invalid {
   box-shadow: var(--shadow-lg);
   transition: opacity var(--transition-normal),
               transform var(--transition-normal);
-  max-height: 40px; /* ADD THIS LINE */
-  height: auto; /* ADD THIS LINE */
+  max-height: 40px;
+  height: auto;
 }
 
 #autoSaveStatus.visible {

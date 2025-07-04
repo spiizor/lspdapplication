@@ -65,6 +65,10 @@ function handleHashChange() {
                 toggleIcon.textContent = '−';
                 localStorage.setItem('navCollapsed', 'false');
             }
+        } else {
+            // Invalid hash - go to welcome
+            window.location.hash = '';
+            switchTab('welcome-pane');
         }
     } else {
         // No hash - show welcome
@@ -629,8 +633,9 @@ if (tabId === 'bounty-report') {
         // Update conditional field requirements after loading
         updateConditionalRequirements();
         
-        // Restore active tab
-        if (savedData.currentTab) {
+        // Only restore active tab if there's a hash in the URL
+        // Otherwise, let the normal initialization handle it
+        if (savedData.currentTab && window.location.hash) {
             switchTab(savedData.currentTab);
         }
         
@@ -826,7 +831,35 @@ function showCustomModal(message, onConfirm, onCancel) {
     const confirmButton = document.getElementById("modalConfirm");
     const cancelButton = document.getElementById("modalCancel");
 
-    modalMessage.textContent = message;
+    // Check if this is a validation error (HTML content with specific structure)
+    const isValidationError = message && typeof message === 'string' && 
+                             message.includes('Missing Required Fields') && 
+                             message.includes('<div');
+
+    // Check if this is a single-button modal (no onConfirm callback)
+    const isSingleButton = !onConfirm || onConfirm === null;
+
+    if (isValidationError || isSingleButton) {
+        // Single button modals (OK only)
+        if (isValidationError) {
+            modalMessage.innerHTML = message; // Use innerHTML for validation errors
+        } else {
+            modalMessage.textContent = message; // Use textContent for regular messages
+        }
+        confirmButton.style.display = 'none';
+        cancelButton.style.display = 'inline-block';
+        cancelButton.textContent = 'OK';
+        cancelButton.className = 'btn-ok'; // Use blue OK button
+    } else {
+        // Two button modals (Yes/No)
+        modalMessage.textContent = message; // Use textContent for regular messages
+        confirmButton.style.display = 'inline-block';
+        cancelButton.style.display = 'inline-block';
+        confirmButton.textContent = 'Yes';  // Reset to Yes
+        cancelButton.textContent = 'No';   // Reset to No
+        confirmButton.className = 'btn-confirm'; // Green Yes button
+        cancelButton.className = 'btn-cancel'; // Red No button
+    }
 
     modal.classList.remove("hidden");
 
@@ -837,7 +870,9 @@ function showCustomModal(message, onConfirm, onCancel) {
 
     cancelButton.onclick = () => {
         modal.classList.add("hidden");
-        if (onCancel) onCancel();
+        if (!isSingleButton && onCancel) {
+            onCancel();
+        }
     };
 }
 
@@ -863,7 +898,7 @@ function removeFactionRow() {
     if (rows.length > 1) { // Ensure at least one row remains
         factionContainer.removeChild(rows[rows.length - 1]);
     } else {
-        alert('You must have at least one faction row.');
+        showCustomModal('You must have at least one faction row.');
     }
 }
 
@@ -906,7 +941,7 @@ function removeEmploymentSection() {
     if (rows.length > 1) {
         employmentSection.removeChild(rows[rows.length - 1]);
     } else {
-        alert('You must have at least one employment row.');
+        showCustomModal('You must have at least one employment row.');
     }
 }
 
@@ -914,16 +949,24 @@ function removeEmploymentSection() {
 function toggleTheme() {
     const modal = document.getElementById('customModal');
     const modalMessage = document.getElementById('modalMessage');
+    const confirmButton = document.getElementById('modalConfirm');
+    const cancelButton = document.getElementById('modalCancel');
     
     // Set the message based on the current theme
     const currentTheme = document.body.classList.contains('light-theme') ? 'Light' : 'Dark';
     modalMessage.textContent = `Are you sure you want to switch to ${currentTheme === 'Light' ? 'Dark' : 'Light'} theme?`;
     
+    // Show Yes/No buttons for theme toggle
+    confirmButton.style.display = 'inline-block';
+    confirmButton.textContent = 'Yes';
+    cancelButton.textContent = 'No';
+    cancelButton.className = 'btn-cancel';
+    
     // Show the modal
     modal.classList.remove('hidden');
 
     // Add event listeners for confirm and cancel buttons
-    document.getElementById('modalConfirm').onclick = function() {
+    confirmButton.onclick = function() {
         document.body.classList.toggle('light-theme');
         
         // Save theme preference to localStorage
@@ -933,7 +976,7 @@ function toggleTheme() {
         modal.classList.add('hidden');
     };
 
-    document.getElementById('modalCancel').onclick = function() {
+    cancelButton.onclick = function() {
         modal.classList.add('hidden');
     };
 }
@@ -2583,24 +2626,24 @@ function formatValidationErrors(errors) {
     
     // If errors is an array (simple format)
     if (Array.isArray(errors)) {
-        html += '<p style="margin-bottom: 12px;">Please fill in all required fields:</p>';
+        html += '<p style="margin-bottom: 12px; color: rgba(255, 255, 255, 0.7);">Please fill in all required fields:</p>';
         html += '<ul style="list-style: none; padding: 0;">';
         errors.forEach(error => {
-            html += `<li style="margin-bottom: 8px; padding-left: 20px;">• ${error}</li>`;
+            html += `<li style="margin-bottom: 8px; padding-left: 20px; color: rgba(255, 255, 255, 0.9);">• ${error}</li>`;
         });
         html += '</ul>';
     } 
     // If errors is an object (sectioned format)
     else if (typeof errors === 'object') {
-        html += '<p style="margin-bottom: 16px; font-size: 14px; color: #737373;">Please complete all sections before submitting:</p>';
+        html += '<p style="margin-bottom: 16px; font-size: 14px; color: rgba(255, 255, 255, 0.7);">Please complete all sections before submitting:</p>';
         
         Object.keys(errors).forEach(section => {
             if (errors[section].length > 0) {
                 html += `<div style="margin-bottom: 20px;">`;
-                html += `<h4 style="color: #4f46e5; margin-bottom: 8px; font-size: 16px;">${section}</h4>`;
+                html += `<h4 style="color: #1677ff; margin-bottom: 8px; font-size: 16px;">${section}</h4>`;
                 html += '<ul style="list-style: none; padding: 0; margin-left: 16px;">';
                 errors[section].forEach(field => {
-                    html += `<li style="margin-bottom: 6px; font-size: 14px;">• ${field}</li>`;
+                    html += `<li style="margin-bottom: 6px; font-size: 14px; color: rgba(255, 255, 255, 0.9);">• ${field}</li>`;
                 });
                 html += '</ul>';
                 html += '</div>';
@@ -2612,7 +2655,7 @@ function formatValidationErrors(errors) {
     return html;
 }
 
-// Update the showCustomModal function to properly detect validation errors
+// Function to show the custom modal
 function showCustomModal(message, onConfirm, onCancel) {
     const modal = document.getElementById("customModal");
     const modalMessage = document.getElementById("modalMessage");
@@ -2624,17 +2667,29 @@ function showCustomModal(message, onConfirm, onCancel) {
                              message.includes('Missing Required Fields') && 
                              message.includes('<div');
 
-    if (isValidationError) {
-        modalMessage.innerHTML = message; // Use innerHTML for validation errors
+    // Check if this is a single-button modal (only one parameter passed)
+    const isSingleButton = arguments.length === 1 || (!onConfirm && !onCancel);
+
+    if (isValidationError || isSingleButton) {
+        // Single button modals (OK only)
+        if (isValidationError) {
+            modalMessage.innerHTML = message; // Use innerHTML for validation errors
+        } else {
+            modalMessage.textContent = message; // Use textContent for regular messages
+        }
         confirmButton.style.display = 'none';
+        cancelButton.style.display = 'inline-block';
         cancelButton.textContent = 'OK';
-        cancelButton.className = 'btn-ok'; // Use neutral color for OK button
+        cancelButton.className = 'btn-ok'; // Use blue OK button
     } else {
+        // Two button modals (Yes/No)
         modalMessage.textContent = message; // Use textContent for regular messages
         confirmButton.style.display = 'inline-block';
+        cancelButton.style.display = 'inline-block';
         confirmButton.textContent = 'Yes';  // Reset to Yes
         cancelButton.textContent = 'No';   // Reset to No
-        cancelButton.className = 'btn-cancel'; // Reset to cancel styling
+        confirmButton.className = 'btn-confirm'; // Green Yes button
+        cancelButton.className = 'btn-cancel'; // Red No button
     }
 
     modal.classList.remove("hidden");
@@ -2646,7 +2701,7 @@ function showCustomModal(message, onConfirm, onCancel) {
 
     cancelButton.onclick = () => {
         modal.classList.add("hidden");
-        if (!isValidationError && onCancel) {
+        if (!isSingleButton && onCancel) {
             onCancel();
         }
     };
@@ -5443,14 +5498,16 @@ window.addEventListener("DOMContentLoaded", () => {
     // Restore navigation visibility state
     restoreNavigationState();
 	
-    // Check if there's a hash in the URL and switch to that tab
+    // Check if there's a hash in the URL
     if (window.location.hash) {
+        // If there's a hash, go to that tab (handles both direct links and refreshes)
         handleHashChange();
     } else {
-    // Start on welcome page if no hash
-    document.body.classList.add('on-welcome-page');
-    document.body.classList.add('showing-welcome');
-    document.getElementById('welcome-section').classList.add('active');
+        // No hash - always start on welcome page
+        document.body.classList.add('on-welcome-page');
+        document.body.classList.add('showing-welcome');
+        document.getElementById('welcome-section').classList.add('active');
+        currentTab = 'welcome-pane';
     }
     
     // Load saved draft
